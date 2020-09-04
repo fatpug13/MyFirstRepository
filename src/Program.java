@@ -4,10 +4,8 @@ public class Program {
 	public static void main(String[] args) {	
 		var a = "Targaryen";
 		var b = "Ts";
-		//var c = 35;
-		
-		System.out.println(startsWith(a, b));
-			
+
+		System.out.println(startsWith(a, b));		
 	}
 	
 	public static boolean startsWith(String text, String substr) {
@@ -20,12 +18,9 @@ public class Program {
 			 
 			resText += text.charAt(i);
 			resSubstr += substr.charAt(i);
-			 
-			 
+			 		 
 			}
 		return resText.equals(resSubstr);
 		}
-		
-		 
-
+			 
 }
