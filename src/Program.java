@@ -2,13 +2,15 @@
 public class Program {
 
 	public static void main(String[] args) {	
-		var a = "Targaryen";
-		var b = "Ts";
+		var a = 5;
+		//var b = "Ts";
 
-		System.out.println(startsWith(a, b));		
+		System.out.println(squirrel(a));
 	}
 	
-	public static boolean startsWith(String text, String substr) {
+	public static boolean startsWith(String text, String substr) 
+
+	{
 		
 		var lengthtSubstr = substr.length() -1;
 		var resText = "";
@@ -21,6 +23,23 @@ public class Program {
 			 		 
 			}
 		return resText.equals(resSubstr);
+	}
+	
+	public static int squirrel (int N) 
+	{
+		var result = 1;
+		
+		if (N == 0 || N == 1) {
+			return result;
+		} 
+		else {	
+		for (var i = 1; i <= N; i++)
+		{
+			result *= i;  
 		}
-			 
+		
+		var firstInteger = Integer.parseInt(Integer.toString(result).substring(0,1));
+		return firstInteger;
+		}
+	}
 }
