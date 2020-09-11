@@ -14,71 +14,76 @@ public class Level1 {
 			g = g + 2;
 		}
 
-		var currentDay = 2;
-		var val = 0;
+		var currentDay = 1;
+		
+		if (M * N == L) {
+			return currentDay = 1;
+		} else {
+			currentDay = 2;
+			var val = 0;
 
-		do {
+			do {
 
-			for (var i = 0; i < battleground.length; i++) {
+				for (var i = 0; i < battleground.length; i++) {
 
-				for (var j = 0; j < battleground[i].length; j++) {
+					for (var j = 0; j < battleground[i].length; j++) {
 
-					if (battleground[i][j] != 0) {
+						if (battleground[i][j] != 0) {
 
-						if (battleground[i][j] < currentDay) {
+							if (battleground[i][j] < currentDay) {
 
-							if (j - 1 >= 0) {
+								if (j - 1 >= 0) {
 
-								if (battleground[i][j - 1] == 0) {
-									battleground[i][j - 1] = currentDay;
+									if (battleground[i][j - 1] == 0) {
+										battleground[i][j - 1] = currentDay;
+									}
 								}
-							}
 
-							if (j + 1 <= battleground[i].length - 1) {
+								if (j + 1 <= battleground[i].length - 1) {
 
-								if (battleground[i][j + 1] == 0) {
-									battleground[i][j + 1] = currentDay;
+									if (battleground[i][j + 1] == 0) {
+										battleground[i][j + 1] = currentDay;
+									}
 								}
-							}
 
-							if (i + 1 <= battleground.length - 1) {
+								if (i + 1 <= battleground.length - 1) {
 
-								if (battleground[i + 1][j] == 0) {
-									battleground[i + 1][j] = currentDay;
+									if (battleground[i + 1][j] == 0) {
+										battleground[i + 1][j] = currentDay;
+									}
 								}
-							}
 
-							if (i - 1 >= 0) {
+								if (i - 1 >= 0) {
 
-								if (battleground[i - 1][j] == 0) {
-									battleground[i - 1][j] = currentDay;
+									if (battleground[i - 1][j] == 0) {
+										battleground[i - 1][j] = currentDay;
+									}
 								}
 							}
 						}
+
 					}
 
 				}
 
-			}
+				for (var i = 0; i < battleground.length; i++) {
+					for (var j = 0; j < battleground[i].length; j++) {
 
-			for (var i = 0; i < battleground.length; i++) {
-				for (var j = 0; j < battleground[i].length; j++) {
+						if (battleground[i][j] == 0) {
+							val = val - 1;
+							break;
+						} else {
+							val = 1;
+						}
 
-					if (battleground[i][j] == 0) {
-						val = val - 1;
-						break;
-					} else {
-						val = 1;
 					}
-
 				}
-			}
 
-			currentDay = currentDay + 1;
+				currentDay = currentDay + 1;
 
-		} while (val <= 0);
+			} while (val <= 0);
 
-		return currentDay - 1;
+			return currentDay - 1;
+		}
 	}
-
 }
