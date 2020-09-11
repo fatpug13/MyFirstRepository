@@ -1,19 +1,18 @@
-
-import java.util.Arrays;
-
+import java.util.*;
 
 public class Program {
 
 	public static void main(String[] args) {
 		// var a = 5;
-		int arr[] = new int[] { 1, 1, 1, 2, 1, 3, 2, 1, 2, 2, 2, 3};
-		var N = 3;
-		var M = 4;
-		var L = 6;
+		int arr[] = new int[] { 4, 1, 6, 3, 7, 5, 2, 8, 12, 9, 11, 10, 13, 45, 65};
+		var N = 7;
+		//var M = 4;
+		//var L = 6;
 
 		// System.out.println(squirrel(a));
 		// System.out.println(odometer(arr));
-		System.out.println(ConquestCampaign(N, M, L, arr));
+		// System.out.println(ConquestCampaign(N, M, L, arr));
+		System.out.println(Arrays.toString(MadMax(N, arr)));
 	}
 
 	public static boolean startsWith(String text, String substr)
@@ -92,7 +91,7 @@ public class Program {
 			return currentDay = 1;
 		} else {
 
-			// наступил следующий день (2й) и val - счетчик дней
+			// наступил следующий день (2й) и val - условие выхода из цикла
 			currentDay = 2;
 			var val = 0;
 
@@ -174,4 +173,45 @@ public class Program {
 			return currentDay - 1;
 		}
 	}
+	
+	public static  int [] MadMax(int N, int [] Tele) {
+		
+		// отсортируем массив по возрастанию
+		Arrays.sort(Tele);
+		System.out.println(Arrays.toString(Tele));
+		
+		// –азделим массив на две части
+		// —оздаем временный массив. Ћева€ часть
+		int[] leftPart = Arrays.copyOfRange(Tele, 0, Tele.length / 2);
+		System.out.println(Arrays.toString(leftPart));
+
+		// —оздаем временный массив. ѕрава€ часть
+		int[] rightPart = Arrays.copyOfRange(Tele, Tele.length / 2, Tele.length);
+
+		// ќтсортируем правую часть по убыванию
+		for (int i = 0, j = rightPart.length - 1, tmp; i < j; i++, j--) {
+			tmp = rightPart[i];
+			rightPart[i] = rightPart[j];
+			rightPart[j] = tmp;
+		}
+		System.out.println(Arrays.toString(rightPart));
+
+		// —оединим разделенные массивы в один
+		int[] result = new int[leftPart.length + rightPart.length];
+		
+		// „тобы запомнить на каком элемете мы остановились после записи левой части в результ. массив
+		int counter = 0;
+
+		for (int i = 0; i < leftPart.length; i++) {
+			result[i] = leftPart[i];
+			counter++;
+		}
+		for (int j = 0; j < rightPart.length; j++) {
+			result[counter++] = rightPart[j];
+		}
+		System.out.println(Arrays.toString(result));
+
+		return result;
+	}
+
 }

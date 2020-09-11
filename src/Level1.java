@@ -1,89 +1,32 @@
+import java.util.*;
 
 public class Level1 {
 
-	public static int ConquestCampaign(int N, int M, int L, int[] battalion) {
+	public static int[] MadMax(int N, int[] Tele) {
 
-		int[][] battleground = new int[N][M];
+		Arrays.sort(Tele);
 
-		for (var g = 0; g <= battalion.length - 1;) {
+		int[] leftPart = Arrays.copyOfRange(Tele, 0, Tele.length / 2);
+		int[] rightPart = Arrays.copyOfRange(Tele, Tele.length / 2, Tele.length);
 
-			var coordinateN = battalion[g];
-			var coordinateM = battalion[g + 1];
-
-			battleground[coordinateN - 1][coordinateM - 1] = 1;
-			g = g + 2;
+		for (int i = 0, j = rightPart.length - 1, tmp; i < j; i++, j--) {
+			tmp = rightPart[i];
+			rightPart[i] = rightPart[j];
+			rightPart[j] = tmp;
 		}
 
-		var currentDay = 1;
-		
-		if (M * N == L) {
-			return currentDay = 1;
-		} else {
-			currentDay = 2;
-			var val = 0;
+		int[] result = new int[leftPart.length + rightPart.length];
 
-			do {
+		int counter = 0;
 
-				for (var i = 0; i < battleground.length; i++) {
-
-					for (var j = 0; j < battleground[i].length; j++) {
-
-						if (battleground[i][j] != 0) {
-
-							if (battleground[i][j] < currentDay) {
-
-								if (j - 1 >= 0) {
-
-									if (battleground[i][j - 1] == 0) {
-										battleground[i][j - 1] = currentDay;
-									}
-								}
-
-								if (j + 1 <= battleground[i].length - 1) {
-
-									if (battleground[i][j + 1] == 0) {
-										battleground[i][j + 1] = currentDay;
-									}
-								}
-
-								if (i + 1 <= battleground.length - 1) {
-
-									if (battleground[i + 1][j] == 0) {
-										battleground[i + 1][j] = currentDay;
-									}
-								}
-
-								if (i - 1 >= 0) {
-
-									if (battleground[i - 1][j] == 0) {
-										battleground[i - 1][j] = currentDay;
-									}
-								}
-							}
-						}
-
-					}
-
-				}
-
-				for (var i = 0; i < battleground.length; i++) {
-					for (var j = 0; j < battleground[i].length; j++) {
-
-						if (battleground[i][j] == 0) {
-							val = val - 1;
-							break;
-						} else {
-							val = 1;
-						}
-
-					}
-				}
-
-				currentDay = currentDay + 1;
-
-			} while (val <= 0);
-
-			return currentDay - 1;
+		for (int i = 0; i < leftPart.length; i++) {
+			result[i] = leftPart[i];
+			counter++;
 		}
+		for (int j = 0; j < rightPart.length; j++) {
+			result[counter++] = rightPart[j];
+		}
+
+		return result;
 	}
 }
