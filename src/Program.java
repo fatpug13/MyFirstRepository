@@ -4,15 +4,17 @@ public class Program {
 
 	public static void main(String[] args) {
 		// var a = 5;
-		int arr[] = new int[] { 4, 1, 6, 3, 7, 5, 2, 8, 12, 9, 11, 10, 13, 45, 65};
-		var N = 7;
+		int arrId[] = new int[] { 50, 1, 1024 };
+		int arrSal[]= new int [] { 20000,100000,90000 };
+		var N = 3;
 		//var M = 4;
 		//var L = 6;
 
 		// System.out.println(squirrel(a));
 		// System.out.println(odometer(arr));
 		// System.out.println(ConquestCampaign(N, M, L, arr));
-		System.out.println(Arrays.toString(MadMax(N, arr)));
+		//System.out.println(Arrays.toString(MadMax(N, arr)));
+		System.out.println(Arrays.toString(SynchronizingTables(N, arrId, arrSal)));
 	}
 
 	public static boolean startsWith(String text, String substr)
@@ -214,4 +216,39 @@ public class Program {
 		return result;
 	}
 
+	public static int [] SynchronizingTables(int N, int [] arrId, int [] arrSal) {
+		
+		// Ќельз€ трогать массив сотрудников. ќтсортируем по возрастанию массив зарплат
+		Arrays.sort(arrSal);
+		
+		// его будем возхвращать
+		int result[] = new int [N];
+		
+		// ѕерепишем массив айди сотрудников в другой массив
+		int sortAarrId[] = new int [N];
+		
+		for (int i = 0; i < arrId.length; i ++) {
+			sortAarrId[i] = arrId[i];
+		}
+		// ќтсортируем массив айди сотрудников по возрастанию
+		Arrays.sort(sortAarrId);
+		
+		// “еперь массив зарплат и массив айди сопоставлен.
+		// обойдем массив arrId и на каждой итерации будем сравнивать значение из arrId и arrayId и если они равны тогда
+		// запишем в результирующий массив res значение из массива зарплат arrSal под индексом соответствующий arrId.
+		
+		for (int i = 0; i < arrId.length; i++) {
+			for (int j = 0; j < sortAarrId.length; j ++) {
+				
+				if (arrId[i] == sortAarrId[j]) {
+					result[i] = arrSal[j];
+				}
+				
+			}
+		}
+		
+		
+		return result;
+	}
+	
 }

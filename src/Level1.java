@@ -2,29 +2,27 @@ import java.util.*;
 
 public class Level1 {
 
-	public static int[] MadMax(int N, int[] Tele) {
+	public static int[] SynchronizingTables(int N, int[] arrId, int[] arrSal) {
 
-		Arrays.sort(Tele);
+		Arrays.sort(arrSal);
 
-		int[] leftPart = Arrays.copyOfRange(Tele, 0, Tele.length / 2);
-		int[] rightPart = Arrays.copyOfRange(Tele, Tele.length / 2, Tele.length);
+		int result[] = new int[N];
+		int sortAarrId[] = new int[N];
 
-		for (int i = 0, j = rightPart.length - 1, tmp; i < j; i++, j--) {
-			tmp = rightPart[i];
-			rightPart[i] = rightPart[j];
-			rightPart[j] = tmp;
+		for (int i = 0; i < arrId.length; i++) {
+			sortAarrId[i] = arrId[i];
 		}
 
-		int[] result = new int[leftPart.length + rightPart.length];
+		Arrays.sort(sortAarrId);
 
-		int counter = 0;
+		for (int i = 0; i < arrId.length; i++) {
+			for (int j = 0; j < sortAarrId.length; j++) {
 
-		for (int i = 0; i < leftPart.length; i++) {
-			result[i] = leftPart[i];
-			counter++;
-		}
-		for (int j = 0; j < rightPart.length; j++) {
-			result[counter++] = rightPart[j];
+				if (arrId[i] == sortAarrId[j]) {
+					result[i] = arrSal[j];
+				}
+
+			}
 		}
 
 		return result;
