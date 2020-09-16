@@ -4,9 +4,9 @@ public class Program {
 
 	public static void main(String[] args) {
 		// var a = 5;
-		int arrId[] = new int[] { 50, 1, 1024 };
-		int arrSal[]= new int [] { 20000,100000,90000 };
-		var N = 3;
+		int arr[] = new int[] { 1, 2, 3, 4, 5, 6, 2, 7, 8, 9 };
+		//int arrSal[]= new int [] { 20000,100000,90000 };
+		var N = 9;
 		//var M = 4;
 		//var L = 6;
 
@@ -14,7 +14,8 @@ public class Program {
 		// System.out.println(odometer(arr));
 		// System.out.println(ConquestCampaign(N, M, L, arr));
 		//System.out.println(Arrays.toString(MadMax(N, arr)));
-		System.out.println(Arrays.toString(SynchronizingTables(N, arrId, arrSal)));
+		//System.out.println(Arrays.toString(SynchronizingTables(N, arrId, arrSal)));
+		System.out.println(PatternUnlock(N, arr));
 	}
 
 	public static boolean startsWith(String text, String substr)
@@ -251,4 +252,80 @@ public class Program {
 		return result;
 	}
 	
+	public static String PatternUnlock(int N, int[] hits) {
+
+		double result = 0;
+		double hypot = 0;
+		int onlyInt = 0;
+
+		// Обойдем массив hits и посчитаем результат
+		for (int i = 0; i < hits.length - 1; i++) {
+
+			// Если хоть одно из условий стработает это значит, мы перемещаемся по диагонали
+			// Получается прямоугольный треугольник.
+			// Найдем гипотенузу т.к. нам неизвестно расстояние между точками по диагонали.
+			// Известно лишь расстояние по
+			// вертикали и по горизонтали, оно равно 1. Будем считать их катетами. 1 в
+			// степени 2 + 1 в степени 2 = 2.
+			// Нам нужно извлечь квадратный корень из 2.
+
+			if (hits[i] == 6 && hits[i + 1] == 2 || hits[i] == 2 && hits[i + 1] == 6) {
+
+				hypot = Math.sqrt(2);
+				result = result + hypot;
+			} else if (hits[i] == 2 && hits[i + 1] == 7 || hits[i] == 7 && hits[i + 1] == 2) {
+
+				hypot = Math.sqrt(2);
+				result = result + hypot;
+			} else if (hits[i] == 9 && hits[i + 1] == 2 || hits[i] == 2 && hits[i + 1] == 9) {
+
+				hypot = Math.sqrt(2);
+				result = result + hypot;
+			} else if (hits[i] == 2 && hits[i + 1] == 4 || hits[i] == 4 && hits[i + 1] == 2) {
+
+				hypot = Math.sqrt(2);
+				result = result + hypot;
+			} else if (hits[i] == 5 && hits[i + 1] == 3 || hits[i] == 3 && hits[i + 1] == 5) {
+
+				hypot = Math.sqrt(2);
+				result = result + hypot;
+			} else if (hits[i] == 8 && hits[i + 1] == 3 || hits[i] == 3 && hits[i + 1] == 8) {
+
+				hypot = Math.sqrt(2);
+				result = result + hypot;
+			} else if (hits[i] == 5 && hits[i + 1] == 1 || hits[i] == 1 && hits[i + 1] == 5) {
+
+				hypot = Math.sqrt(2);
+				result = result + hypot;
+			} else if (hits[i] == 8 && hits[i + 1] == 1 || hits[i] == 1 && hits[i + 1] == 8) {
+
+				hypot = Math.sqrt(2);
+				result = result + hypot;
+			} else {
+				// идем по вертикали или горизонтали
+				onlyInt = onlyInt + 1;
+			}
+
+		}
+
+		// Итого
+		result = result + onlyInt;
+
+		System.out.println(result);
+
+		// Округлим до 5 знаков после запятой, преобразуя результат в строку.
+		String res = String.format("%.5f", result);
+
+		// Окончательный результат
+		var finalResult = "";
+		// обойдем результат и уберем "0" и ",".
+		for (int i = 0; i < res.length(); i++) {
+			if (res.charAt(i) != '0' && res.charAt(i) != ',') {
+				finalResult += res.charAt(i);
+			}
+		}
+
+		return finalResult;
+	}
+
 }
