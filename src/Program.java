@@ -1,12 +1,16 @@
 import java.util.*;
 
+
+
 public class Program {
 
 	public static void main(String[] args) {
 		// var a = 5;
-		int arr[] = new int[] { 1, 2, 3, 4, 5, 6, 2, 7, 8, 9 };
+		//int arr[] = new int[] { 1, 2, 3, 4, 5, 6, 2, 7, 8, 9 };
 		//int arrSal[]= new int [] { 20000,100000,90000 };
-		var N = 9;
+		var N = 13;
+		var S = "При подобной инициализации все элементы массива";
+		var subs = "все";
 		//var M = 4;
 		//var L = 6;
 
@@ -15,7 +19,8 @@ public class Program {
 		// System.out.println(ConquestCampaign(N, M, L, arr));
 		//System.out.println(Arrays.toString(MadMax(N, arr)));
 		//System.out.println(Arrays.toString(SynchronizingTables(N, arrId, arrSal)));
-		System.out.println(PatternUnlock(N, arr));
+		//System.out.println(PatternUnlock(N, arr));
+		System.out.println(Arrays.toString(WordSearch(N, S, subs)));
 	}
 
 	public static boolean startsWith(String text, String substr)
@@ -327,5 +332,206 @@ public class Program {
 
 		return finalResult;
 	}
+
+	public static int [] WordSearch (int len, String s, String subs) {
+		
+		// разобьем строку на слова. В результате получится массив в котором каждая
+		// строка лежит в отдельном индексе.
+		String[] arrStr = s.split(" ");
+
+		// Перепишем полученный массив в соответствии с заданием.
+		// В каждом элементе может быть строки не больше len символов. Обрезать слова
+		// только по пробелу.
+		String[] res = new String[arrStr.length];
+
+		int counterStep = 0;
+		int firstStep = 0;
+		int j = 0;
+
+		// обходим пустой массив, перебирая при этом массив со строками и добавляем в
+		// каждый элемент пустого массива
+		// значение из массива строк. Смотрим чтобы длина значения не превышало len.
+
+		for (int i = 0; i < res.length; i++) {
+
+			for (; j < arrStr.length; j++) {
+				counterStep = 0;
+				firstStep = 0;
+				// длина слова меньше заданного количесва символов
+				if (arrStr[j].length() <= len) {
+
+					if (res[i] == null) {
+						res[i] = arrStr[j];
+						res[i] += " ";
+						firstStep += 1;
+						
+					} else {
+						if (res[i].length() + arrStr[j].length() <= len) {
+							if (res[i].equals(arrStr[j]) == false) {
+								res[i] += arrStr[j];
+								res[i] += " ";
+								// добавили очередное слово со следующего индекса
+								counterStep += 1;
+							}
+						} else if (res[i].length() + arrStr[j].length() > len) {
+							break;
+						}
+					}
+				}
+
+			}
+			// на самом первом шаге записали слово и больше не лезет. сдвинем на 1
+			if (firstStep == 1 && counterStep == 0) {
+				j += 1;
+			} else {
+				j += counterStep;
+			}
+
+		}
+
+		// уберем null значения из массива
+		res = Arrays.stream(res).filter(d -> (d != null && d.length() > 0)).toArray(String[]::new);
+		//
+		int[] result = new int[res.length];
+		var word = "";
+
+		// Обойдем полученный массив и найдем в нем нужное слово.
+		for (int i = 0; i < res.length; i++) {
+
+			// Обойдем циклом каждое значение в массиве.
+			for (int n = 0; n < res[i].length(); n++) {
+				// не будем добавлять проблеы к слову
+				if (res[i].charAt(n) != ' ') {
+					// по буквам составляем слово.
+					word += res[i].charAt(n);
+				}
+				// Если перед нами пробел, значит конец слова.
+				if (res[i].charAt(n) == ' ') {
+					// Проверим, наше слово на совпадение.
+					if (word.equals(subs)) {
+						result[i] = 1;
+					}
+					// очистим слово для наполнения ддругим
+					word = "";
+				}
+			}
+
+		}
+
+		System.out.println(Arrays.toString(res));
+
+		return result;
+	}
+	
+
+	// Вариант 1
+
+	// var gap = 0;
+	// var step = 0;
+	// var multiLine = "";
+	// var word = "";
+	// var counter = 0;
+	// var arrCounter = 0;
+	// var begin = 0;
+	// String [] res = new String [20];
+
+	// Обойдем строку и разабьем ее на части
+	// for (int i = 0; i < s.length(); i ++) {
+	// запомним на каком индексе был последний пробел
+	// if (s.charAt(i) == ' ') {
+	// gap = i;
+	// }
+
+	// if(len == step ) {
+
+	// вырежим слово
+	// Если попали на пробел, будем обрезать слово
+	// if (s.charAt(i) == ' ') {
+
+	// for (int j = begin; j <= i; j ++) {
+	// word += s.charAt(j);
+	// }
+	// добавим слово в массив
+	// res[arrCounter] = word;
+	// увеличим счетчик для записи в массив
+	// arrCounter += 1;
+	// укажем с какого индекса будет начинаться следующее слово
+	// begin = i;
+	// обнулим счетчик шагов
+	// step = 0;
+	// Очистим слово
+	// word = "";
+	// }
+	// else {
+	// значит буква. обрежим по последнему пробелу
+	// начало слова
+
+	// for (int j = begin; j <= gap; j ++) {
+	// word += s.charAt(j);
+	// }
+	// добавим слово в массив
+	// res[arrCounter] = word;
+	// увеличим счетчик для записи в массив
+	// arrCounter += 1;
+	// укажем с какого индекса будет начинаться следующее слово
+	// begin = gap;
+	// обнулим счетчик шагов
+	// step = 0;
+	// Очистим слово
+	// word = "";
+	// сдвинем i
+	// int num = len - gap;
+	// i = i - gap;
+	// }
+	// }
+
+	// step = step + 1;
+
+	// }
+	// System.out.println(Arrays.toString(res));
+
+	// Вариант 2
+
+	// boolean take1 = false;
+	// boolean take2 = false;
+
+	// for (int i = 0; i < arrStr.length; ) {
+
+	// take1 = false;
+	// take2 = false;
+
+	// if (arrStr[i].length() <= len) {
+	// res[arrCounter] = arrStr[i];
+	// }
+
+	// не вышли за границу?
+	// if (arrStr[i].length() + arrStr[i + 1].length() <= arrStr.length) {
+	// еще влезет
+	// if (arrStr[i].length() + arrStr[i + 1].length() <= len) {
+	// res[arrCounter] = arrStr[i] + arrStr[i + 1];
+	// Забрали слово из втрого элемента
+	// take1 = true;
+	// }
+	// }
+	// не вышли за границу?
+	// if (arrStr[i].length() + arrStr[i + 1].length() + arrStr[i + 2].length() <=
+	// arrStr.length) {
+	// еще влезет
+	// if (arrStr[i].length() + arrStr[i + 1].length() + arrStr[i + 2].length() <=
+	// len) {
+	// res[arrCounter] = arrStr[i] + arrStr[i + 1] + arrStr[i + 2].length();
+	// take2 = true;
+	// }
+	// }
+
+	// if (take1 == true) {
+	// i += 2;
+	// } else if (take2 == true) {
+	// i += 2;
+	// } else {
+	// i += 1;
+	// }
+	// arrCounter += 1;
+	// }
 
 }

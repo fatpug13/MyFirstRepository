@@ -2,65 +2,80 @@ import java.util.*;
 
 public class Level1 {
 
-	public static String PatternUnlock(int N, int[] hits) {
+	public static int[] WordSearch(int len, String s, String subs) {
 
-		double result = 0;
-		double hypot = 0;
-		int onlyInt = 0;
+		String[] arrStr = s.split(" ");
 
-		for (int i = 0; i < hits.length - 1; i++) {
+		String[] res = new String[arrStr.length];
 
-			if (hits[i] == 6 && hits[i + 1] == 2 || hits[i] == 2 && hits[i + 1] == 6) {
+		int counterStep = 0;
+		int firstStep = 0;
+		int j = 0;
 
-				hypot = Math.sqrt(2);
-				result = result + hypot;
-			} else if (hits[i] == 2 && hits[i + 1] == 7 || hits[i] == 7 && hits[i + 1] == 2) {
+		for (int i = 0; i < res.length; i++) {
 
-				hypot = Math.sqrt(2);
-				result = result + hypot;
-			} else if (hits[i] == 9 && hits[i + 1] == 2 || hits[i] == 2 && hits[i + 1] == 9) {
+			for (; j < arrStr.length; j++) {
+				counterStep = 0;
+				firstStep = 0;
 
-				hypot = Math.sqrt(2);
-				result = result + hypot;
-			} else if (hits[i] == 2 && hits[i + 1] == 4 || hits[i] == 4 && hits[i + 1] == 2) {
+				if (arrStr[j].length() <= len) {
 
-				hypot = Math.sqrt(2);
-				result = result + hypot;
-			} else if (hits[i] == 5 && hits[i + 1] == 3 || hits[i] == 3 && hits[i + 1] == 5) {
+					if (res[i] == null) {
+						res[i] = arrStr[j];
+						res[i] += " ";
+						firstStep += 1;
 
-				hypot = Math.sqrt(2);
-				result = result + hypot;
-			} else if (hits[i] == 8 && hits[i + 1] == 3 || hits[i] == 3 && hits[i + 1] == 8) {
+					} else {
+						if (res[i].length() + arrStr[j].length() <= len) {
+							if (res[i].equals(arrStr[j]) == false) {
+								res[i] += arrStr[j];
+								res[i] += " ";
 
-				hypot = Math.sqrt(2);
-				result = result + hypot;
-			} else if (hits[i] == 5 && hits[i + 1] == 1 || hits[i] == 1 && hits[i + 1] == 5) {
+								counterStep += 1;
+							}
+						} else if (res[i].length() + arrStr[j].length() > len) {
+							break;
+						}
+					}
+				}
 
-				hypot = Math.sqrt(2);
-				result = result + hypot;
-			} else if (hits[i] == 8 && hits[i + 1] == 1 || hits[i] == 1 && hits[i + 1] == 8) {
+			}
 
-				hypot = Math.sqrt(2);
-				result = result + hypot;
+			if (firstStep == 1 && counterStep == 0) {
+				j += 1;
 			} else {
-				// идем по вертикали или горизонтали
-				onlyInt = onlyInt + 1;
+				j += counterStep;
 			}
 
 		}
 
-		result = result + onlyInt;
+		res = Arrays.stream(res).filter(d -> (d != null && d.length() > 0)).toArray(String[]::new);
 
-		String res = String.format("%.5f", result);
+		int[] result = new int[res.length];
+		var word = "";
 
-		var finalResult = "";
+		for (int i = 0; i < res.length; i++) {
 
-		for (int i = 0; i < res.length(); i++) {
-			if (res.charAt(i) != '0' && res.charAt(i) != ',') {
-				finalResult += res.charAt(i);
+			for (int n = 0; n < res[i].length(); n++) {
+
+				if (res[i].charAt(n) != ' ') {
+
+					word += res[i].charAt(n);
+				}
+
+				if (res[i].charAt(n) == ' ') {
+
+					if (word.equals(subs)) {
+						result[i] = 1;
+					}
+
+					word = "";
+				}
 			}
+
 		}
 
-		return finalResult;
+		return result;
 	}
+
 }
