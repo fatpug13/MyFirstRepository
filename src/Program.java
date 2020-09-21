@@ -6,9 +6,9 @@ public class Program {
 		// var a = 5;
 		//int arr[] = new int[] { 1, 2, 3, 4, 5, 6, 2, 7, 8, 9 };
 		//int arrSal[]= new int [] { 20000,100000,90000 };
-		var N = 10;
+		var N = 2;
 		var S = "12345";
-		var subs = "subs";
+		var subs = "12";
 		//var M = 4;
 		//var L = 6;
 
@@ -342,6 +342,8 @@ public class Program {
 		if (arrStr.length <= 1) {
 			var str = "";
 			int[] arr;
+			var steps = 0;
+			
 			// в этот массив будем писать результат
 			if (len > s.length()) {
 				//если длина разбивки больше чем само слово, тогда нам не нужен массив из двух элементов
@@ -351,18 +353,27 @@ public class Program {
 				arr = new int[arrStr.length + 1];
 			}
 			// обойдем эту строку и перепишем результат в массив
-			for (int k = 0; k < arrStr.length; k++) {
+			for (int k = 0; k < arr.length; k++) {
 
-				for (int l = 0; l < arrStr[k].length(); l++) {
-					// Пришло время разбить слово
-					if (l == len) {
-						if (str.equals(subs)) {
-							arr[k] = 1;
-							// очистим строку
-							str = "";
-						}
+				for (int l = steps; l < arrStr[0].length(); l++) {
+					
+					str += arrStr[0].charAt(l);
+					if (str.equals(subs)) {
+						arr[k] = 1;							
 					}
-					str += arrStr[k].charAt(l);
+					
+					// Пришло время разбить слово
+					if (l + 1 == len) {
+						if (str.equals(subs)) {
+							arr[k] = 1;							
+						}
+						// очистим строку
+						str = "";
+						steps = l + 1;
+						break;
+					}
+					
+					steps += 1;
 				}
 			}
 			System.out.println(Arrays.toString(arrStr));

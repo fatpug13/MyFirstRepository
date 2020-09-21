@@ -9,22 +9,34 @@ public class Level1 {
 		if (arrStr.length <= 1) {
 			var str = "";
 			int[] arr;
-
+			var steps = 0;
+			
+			// в этот массив будем писать результат
 			if (len > s.length()) {
 				arr = new int[arrStr.length];
 			} else {
 				arr = new int[arrStr.length + 1];
 			}
 
-			for (int k = 0; k < arrStr.length; k++) {
-				for (int l = 0; l < arrStr[k].length(); l++) {
-					if (l == len) {
-						if (str.equals(subs)) {
-							arr[k] = 1;
-							str = "";
-						}
+			for (int k = 0; k < arr.length; k++) {
+
+				for (int l = steps; l < arrStr[0].length(); l++) {
+					
+					str += arrStr[0].charAt(l);
+					if (str.equals(subs)) {
+						arr[k] = 1;							
 					}
-					str += arrStr[k].charAt(l);
+
+					if (l + 1 == len) {
+						if (str.equals(subs)) {
+							arr[k] = 1;							
+						}
+						str = "";
+						steps = l + 1;
+						break;
+					}
+					
+					steps += 1;
 				}
 			}
 			return arr;
