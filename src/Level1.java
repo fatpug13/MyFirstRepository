@@ -8,16 +8,19 @@ public class Level1 {
 
 		if (arrStr.length <= 1) {
 			var str = "";
-			int[] arr = new int[arrStr.length + 1];
+			int[] arr;
+
+			if (len > s.length()) {
+				arr = new int[arrStr.length];
+			} else {
+				arr = new int[arrStr.length + 1];
+			}
 
 			for (int k = 0; k < arrStr.length; k++) {
-
 				for (int l = 0; l < arrStr[k].length(); l++) {
-
 					if (l == len) {
 						if (str.equals(subs)) {
 							arr[k] = 1;
-
 							str = "";
 						}
 					}

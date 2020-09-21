@@ -6,9 +6,9 @@ public class Program {
 		// var a = 5;
 		//int arr[] = new int[] { 1, 2, 3, 4, 5, 6, 2, 7, 8, 9 };
 		//int arrSal[]= new int [] { 20000,100000,90000 };
-		var N = 12;
-		var S = "1) строка разбивается на набор строк через выравнивание по заданной ширине.";
-		var subs = "строк";
+		var N = 10;
+		var S = "12345";
+		var subs = "subs";
 		//var M = 4;
 		//var L = 6;
 
@@ -339,11 +339,18 @@ public class Program {
 		
 		
 		// Если в получившемся массиве одна строка
-		if (arrStr.length <= 1 ) {
+		if (arrStr.length <= 1) {
 			var str = "";
-			//в этот массив будем писать результат
-			int[] arr = new int[arrStr.length +1];
-			//обойдем эту строку и перепишем результат в массив
+			int[] arr;
+			// в этот массив будем писать результат
+			if (len > s.length()) {
+				//если длина разбивки больше чем само слово, тогда нам не нужен массив из двух элементов
+				arr = new int[arrStr.length];
+			} else {
+				// если длина меньше то нам потребуется еще один элемент куда мы запишем остаток слова после разбивки
+				arr = new int[arrStr.length + 1];
+			}
+			// обойдем эту строку и перепишем результат в массив
 			for (int k = 0; k < arrStr.length; k++) {
 
 				for (int l = 0; l < arrStr[k].length(); l++) {
@@ -361,7 +368,7 @@ public class Program {
 			System.out.println(Arrays.toString(arrStr));
 			return arr;
 		}
-	
+
 		else {
 		
 		// Перепишем полученный массив в соответствии с заданием.
