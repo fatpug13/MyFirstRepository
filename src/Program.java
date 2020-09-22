@@ -4,11 +4,11 @@ public class Program {
 
 	public static void main(String[] args) {
 		// var a = 5;
-		//int arr[] = new int[] { 1, 2, 3, 4, 5, 6, 2, 7, 8, 9 };
+		int arr[] = new int[] { -50, 10, -35, -90, -50, 90, -25};
 		//int arrSal[]= new int [] { 20000,100000,90000 };
-		var N = 2;
-		var S = "12345";
-		var subs = "12";
+		var N = 7;
+		//var S = "12345";
+		//var subs = "12";
 		//var M = 4;
 		//var L = 6;
 
@@ -18,7 +18,8 @@ public class Program {
 		//System.out.println(Arrays.toString(MadMax(N, arr)));
 		//System.out.println(Arrays.toString(SynchronizingTables(N, arrId, arrSal)));
 		//System.out.println(PatternUnlock(N, arr));
-		System.out.println(Arrays.toString(WordSearch(N, S, subs)));
+		//System.out.println(Arrays.toString(WordSearch(N, S, subs)));
+		System.out.println(SumOfThe(N, arr));
 	}
 
 	public static boolean startsWith(String text, String substr)
@@ -331,7 +332,7 @@ public class Program {
 		return finalResult;
 	}
 
-	public static int [] WordSearch (int len, String s, String subs) {
+	public static int [] WordSearch(int len, String s, String subs) {
 		
 		// разобьем строку на слова. ¬ результате получитс€ массив в котором кажда€
 		// строка лежит в отдельном индексе.
@@ -392,8 +393,8 @@ public class Program {
 		int j = 0;
 
 		// обходим пустой массив, перебира€ при этом массив со строками и добавл€ем в
-		// каждый элемент пустого массива
-		// значение из массива строк. —мотрим чтобы длина значени€ не превышало len.
+		// каждый элемент пустого массива значение из массива строк. 
+		//—мотрим чтобы длина значени€ не превышало len.
 
 		for (int i = 0; i < res.length; i++) {
 
@@ -454,7 +455,7 @@ public class Program {
 					if (word.equals(subs)) {
 						result[i] = 1;
 					}
-					// очистим слово дл€ наполнени€ ддругим
+					// осводим место дл€ следующего слова.
 					word = "";
 				}
 			}
@@ -467,115 +468,35 @@ public class Program {
 		}	
 	}
 	
+	public static int SumOfThe(int N, int[] data) {
 
-	// ¬ариант 1
+		int num = 0;
+		int sum = 0;
 
-	// var gap = 0;
-	// var step = 0;
-	// var multiLine = "";
-	// var word = "";
-	// var counter = 0;
-	// var arrCounter = 0;
-	// var begin = 0;
-	// String [] res = new String [20];
+		for (int i = 0; i < N - 1; i++) {
 
-	// ќбойдем строку и разабьем ее на части
-	// for (int i = 0; i < s.length(); i ++) {
-	// запомним на каком индексе был последний пробел
-	// if (s.charAt(i) == ' ') {
-	// gap = i;
-	// }
+			// будем считать, что это сумма всех чисел в массиве. проверим это
+			num = data[i];
+			// поместим это число в начало массива
+			int tmp = data[0];
+			data[0] = num;
+			data[i] = tmp;
 
-	// if(len == step ) {
+			for (int j = 1; j < data.length; j++) {
 
-	// вырежим слово
-	// ≈сли попали на пробел, будем обрезать слово
-	// if (s.charAt(i) == ' ') {
-
-	// for (int j = begin; j <= i; j ++) {
-	// word += s.charAt(j);
-	// }
-	// добавим слово в массив
-	// res[arrCounter] = word;
-	// увеличим счетчик дл€ записи в массив
-	// arrCounter += 1;
-	// укажем с какого индекса будет начинатьс€ следующее слово
-	// begin = i;
-	// обнулим счетчик шагов
-	// step = 0;
-	// ќчистим слово
-	// word = "";
-	// }
-	// else {
-	// значит буква. обрежим по последнему пробелу
-	// начало слова
-
-	// for (int j = begin; j <= gap; j ++) {
-	// word += s.charAt(j);
-	// }
-	// добавим слово в массив
-	// res[arrCounter] = word;
-	// увеличим счетчик дл€ записи в массив
-	// arrCounter += 1;
-	// укажем с какого индекса будет начинатьс€ следующее слово
-	// begin = gap;
-	// обнулим счетчик шагов
-	// step = 0;
-	// ќчистим слово
-	// word = "";
-	// сдвинем i
-	// int num = len - gap;
-	// i = i - gap;
-	// }
-	// }
-
-	// step = step + 1;
-
-	// }
-	// System.out.println(Arrays.toString(res));
-
-	// ¬ариант 2
-
-	// boolean take1 = false;
-	// boolean take2 = false;
-
-	// for (int i = 0; i < arrStr.length; ) {
-
-	// take1 = false;
-	// take2 = false;
-
-	// if (arrStr[i].length() <= len) {
-	// res[arrCounter] = arrStr[i];
-	// }
-
-	// не вышли за границу?
-	// if (arrStr[i].length() + arrStr[i + 1].length() <= arrStr.length) {
-	// еще влезет
-	// if (arrStr[i].length() + arrStr[i + 1].length() <= len) {
-	// res[arrCounter] = arrStr[i] + arrStr[i + 1];
-	// «абрали слово из втрого элемента
-	// take1 = true;
-	// }
-	// }
-	// не вышли за границу?
-	// if (arrStr[i].length() + arrStr[i + 1].length() + arrStr[i + 2].length() <=
-	// arrStr.length) {
-	// еще влезет
-	// if (arrStr[i].length() + arrStr[i + 1].length() + arrStr[i + 2].length() <=
-	// len) {
-	// res[arrCounter] = arrStr[i] + arrStr[i + 1] + arrStr[i + 2].length();
-	// take2 = true;
-	// }
-	// }
-
-	// if (take1 == true) {
-	// i += 2;
-	// } else if (take2 == true) {
-	// i += 2;
-	// } else {
-	// i += 1;
-	// }
-	// arrCounter += 1;
-	// }
+				// посчитаем сумму всех числе в массиве
+				sum += data[j];
+			}
+			// сравним сумму с числом в перем num
+			if (num == sum) {
+				// прервем цикл
+				break;
+			}
+			// очистим сумму
+			sum = 0;
+		}
+		// ¬ернем результат
+		return num;
+	}
 
 }
