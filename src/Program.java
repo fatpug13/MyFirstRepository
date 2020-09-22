@@ -4,9 +4,9 @@ public class Program {
 
 	public static void main(String[] args) {
 		// var a = 5;
-		int arr[] = new int[] { -50, 10, -35, -90, -50, 90, -25};
+		int arr[] = new int[] { 2, 3, 5};
 		//int arrSal[]= new int [] { 20000,100000,90000 };
-		var N = 7;
+		var N = 3;
 		//var S = "12345";
 		//var subs = "12";
 		//var M = 4;
@@ -473,7 +473,7 @@ public class Program {
 		int num = 0;
 		int sum = 0;
 
-		for (int i = 0; i < N - 1; i++) {
+		for (int i = 0; i <= N; i++) {
 
 			// будем считать, что это сумма всех чисел в массиве. проверим это
 			num = data[i];
