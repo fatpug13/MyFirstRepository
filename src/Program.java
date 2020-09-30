@@ -7,7 +7,7 @@ public class Program {
 		// var a = 5;
 		//int arr[] = new int[] { 10, -25, -45, -35, 5};
 		//int arrSal[]= new int [] { 20000,100000,90000 };
-		String s = "лпуак";
+		String s = "пыробел ";
 		Boolean isEncode = false;
 		//var S = "12345";
 		//var subs = "12";
@@ -622,7 +622,9 @@ public class Program {
 			for (int i = 0; i < matrix2.length; i++) {
 				for (int j = 0; j < matrix2[i].length; j++) {
 					
+					if (matrix2[i][j] != "") {
 					str += matrix2[i][j];
+					}
 				}
 			}
 

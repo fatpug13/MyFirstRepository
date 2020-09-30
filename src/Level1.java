@@ -99,7 +99,9 @@ public class Level1 {
 			for (int i = 0; i < matrix2.length; i++) {
 				for (int j = 0; j < matrix2[i].length; j++) {
 					
-					str += matrix2[i][j];
+					if (matrix2[i][j] != "") {
+						str += matrix2[i][j];
+						}
 				}
 			}
 
