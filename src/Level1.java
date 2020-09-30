@@ -107,7 +107,7 @@ public class Level1 {
 		}
 	}
 
-	private static String[][] fillInSpace(String[][] arrName) {
+	public static String[][] fillInSpace(String[][] arrName) {
 
 		for (int i = 0; i < arrName.length; i++) {
 			for (int j = 0; j < arrName[i].length; j++) {

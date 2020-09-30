@@ -630,7 +630,7 @@ public class Program {
 		}
 	}
 	//Функция заполняет переданный ей двумерный массив пробелами
-	private static String[][] fillInSpace(String[][] arrName) {
+	public static String[][] fillInSpace(String[][] arrName) {
 
 		// Заполним массив пробелами вместо нул
 		for (int i = 0; i < arrName.length; i++) {
