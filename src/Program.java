@@ -1,12 +1,14 @@
+
 import java.util.*;
 
-public class Program {
 
+public class Program {
 	public static void main(String[] args) {
 		// var a = 5;
-		int arr[] = new int[] { 2, 3, 5};
+		//int arr[] = new int[] { 10, -25, -45, -35, 5};
 		//int arrSal[]= new int [] { 20000,100000,90000 };
-		var N = 3;
+		String s = "лпуак";
+		Boolean isEncode = false;
 		//var S = "12345";
 		//var subs = "12";
 		//var M = 4;
@@ -19,7 +21,8 @@ public class Program {
 		//System.out.println(Arrays.toString(SynchronizingTables(N, arrId, arrSal)));
 		//System.out.println(PatternUnlock(N, arr));
 		//System.out.println(Arrays.toString(WordSearch(N, S, subs)));
-		System.out.println(SumOfThe(N, arr));
+		//System.out.println(SumOfThe(N, arr));
+		System.out.println(TheRabbitsFoot(s, isEncode));
 	}
 
 	public static boolean startsWith(String text, String substr)
@@ -499,4 +502,142 @@ public class Program {
 		return num;
 	}
 
+	public static String TheRabbitsFoot(String s, Boolean encode) {
+
+		// Удалим пробелы в строке переписав в другую переменную
+		var str = "";
+
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) != ' ') {
+				str += s.charAt(i);
+			}
+		}
+		// Определим длину слова и вычислим из нее квадратный корень
+		int N = str.length();
+		double srt = Math.sqrt(N);
+
+		// Округлим до 2х знаков после запятой
+		String result = String.format("%.2f", srt);
+		System.out.println(result);
+
+		// из округленного результат нужно получить 2 цифры 
+		var charA = ""; // нижняя граница
+		var charB = ""; // верхняя граница
+
+		for (int i = 0; i < result.length(); i++) {
+			if (result.charAt(i) != ',') {
+				charA += result.charAt(i);
+			}
+			else {
+				charB += result.charAt(i + 1);
+				break;
+			}
+		}
+
+		// преобразуем в int
+		int line = Integer.parseInt(charA);
+		int column = Integer.parseInt(charB);
+
+		// Необходимо создать матрицу куда влезет наше слово
+		int k = 1;
+		while (column * line < N) {
+			// Добавляем строку пока слово не влезет
+			line += k;
+			k++;
+		}
+		System.out.println(column);
+		System.out.println(line);
+
+		// Теперь слово помещается. Созданим двумерный массив по этим значениям. Вынести
+		// в функцию.
+		String[][] matrix = new String[line][column];
+		fillInSpace(matrix);
+		
+		if (encode == true) {
+			// Запишем наше слово в массив (зашифруем)
+			var counter = 0;
+			// цикл по строкам
+			for (var i = 0; i < matrix.length; i++) {
+				// цикл по M координатам (столбцамы)
+				for (var j = 0; j < matrix[i].length; j++) {
+
+					if (counter < str.length()) {
+						matrix[i][j] += str.charAt(counter);
+						counter += 1;
+					}
+				}
+			}
+			// очистим наше слово
+			str = "";
+
+			// вернем зашифрованный результат строкой с пробелами
+			for (int i = 0; i < column; i++) {
+				for (int j = 0; j < line; j++) {
+
+					str += matrix[j][i];
+				}
+				//Добавим пробел
+				str += " ";
+			}
+			return str;
+
+		} else {
+			// расшифровываем строку
+			// запишем строку в двумерный массив 
+			var counter = 0;
+			for (int i = 0; i < matrix.length; i++) {
+				for (int j = 0; j < matrix[i].length; j++) {
+
+					if (counter < str.length()) {
+						matrix[i][j] += str.charAt(counter);
+						counter += 1;
+					}
+
+				}
+			}
+
+			System.out.println(Arrays.deepToString(matrix));
+
+			// Создадим еще один массив куда будем записывать значения из строки 
+			// используя первый массив matrix как "карту"
+			String[][] matrix2 = new String[line][column];
+			fillInSpace(matrix2);
+
+			var step = 0;
+			for (int i = 0; i < column; i++) {
+				for (int j = 0; j < line; j++) {
+
+					if (matrix[j][i] != "") {
+						if (step < str.length()) {
+							matrix2[j][i] += str.charAt(step);
+							step += 1;
+						}
+					}
+				}
+			}
+			System.out.println(Arrays.deepToString(matrix2));
+
+			// вернем результат
+			str = "";
+			for (int i = 0; i < matrix2.length; i++) {
+				for (int j = 0; j < matrix2[i].length; j++) {
+					
+					str += matrix2[i][j];
+				}
+			}
+
+			return str;
+		}
+	}
+	//Функция заполняет переданный ей двумерный массив пробелами
+	private static String[][] fillInSpace(String[][] arrName) {
+
+		// Заполним массив пробелами вместо нул
+		for (int i = 0; i < arrName.length; i++) {
+			for (int j = 0; j < arrName[i].length; j++) {
+				arrName[i][j] = "";
+			}
+		}
+		return arrName;
+	}
 }
