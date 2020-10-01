@@ -4,7 +4,6 @@ public class Level1 {
 
 public static int PrintingCosts(String Line) {
 		
-		// уберем пробелы так как значение пробела = 0.
 		var str = "";
 		for (int i = 0; i < Line.length(); i++) {
 			if (Line.charAt(i) != ' ') {
@@ -12,18 +11,13 @@ public static int PrintingCosts(String Line) {
 			}
 		}
 
-		// переберем строку без порбелов, отправл€€ каждый символ в функцию котора€
-		// определ€ет, какое значение он имеет.
 		var result = 0;
 		var currentSymb = "";
 
 		for (int i = 0; i < str.length(); i++) {
 			
-			//получим текущий символ в строке
 			currentSymb += str.charAt(i);
-			// получим значение и прибавим к результату
 			result += getSymbolValue(currentSymb);
-			// очистим переменную дл€ следующего символа
 			currentSymb = "";
 
 		}
@@ -34,7 +28,6 @@ public static int PrintingCosts(String Line) {
 	public static int getSymbolValue(String symb) {
 		
 		var result = 0;
-		//создадим струтуру "раскладка символов" и заполним ее значени€ми.
 		Map<String, Integer> characterLayouts = new HashMap<String, Integer>();
 		
 		characterLayouts.put("&", 24);
