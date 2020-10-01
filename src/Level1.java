@@ -61,7 +61,9 @@ public class Level1 {
 					str += matrix[j][i];
 				}
 
-				str += " ";
+				if (i + 1 != column) {
+					str += " ";
+					}
 			}
 			return str;
 

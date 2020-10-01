@@ -7,8 +7,8 @@ public class Program {
 		// var a = 5;
 		//int arr[] = new int[] { 10, -25, -45, -35, 5};
 		//int arrSal[]= new int [] { 20000,100000,90000 };
-		String s = "пыробел ";
-		Boolean isEncode = false;
+		String s = "отдай мою кроличью лапку";
+		Boolean isEncode = true;
 		//var S = "12345";
 		//var subs = "12";
 		//var M = 4;
@@ -573,11 +573,15 @@ public class Program {
 			// вернем зашифрованный результат строкой с пробелами
 			for (int i = 0; i < column; i++) {
 				for (int j = 0; j < line; j++) {
-
-					str += matrix[j][i];
+					if (matrix[j][i] != "") {
+						str += matrix[j][i];
+					}
 				}
-				//Добавим пробел
+				//Добавим пробел. Чтобы избежать добавление пробела в 
+				//конце последнего столбца, добавим проверку.
+				if (i + 1 != column) {
 				str += " ";
+				}
 			}
 			return str;
 
