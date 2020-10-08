@@ -1,4 +1,5 @@
 
+import java.math.BigInteger;
 import java.util.*;
 
 
@@ -7,7 +8,8 @@ public class Program {
 		// var a = 5;
 		//int arr[] = new int[] { 10, -25, -45, -35, 5};
 		//int arrSal[]= new int [] { 20000,100000,90000 };
-		String s = "39\"";
+		String s1 = "654135145645613215645645614561456";
+		String s2 = "484545645618484151564564564564561485";
 		//Boolean isEncode = true;
 		//var S = "12345";
 		//var subs = "12";
@@ -23,7 +25,8 @@ public class Program {
 		//System.out.println(Arrays.toString(WordSearch(N, S, subs)));
 		//System.out.println(SumOfThe(N, arr));
 		//System.out.println(TheRabbitsFoot(s, isEncode));
-		System.out.println(PrintingCosts(s));
+		//System.out.println(PrintingCosts(s));
+		System.out.println(BigMinus(s1, s2));
 	}
 
 	public static boolean startsWith(String text, String substr)
@@ -635,9 +638,10 @@ public class Program {
 			return str;
 		}
 	}
-	//Функция заполняет переданный ей двумерный массив пробелами
+	
 	public static String[][] fillInSpace(String[][] arrName) {
-
+		//Функция заполняет переданный ей двумерный массив пробелами
+		
 		// Заполним массив пробелами вместо нул
 		for (int i = 0; i < arrName.length; i++) {
 			for (int j = 0; j < arrName[i].length; j++) {
@@ -791,4 +795,121 @@ public class Program {
 		
 	}
 	
+	public static String BigMinus(String s1, String s2) {
+		
+		var result = "";
+		int k = 0;
+		int[] arr1;
+		int[] arr2;
+
+		// строка которая длинее, будем записывать в первый массив
+		// т.к. нам нужно возвращать результат без минуса
+		if (s1.length() > s2.length()) {
+			
+			//заполним массив 1 первой строкой а массив 2 втророй строкой 
+			
+			//проинициализируем массивы
+			int lenArr = s1.length() + 1;
+			arr1 = new int[lenArr];
+			arr2 = new int[lenArr];
+			
+			//заполним массивы
+			fillArrays(arr1, arr2, s1, s2);
+
+			System.out.println(Arrays.toString(arr1));
+			System.out.println(Arrays.toString(arr2));
+
+		} else {
+			
+			//заполним массив 1 второй строкой а массив 2 первой строкой
+			
+			//проинициализируем массивы
+			int lenArr = s2.length() + 1;
+			arr1 = new int[lenArr];
+			arr2 = new int[lenArr];
+			
+			//заполним массивы Если вторая строка длинее, поменяем ее местами с первой строкой
+			// при вызове функции
+			fillArrays(arr1, arr2, s2, s1);
+
+			System.out.println(Arrays.toString(arr1));
+			System.out.println(Arrays.toString(arr2));
+		}
+
+		// вычитание
+		for (int i = 1; i < arr1[0]; i++) {
+			k = k + arr1[i] - arr2[i] + 10;
+			arr1[i] = k % 10;
+			if (k < 10) {
+				k = -1;
+			} else {
+				k = 0;
+			}
+		}
+		while (arr1[arr1[0]] == 0 && arr1[0] > 1) {
+			arr1[0] = arr1[0] - 1;
+		}
+
+		// обойдем первый массив с конца и вернем результат строкой, исключив первый
+		// элемент в массиве
+		result = "";
+
+		for (int i = arr1.length - 1; i > 0; i--) {
+
+			result += arr1[i];
+		}
+
+		System.out.println(Arrays.toString(arr1));
+
+		BigInteger x = new BigInteger("654135145645613215645645614561456");
+		BigInteger y = new BigInteger("484545645618484151564564564564561485");
+		BigInteger z = x.subtract(y);
+		System.out.println(z);
+
+		return result;
+		
+	}
+	public static void fillArrays(int[] array1, int[] array2, String str1, String str2) {
+		
+		var result = "";
+		var tmp = 0;
+		var counter = 0;
+
+		// запишем первую строку в первый массив
+		
+		// в нулевой элемент положим общее количество цифр в строке 1
+		array1[0] = str1.length();
+		// запишем первую строку в превый массив с конца
+		for (int i = str1.length() - 1; i >= 0; i--) {
+
+			// преобразуем строку в число
+			result += str1.charAt(i);
+			tmp = Integer.parseInt(result);
+
+			array1[counter + 1] = tmp;
+
+			result = "";
+			counter++;
+		}
+
+		// запишем вторую строку во второй массив
+
+		// обнулим счетчик
+		counter = 0;
+		// в нулевой элемент положим общее количество цифр в строке 2
+		array2[0] = str2.length();
+		// запишем вторую строку во второй массив с конца
+		for (int j = str2.length() - 1; j >= 0; j--) {
+
+			// преобразуем строку в число
+			result += str2.charAt(j);
+			tmp = Integer.parseInt(result);
+
+			array2[counter + 1] = tmp;
+
+			result = "";
+			counter++;
+		}
+
+	}
 }

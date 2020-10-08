@@ -1,141 +1,87 @@
+
 import java.util.*;
 
 public class Level1 {
 
-public static int PrintingCosts(String Line) {
-		
-		var str = "";
-		for (int i = 0; i < Line.length(); i++) {
-			if (Line.charAt(i) != ' ') {
-				str += Line.charAt(i);
+	public static String BigMinus(String s1, String s2) {
+
+		var result = "";
+		int k = 0;
+		int[] arr1;
+		int[] arr2;
+
+		if (s1.length() > s2.length()) {
+
+			int lenArr = s1.length() + 1;
+			arr1 = new int[lenArr];
+			arr2 = new int[lenArr];
+
+			fillArrays(arr1, arr2, s1, s2);
+
+		} else {
+
+			int lenArr = s2.length() + 1;
+			arr1 = new int[lenArr];
+			arr2 = new int[lenArr];
+
+			fillArrays(arr1, arr2, s2, s1);
+		}
+
+		for (int i = 1; i < arr1[0]; i++) {
+			k = k + arr1[i] - arr2[i] + 10;
+			arr1[i] = k % 10;
+			if (k < 10) {
+				k = -1;
+			} else {
+				k = 0;
 			}
 		}
+		while (arr1[arr1[0]] == 0 && arr1[0] > 1) {
+			arr1[0] = arr1[0] - 1;
+		}
 
-		var result = 0;
-		var currentSymb = "";
+		result = "";
+		for (int i = arr1.length - 1; i > 0; i--) {
 
-		for (int i = 0; i < str.length(); i++) {
-			
-			currentSymb += str.charAt(i);
-			result += getSymbolValue(currentSymb);
-			currentSymb = "";
-
+			result += arr1[i];
 		}
 
 		return result;
+
 	}
-	
-	public static int getSymbolValue(String symb) {
-		
-		var result = 0;
-		Map<String, Integer> characterLayouts = new HashMap<String, Integer>();
-		
-		characterLayouts.put("&", 24);
-		characterLayouts.put(",", 7);
-		characterLayouts.put("2", 22);
-		characterLayouts.put("8", 23);
-		characterLayouts.put(">", 10);
-		characterLayouts.put("D", 26);
-		characterLayouts.put("J", 18);
-		characterLayouts.put("P", 23);
-		characterLayouts.put("V", 19);
-		characterLayouts.put("\\", 10);
-		characterLayouts.put("b", 25);
-		characterLayouts.put("h", 21);
-		characterLayouts.put("n", 18);
-		characterLayouts.put("t", 17);
-		characterLayouts.put("z", 19);
-		
-		characterLayouts.put("!", 9);
-		characterLayouts.put("'", 3);
-		characterLayouts.put("-", 7);
-		characterLayouts.put("3", 23);
-		characterLayouts.put("9", 26);
-		characterLayouts.put("?", 15);
-		characterLayouts.put("E", 26);
-		characterLayouts.put("Q", 31);
-		characterLayouts.put("W", 26);
-		characterLayouts.put("]", 18);
-		characterLayouts.put("c", 17);
-		characterLayouts.put("i", 15);
-		characterLayouts.put("o", 20);
-		characterLayouts.put("u", 17);
-		characterLayouts.put("{", 18);
-		
-		characterLayouts.put("\"", 6);
-		characterLayouts.put("(", 12);
-		characterLayouts.put(".", 4);
-		characterLayouts.put("4", 21);
-		characterLayouts.put(":", 8);
-		characterLayouts.put("@", 32);
-		characterLayouts.put("F", 20);
-		characterLayouts.put("L", 16);
-		characterLayouts.put("R", 28);
-		characterLayouts.put("X", 18);
-		characterLayouts.put("^", 7);
-		characterLayouts.put("d", 25);
-		characterLayouts.put("j", 20);
-		characterLayouts.put("p", 25);
-		characterLayouts.put("v", 13);
-		characterLayouts.put("|", 12);
-		
-		characterLayouts.put("#", 24);
-		characterLayouts.put(")", 12);
-		characterLayouts.put("/", 10);
-		characterLayouts.put("5", 27);
-		characterLayouts.put(";", 11);
-		characterLayouts.put("A", 24);
-		characterLayouts.put("G", 25);
-		characterLayouts.put("M", 28);
-		characterLayouts.put("S", 25);
-		characterLayouts.put("Y", 14);
-		characterLayouts.put("_", 8);
-		characterLayouts.put("e", 23);
-		characterLayouts.put("k", 21);
-		characterLayouts.put("q", 25);
-		characterLayouts.put("w", 19);
-		characterLayouts.put("}", 18);
-		
-		characterLayouts.put("$", 29);
-		characterLayouts.put("*", 17);
-		characterLayouts.put("0", 22);
-		characterLayouts.put("6", 26);
-		characterLayouts.put("<", 10);
-		characterLayouts.put("B", 29);
-		characterLayouts.put("H", 25);
-		characterLayouts.put("N", 25);
-		characterLayouts.put("T", 16);
-		characterLayouts.put("Z", 22);
-		characterLayouts.put("`", 3);
-		characterLayouts.put("f", 18);
-		characterLayouts.put("l", 16);
-		characterLayouts.put("r", 13);
-		characterLayouts.put("x", 13);
-		characterLayouts.put("~", 9);
-		
-		characterLayouts.put("%", 22);
-		characterLayouts.put("+", 13);
-		characterLayouts.put("1", 19);
-		characterLayouts.put("7", 16);
-		characterLayouts.put("=", 14);
-		characterLayouts.put("C", 20);
-		characterLayouts.put("I", 18);
-		characterLayouts.put("O", 26);
-		characterLayouts.put("U", 23);
-		characterLayouts.put("[", 18);
-		characterLayouts.put("a", 23);
-		characterLayouts.put("g", 30);
-		characterLayouts.put("m", 22);
-		characterLayouts.put("s", 21);
-		characterLayouts.put("y", 24);
-		
-		if (characterLayouts.get(symb) != null) {
-			result = characterLayouts.get(symb);
-		} else {
-			result = 23;
+
+	public static void fillArrays(int[] array1, int[] array2, String str1, String str2) {
+
+		var result = "";
+		var tmp = 0;
+
+		var counter = 0;
+		array1[0] = str1.length();
+
+		for (int i = str1.length() - 1; i >= 0; i--) {
+
+			result += str1.charAt(i);
+			tmp = Integer.parseInt(result);
+
+			array1[counter + 1] = tmp;
+
+			result = "";
+			counter++;
 		}
-		
-		return result;
-		
+
+		counter = 0;
+		array2[0] = str2.length();
+
+		for (int j = str2.length() - 1; j >= 0; j--) {
+
+			result += str2.charAt(j);
+			tmp = Integer.parseInt(result);
+
+			array2[counter + 1] = tmp;
+
+			result = "";
+			counter++;
+		}
+
 	}
 }
