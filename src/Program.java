@@ -8,8 +8,8 @@ public class Program {
 		// var a = 5;
 		//int arr[] = new int[] { 10, -25, -45, -35, 5};
 		//int arrSal[]= new int [] { 20000,100000,90000 };
-		String s1 = "564894321545";
-		String s2 = "6854561894561845645615615614";
+		String s1 = "6854561894561845645615615625";
+		String s2 = "6854561894561845645615615615";
 		//Boolean isEncode = true;
 		//var S = "12345";
 		//var subs = "12";
@@ -799,11 +799,11 @@ public class Program {
 		
 		var result = "";
 		int k = 0;
-		int[] arr1;
-		int[] arr2;
+		int[] arr1 = null;
+		int[] arr2 = null;
 
 		// строка которая длинее, будем записывать в первый массив
-		// т.к. нам нужно возвращать результат без минуса
+		// т.к. нам можно возвращать результат без минуса
 		if (s1.length() > s2.length()) {
 			
 			//заполним массив 1 первой строкой а массив 2 втророй строкой 
@@ -816,10 +816,7 @@ public class Program {
 			//заполним массивы
 			fillArrays(arr1, arr2, s1, s2);
 
-			System.out.println(Arrays.toString(arr1));
-			System.out.println(Arrays.toString(arr2));
-
-		} else {
+		} else if (s1.length() < s2.length())  {
 			
 			//заполним массив 1 второй строкой а массив 2 первой строкой
 			
@@ -832,10 +829,61 @@ public class Program {
 			// при вызове функции
 			fillArrays(arr1, arr2, s2, s1);
 
-			System.out.println(Arrays.toString(arr1));
-			System.out.println(Arrays.toString(arr2));
 		}
+		else {
+			// значит длина одинаковая
+			// сравним каждую цифру
+			var str = "";
+			var numArr1 = 0;
+			var numArr2 = 0;
 
+			for (int i = 0; i < s1.length(); i++) {
+				
+				// полуим цифру из строки для сравнения
+				str += s1.charAt(i);
+				numArr1 = Integer.parseInt(str);
+				str = "";
+				str += s2.charAt(i);
+				numArr2 = Integer.parseInt(str);
+				str = "";
+
+				if (numArr1 > numArr2) {
+					// проинициализируем массивы
+					int lenArr = s1.length() + 1;
+					arr1 = new int[lenArr];
+					arr2 = new int[lenArr];
+
+					// заполним массивы
+					fillArrays(arr1, arr2, s1, s2);
+					break;
+				}
+				if (numArr1 < numArr2) {
+					// проинициализируем массивы
+					int lenArr = s2.length() + 1;
+					arr1 = new int[lenArr];
+					arr2 = new int[lenArr];
+					
+					fillArrays(arr1, arr2, s2, s1);
+					break;
+				}
+			}
+		}
+		
+		// если все цифры равны тогда запишем первую строку в первый массив
+		if (arr1 == null) {
+			// проинициализируем массивы
+			int lenArr = s1.length() + 1;
+			arr1 = new int[lenArr];
+			arr2 = new int[lenArr];
+
+			// заполним массивы
+			fillArrays(arr1, arr2, s1, s2);	
+		}
+		
+		System.out.println(Arrays.toString(arr1));
+		System.out.println(Arrays.toString(arr2));
+		
+	
 		// вычитание
 		for (int i = 1; i <= arr1[0]; i++) {
 			k = k + arr1[i] - arr2[i] + 10;
@@ -846,6 +894,8 @@ public class Program {
 				k = 0;
 			}
 		}
+		//положим длину получившегося значения в нулеовй элемент массива
+		// для того чтобы знать сколько цифр возвращать
 		while (arr1[arr1[0]] == 0 && arr1[0] > 1) {
 			arr1[0] = arr1[0] - 1;
 		}
@@ -854,15 +904,15 @@ public class Program {
 		// элемент в массиве
 		result = "";
 
-		for (int i = arr1.length - 1; i > 0; i--) {
+		for (int i = arr1[0]; i > 0; i--) {
 
 			result += arr1[i];
 		}
 
 		System.out.println(Arrays.toString(arr1));
 		// для проверки
-		BigInteger x = new BigInteger("6854561894561845645615615614");
-		BigInteger y = new BigInteger("564894321545");
+		BigInteger x = new BigInteger("6854561894561845645615615625");
+		BigInteger y = new BigInteger("6854561894561845645615615615");
 		BigInteger z = x.subtract(y);
 		System.out.println(z);
 
