@@ -27,7 +27,7 @@ public class Level1 {
 			fillArrays(arr1, arr2, s2, s1);
 		}
 
-		for (int i = 1; i < arr1[0]; i++) {
+		for (int i = 1; i <= arr1[0]; i++) {
 			k = k + arr1[i] - arr2[i] + 10;
 			arr1[i] = k % 10;
 			if (k < 10) {

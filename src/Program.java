@@ -8,8 +8,8 @@ public class Program {
 		// var a = 5;
 		//int arr[] = new int[] { 10, -25, -45, -35, 5};
 		//int arrSal[]= new int [] { 20000,100000,90000 };
-		String s1 = "654135145645613215645645614561456";
-		String s2 = "484545645618484151564564564564561485";
+		String s1 = "564894321545";
+		String s2 = "6854561894561845645615615614";
 		//Boolean isEncode = true;
 		//var S = "12345";
 		//var subs = "12";
@@ -837,7 +837,7 @@ public class Program {
 		}
 
 		// вычитание
-		for (int i = 1; i < arr1[0]; i++) {
+		for (int i = 1; i <= arr1[0]; i++) {
 			k = k + arr1[i] - arr2[i] + 10;
 			arr1[i] = k % 10;
 			if (k < 10) {
@@ -860,9 +860,9 @@ public class Program {
 		}
 
 		System.out.println(Arrays.toString(arr1));
-
-		BigInteger x = new BigInteger("654135145645613215645645614561456");
-		BigInteger y = new BigInteger("484545645618484151564564564564561485");
+		// для проверки
+		BigInteger x = new BigInteger("6854561894561845645615615614");
+		BigInteger y = new BigInteger("564894321545");
 		BigInteger z = x.subtract(y);
 		System.out.println(z);
 
@@ -912,4 +912,6 @@ public class Program {
 		}
 
 	}
+	
+	
 }
