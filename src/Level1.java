@@ -63,8 +63,11 @@ public class Level1 {
 								} else {
 									counter = i + 1;
 								}
+								if (i + 2 == vot.length) {
+									counter = i + 2;
+								}
 								noWin = false;
-							} else if (vot[i] == res) {
+							} else if (vot[i + 1] == res) {
 								noWin = true;
 							}
 						} else {

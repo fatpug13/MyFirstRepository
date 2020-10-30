@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 public class Program {
 	public static void main(String[] args) {
 		// var a = 5;
-		int arr[] = new int[] {111, 111, 110, 110};
+		int arr[] = new int[] {110,118,111,111};
 		var N = 4;
 		// int arrSal[]= new int [] { 20000,100000,90000 };
 		// String s1 = "123";
@@ -1126,10 +1126,12 @@ public class Program {
 									counter = i + 2;
 								} else {
 									counter = i + 1;
+								}							
+								if (i + 2 == vot.length) {
+									counter = i + 2;
 								}
-
 								noWin = false;
-							} else if (vot[i] == res) {
+							} else if (vot[i + 1] == res) {
 								noWin = true;
 							}
 						} else {
@@ -1151,7 +1153,7 @@ public class Program {
 
 			// вернем результат
 			if (noWin == true) {
-				result = "No winner";
+				result = "no winner";
 			} else if (res > 50) {
 				result = "majority winner " + counter;
 			} else if (res <= 50) {
