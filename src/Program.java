@@ -1,32 +1,34 @@
 
 import java.math.BigInteger;
 import java.util.*;
-
+import java.util.stream.IntStream;
 
 public class Program {
 	public static void main(String[] args) {
 		// var a = 5;
-		//int arr[] = new int[] { 10, -25, -45, -35, 5};
-		//int arrSal[]= new int [] { 20000,100000,90000 };
-		String s1 = "6854561894561845645615615625";
-		String s2 = "6854561894561845645615615615";
-		//Boolean isEncode = true;
-		//var S = "12345";
-		//var subs = "12";
-		//var M = 4;
-		//var L = 6;
+		int arr[] = new int[] {5,10,10,15,60};
+		var N = 5;
+		// int arrSal[]= new int [] { 20000,100000,90000 };
+		// String s1 = "123";
+		// String s2 = "132";
+		// Boolean isEncode = true;
+		// var S = "12345";
+		// var subs = "12";
+		// var M = 4;
+		// var L = 6;
 
 		// System.out.println(squirrel(a));
 		// System.out.println(odometer(arr));
 		// System.out.println(ConquestCampaign(N, M, L, arr));
-		//System.out.println(Arrays.toString(MadMax(N, arr)));
-		//System.out.println(Arrays.toString(SynchronizingTables(N, arrId, arrSal)));
-		//System.out.println(PatternUnlock(N, arr));
-		//System.out.println(Arrays.toString(WordSearch(N, S, subs)));
-		//System.out.println(SumOfThe(N, arr));
-		//System.out.println(TheRabbitsFoot(s, isEncode));
-		//System.out.println(PrintingCosts(s));
-		System.out.println(BigMinus(s1, s2));
+		// System.out.println(Arrays.toString(MadMax(N, arr)));
+		// System.out.println(Arrays.toString(SynchronizingTables(N, arrId, arrSal)));
+		// System.out.println(PatternUnlock(N, arr));
+		// System.out.println(Arrays.toString(WordSearch(N, S, subs)));
+		// System.out.println(SumOfThe(N, arr));
+		// System.out.println(TheRabbitsFoot(s, isEncode));
+		// System.out.println(PrintingCosts(s));
+		// System.out.println(BigMinus(s1, s2));
+		System.out.println(MassVote(N, arr));
 	}
 
 	public static boolean startsWith(String text, String substr)
@@ -83,8 +85,8 @@ public class Program {
 		return distance;
 	}
 
-	public static  int ConquestCampaign(int N, int M, int L, int[] battalion) {
-		
+	public static int ConquestCampaign(int N, int M, int L, int[] battalion) {
+
 		// создаем двумерный массив по пришедшим размерам
 		int[][] battleground = new int[N][M];
 
@@ -98,7 +100,7 @@ public class Program {
 			g = g + 2;
 
 		}
-		
+
 		// проверим, не захвачены ли все территории в 1й день
 		var currentDay = 1;
 		if (M * N == L) {
@@ -187,13 +189,13 @@ public class Program {
 			return currentDay - 1;
 		}
 	}
-	
-	public static  int [] MadMax(int N, int [] Tele) {
-		
+
+	public static int[] MadMax(int N, int[] Tele) {
+
 		// отсортируем массив по возрастанию
 		Arrays.sort(Tele);
 		System.out.println(Arrays.toString(Tele));
-		
+
 		// Разделим массив на две части
 		// Создаем временный массив. Левая часть
 		int[] leftPart = Arrays.copyOfRange(Tele, 0, Tele.length / 2);
@@ -212,8 +214,9 @@ public class Program {
 
 		// Соединим разделенные массивы в один
 		int[] result = new int[leftPart.length + rightPart.length];
-		
-		// Чтобы запомнить на каком элемете мы остановились после записи левой части в результ. массив
+
+		// Чтобы запомнить на каком элемете мы остановились после записи левой части в
+		// результ. массив
 		int counter = 0;
 
 		for (int i = 0; i < leftPart.length; i++) {
@@ -228,41 +231,42 @@ public class Program {
 		return result;
 	}
 
-	public static int [] SynchronizingTables(int N, int [] arrId, int [] arrSal) {
-		
+	public static int[] SynchronizingTables(int N, int[] arrId, int[] arrSal) {
+
 		// Нельзя трогать массив сотрудников. Отсортируем по возрастанию массив зарплат
 		Arrays.sort(arrSal);
-		
+
 		// его будем возхвращать
-		int result[] = new int [N];
-		
+		int result[] = new int[N];
+
 		// Перепишем массив айди сотрудников в другой массив
-		int sortAarrId[] = new int [N];
-		
-		for (int i = 0; i < arrId.length; i ++) {
+		int sortAarrId[] = new int[N];
+
+		for (int i = 0; i < arrId.length; i++) {
 			sortAarrId[i] = arrId[i];
 		}
 		// Отсортируем массив айди сотрудников по возрастанию
 		Arrays.sort(sortAarrId);
-		
+
 		// Теперь массив зарплат и массив айди сопоставлен.
-		// обойдем массив arrId и на каждой итерации будем сравнивать значение из arrId и arrayId и если они равны тогда
-		// запишем в результирующий массив res значение из массива зарплат arrSal под индексом соответствующий arrId.
-		
+		// обойдем массив arrId и на каждой итерации будем сравнивать значение из arrId
+		// и arrayId и если они равны тогда
+		// запишем в результирующий массив res значение из массива зарплат arrSal под
+		// индексом соответствующий arrId.
+
 		for (int i = 0; i < arrId.length; i++) {
-			for (int j = 0; j < sortAarrId.length; j ++) {
-				
+			for (int j = 0; j < sortAarrId.length; j++) {
+
 				if (arrId[i] == sortAarrId[j]) {
 					result[i] = arrSal[j];
 				}
-				
+
 			}
 		}
-		
-		
+
 		return result;
 	}
-	
+
 	public static String PatternUnlock(int N, int[] hits) {
 
 		double result = 0;
@@ -339,48 +343,49 @@ public class Program {
 		return finalResult;
 	}
 
-	public static int [] WordSearch(int len, String s, String subs) {
-		
+	public static int[] WordSearch(int len, String s, String subs) {
+
 		// разобьем строку на слова. В результате получится массив в котором каждая
 		// строка лежит в отдельном индексе.
 		String[] arrStr = s.split(" ");
-		
-		
+
 		// Если в получившемся массиве одна строка
 		if (arrStr.length <= 1) {
 			var str = "";
 			int[] arr;
 			var steps = 0;
-			
+
 			// в этот массив будем писать результат
 			if (len > s.length()) {
-				//если длина разбивки больше чем само слово, тогда нам не нужен массив из двух элементов
+				// если длина разбивки больше чем само слово, тогда нам не нужен массив из двух
+				// элементов
 				arr = new int[arrStr.length];
 			} else {
-				// если длина меньше то нам потребуется еще один элемент куда мы запишем остаток слова после разбивки
+				// если длина меньше то нам потребуется еще один элемент куда мы запишем остаток
+				// слова после разбивки
 				arr = new int[arrStr.length + 1];
 			}
 			// обойдем эту строку и перепишем результат в массив
 			for (int k = 0; k < arr.length; k++) {
 
 				for (int l = steps; l < arrStr[0].length(); l++) {
-					
+
 					str += arrStr[0].charAt(l);
 					if (str.equals(subs)) {
-						arr[k] = 1;							
+						arr[k] = 1;
 					}
-					
+
 					// Пришло время разбить слово
 					if (l + 1 == len) {
 						if (str.equals(subs)) {
-							arr[k] = 1;							
+							arr[k] = 1;
 						}
 						// очистим строку
 						str = "";
 						steps = l + 1;
 						break;
 					}
-					
+
 					steps += 1;
 				}
 			}
@@ -389,92 +394,92 @@ public class Program {
 		}
 
 		else {
-		
-		// Перепишем полученный массив в соответствии с заданием.
-		// В каждом элементе может быть строки не больше len символов. Обрезать слова
-		// только по пробелу.
-		String[] res = new String[arrStr.length];
 
-		int counterStep = 0;
-		int firstStep = 0;
-		int j = 0;
+			// Перепишем полученный массив в соответствии с заданием.
+			// В каждом элементе может быть строки не больше len символов. Обрезать слова
+			// только по пробелу.
+			String[] res = new String[arrStr.length];
 
-		// обходим пустой массив, перебирая при этом массив со строками и добавляем в
-		// каждый элемент пустого массива значение из массива строк. 
-		//Смотрим чтобы длина значения не превышало len.
+			int counterStep = 0;
+			int firstStep = 0;
+			int j = 0;
 
-		for (int i = 0; i < res.length; i++) {
+			// обходим пустой массив, перебирая при этом массив со строками и добавляем в
+			// каждый элемент пустого массива значение из массива строк.
+			// Смотрим чтобы длина значения не превышало len.
 
-			for (; j < arrStr.length; j++) {
-				counterStep = 0;
-				firstStep = 0;
-				// длина слова меньше заданного количесва символов
-				if (arrStr[j].length() <= len) {
+			for (int i = 0; i < res.length; i++) {
 
-					if (res[i] == null) {
-						res[i] = arrStr[j];
-						res[i] += " ";
-						firstStep += 1;
-						
-					} else {
-						if (res[i].length() + arrStr[j].length() <= len) {
-							if (res[i].equals(arrStr[j]) == false) {
-								res[i] += arrStr[j];
-								res[i] += " ";
-								// добавили очередное слово со следующего индекса
-								counterStep += 1;
+				for (; j < arrStr.length; j++) {
+					counterStep = 0;
+					firstStep = 0;
+					// длина слова меньше заданного количесва символов
+					if (arrStr[j].length() <= len) {
+
+						if (res[i] == null) {
+							res[i] = arrStr[j];
+							res[i] += " ";
+							firstStep += 1;
+
+						} else {
+							if (res[i].length() + arrStr[j].length() <= len) {
+								if (res[i].equals(arrStr[j]) == false) {
+									res[i] += arrStr[j];
+									res[i] += " ";
+									// добавили очередное слово со следующего индекса
+									counterStep += 1;
+								}
+							} else if (res[i].length() + arrStr[j].length() > len) {
+								break;
 							}
-						} else if (res[i].length() + arrStr[j].length() > len) {
-							break;
 						}
 					}
+
+				}
+				// на самом первом шаге записали слово и больше не лезет. сдвинем на 1
+				if (firstStep == 1 && counterStep == 0) {
+					j += 1;
+				} else {
+					j += counterStep;
 				}
 
 			}
-			// на самом первом шаге записали слово и больше не лезет. сдвинем на 1
-			if (firstStep == 1 && counterStep == 0) {
-				j += 1;
-			} else {
-				j += counterStep;
-			}
 
-		}
+			// уберем null значения из массива
+			res = Arrays.stream(res).filter(d -> (d != null && d.length() > 0)).toArray(String[]::new);
+			//
+			int[] result = new int[res.length];
+			var word = "";
 
-		// уберем null значения из массива
-		res = Arrays.stream(res).filter(d -> (d != null && d.length() > 0)).toArray(String[]::new);
-		//
-		int[] result = new int[res.length];
-		var word = "";
+			// Обойдем полученный массив и найдем в нем нужное слово.
+			for (int i = 0; i < res.length; i++) {
 
-		// Обойдем полученный массив и найдем в нем нужное слово.
-		for (int i = 0; i < res.length; i++) {
-
-			// Обойдем циклом каждое значение в массиве.
-			for (int n = 0; n < res[i].length(); n++) {
-				// не будем добавлять проблеы к слову
-				if (res[i].charAt(n) != ' ') {
-					// по буквам составляем слово.
-					word += res[i].charAt(n);
-				}
-				// Если перед нами пробел, значит конец слова.
-				if (res[i].charAt(n) == ' ') {
-					// Проверим, наше слово на совпадение.
-					if (word.equals(subs)) {
-						result[i] = 1;
+				// Обойдем циклом каждое значение в массиве.
+				for (int n = 0; n < res[i].length(); n++) {
+					// не будем добавлять проблеы к слову
+					if (res[i].charAt(n) != ' ') {
+						// по буквам составляем слово.
+						word += res[i].charAt(n);
 					}
-					// осводим место для следующего слова.
-					word = "";
+					// Если перед нами пробел, значит конец слова.
+					if (res[i].charAt(n) == ' ') {
+						// Проверим, наше слово на совпадение.
+						if (word.equals(subs)) {
+							result[i] = 1;
+						}
+						// осводим место для следующего слова.
+						word = "";
+					}
 				}
+
 			}
 
+			System.out.println(Arrays.toString(res));
+
+			return result;
 		}
-
-		System.out.println(Arrays.toString(res));
-
-		return result;
-		}	
 	}
-	
+
 	public static int SumOfThe(int N, int[] data) {
 
 		int num = 0;
@@ -523,15 +528,14 @@ public class Program {
 		String result = String.format("%.2f", srt);
 		System.out.println(result);
 
-		// из округленного результат нужно получить 2 цифры 
+		// из округленного результат нужно получить 2 цифры
 		var charA = ""; // нижняя граница
 		var charB = ""; // верхняя граница
 
 		for (int i = 0; i < result.length(); i++) {
 			if (result.charAt(i) != ',') {
 				charA += result.charAt(i);
-			}
-			else {
+			} else {
 				charB += result.charAt(i + 1);
 				break;
 			}
@@ -555,7 +559,7 @@ public class Program {
 		// в функцию.
 		String[][] matrix = new String[line][column];
 		fillInSpace(matrix);
-		
+
 		if (encode == true) {
 			// Запишем наше слово в массив (зашифруем)
 			var counter = 0;
@@ -580,17 +584,17 @@ public class Program {
 						str += matrix[j][i];
 					}
 				}
-				//Добавим пробел. Чтобы избежать добавление пробела в 
-				//конце последнего столбца, добавим проверку.
+				// Добавим пробел. Чтобы избежать добавление пробела в
+				// конце последнего столбца, добавим проверку.
 				if (i + 1 != column) {
-				str += " ";
+					str += " ";
 				}
 			}
 			return str;
 
 		} else {
 			// расшифровываем строку
-			// запишем строку в двумерный массив 
+			// запишем строку в двумерный массив
 			var counter = 0;
 			for (int i = 0; i < matrix.length; i++) {
 				for (int j = 0; j < matrix[i].length; j++) {
@@ -605,7 +609,7 @@ public class Program {
 
 			System.out.println(Arrays.deepToString(matrix));
 
-			// Создадим еще один массив куда будем записывать значения из строки 
+			// Создадим еще один массив куда будем записывать значения из строки
 			// используя первый массив matrix как "карту"
 			String[][] matrix2 = new String[line][column];
 			fillInSpace(matrix2);
@@ -628,9 +632,9 @@ public class Program {
 			str = "";
 			for (int i = 0; i < matrix2.length; i++) {
 				for (int j = 0; j < matrix2[i].length; j++) {
-					
+
 					if (matrix2[i][j] != "") {
-					str += matrix2[i][j];
+						str += matrix2[i][j];
 					}
 				}
 			}
@@ -638,10 +642,10 @@ public class Program {
 			return str;
 		}
 	}
-	
+
 	public static String[][] fillInSpace(String[][] arrName) {
-		//Функция заполняет переданный ей двумерный массив пробелами
-		
+		// Функция заполняет переданный ей двумерный массив пробелами
+
 		// Заполним массив пробелами вместо нул
 		for (int i = 0; i < arrName.length; i++) {
 			for (int j = 0; j < arrName[i].length; j++) {
@@ -650,9 +654,9 @@ public class Program {
 		}
 		return arrName;
 	}
-	
+
 	public static int PrintingCosts(String Line) {
-		
+
 		// уберем пробелы так как значение пробела = 0.
 		var str = "";
 		for (int i = 0; i < Line.length(); i++) {
@@ -667,8 +671,8 @@ public class Program {
 		var currentSymb = "";
 
 		for (int i = 0; i < str.length(); i++) {
-			
-			//получим текущий символ в строке
+
+			// получим текущий символ в строке
 			currentSymb += str.charAt(i);
 			// получим значение и прибавим к результату
 			result += getSymbolValue(currentSymb);
@@ -679,13 +683,13 @@ public class Program {
 
 		return result;
 	}
-	
+
 	public static int getSymbolValue(String symb) {
-		
+
 		var result = 0;
-		//создадим струтуру "раскладка символов" и заполним ее значениями.
+		// создадим струтуру "раскладка символов" и заполним ее значениями.
 		Map<String, Integer> characterLayouts = new HashMap<String, Integer>();
-		
+
 		characterLayouts.put("&", 24);
 		characterLayouts.put(",", 7);
 		characterLayouts.put("2", 22);
@@ -701,7 +705,7 @@ public class Program {
 		characterLayouts.put("n", 18);
 		characterLayouts.put("t", 17);
 		characterLayouts.put("z", 19);
-		
+
 		characterLayouts.put("!", 9);
 		characterLayouts.put("'", 3);
 		characterLayouts.put("-", 7);
@@ -717,7 +721,7 @@ public class Program {
 		characterLayouts.put("o", 20);
 		characterLayouts.put("u", 17);
 		characterLayouts.put("{", 18);
-		
+
 		characterLayouts.put("\"", 6);
 		characterLayouts.put("(", 12);
 		characterLayouts.put(".", 4);
@@ -734,7 +738,7 @@ public class Program {
 		characterLayouts.put("p", 25);
 		characterLayouts.put("v", 13);
 		characterLayouts.put("|", 12);
-		
+
 		characterLayouts.put("#", 24);
 		characterLayouts.put(")", 12);
 		characterLayouts.put("/", 10);
@@ -751,7 +755,7 @@ public class Program {
 		characterLayouts.put("q", 25);
 		characterLayouts.put("w", 19);
 		characterLayouts.put("}", 18);
-		
+
 		characterLayouts.put("$", 29);
 		characterLayouts.put("*", 17);
 		characterLayouts.put("0", 22);
@@ -768,7 +772,7 @@ public class Program {
 		characterLayouts.put("r", 13);
 		characterLayouts.put("x", 13);
 		characterLayouts.put("~", 9);
-		
+
 		characterLayouts.put("%", 22);
 		characterLayouts.put("+", 13);
 		characterLayouts.put("1", 19);
@@ -784,19 +788,19 @@ public class Program {
 		characterLayouts.put("m", 22);
 		characterLayouts.put("s", 21);
 		characterLayouts.put("y", 24);
-		
+
 		if (characterLayouts.get(symb) != null) {
 			result = characterLayouts.get(symb);
 		} else {
 			result = 23;
 		}
-		
+
 		return result;
-		
+
 	}
-	
+
 	public static String BigMinus(String s1, String s2) {
-		
+
 		var result = "";
 		int k = 0;
 		int[] arr1 = null;
@@ -805,32 +809,32 @@ public class Program {
 		// строка которая длинее, будем записывать в первый массив
 		// т.к. нам можно возвращать результат без минуса
 		if (s1.length() > s2.length()) {
-			
-			//заполним массив 1 первой строкой а массив 2 втророй строкой 
-			
-			//проинициализируем массивы
+
+			// заполним массив 1 первой строкой а массив 2 втророй строкой
+
+			// проинициализируем массивы
 			int lenArr = s1.length() + 1;
 			arr1 = new int[lenArr];
 			arr2 = new int[lenArr];
-			
-			//заполним массивы
+
+			// заполним массивы
 			fillArrays(arr1, arr2, s1, s2);
 
-		} else if (s1.length() < s2.length())  {
-			
-			//заполним массив 1 второй строкой а массив 2 первой строкой
-			
-			//проинициализируем массивы
+		} else if (s1.length() < s2.length()) {
+
+			// заполним массив 1 второй строкой а массив 2 первой строкой
+
+			// проинициализируем массивы
 			int lenArr = s2.length() + 1;
 			arr1 = new int[lenArr];
 			arr2 = new int[lenArr];
-			
-			//заполним массивы Если вторая строка длинее, поменяем ее местами с первой строкой
+
+			// заполним массивы Если вторая строка длинее, поменяем ее местами с первой
+			// строкой
 			// при вызове функции
 			fillArrays(arr1, arr2, s2, s1);
 
-		}
-		else {
+		} else {
 			// значит длина одинаковая
 			// сравним каждую цифру
 			var str = "";
@@ -838,7 +842,7 @@ public class Program {
 			var numArr2 = 0;
 
 			for (int i = 0; i < s1.length(); i++) {
-				
+
 				// полуим цифру из строки для сравнения
 				str += s1.charAt(i);
 				numArr1 = Integer.parseInt(str);
@@ -862,13 +866,13 @@ public class Program {
 					int lenArr = s2.length() + 1;
 					arr1 = new int[lenArr];
 					arr2 = new int[lenArr];
-					
+
 					fillArrays(arr1, arr2, s2, s1);
 					break;
 				}
 			}
 		}
-		
+
 		// если все цифры равны тогда запишем первую строку в первый массив
 		if (arr1 == null) {
 			// проинициализируем массивы
@@ -877,13 +881,12 @@ public class Program {
 			arr2 = new int[lenArr];
 
 			// заполним массивы
-			fillArrays(arr1, arr2, s1, s2);	
+			fillArrays(arr1, arr2, s1, s2);
 		}
-		
+
 		System.out.println(Arrays.toString(arr1));
 		System.out.println(Arrays.toString(arr2));
-		
-	
+
 		// вычитание
 		for (int i = 1; i <= arr1[0]; i++) {
 			k = k + arr1[i] - arr2[i] + 10;
@@ -894,7 +897,7 @@ public class Program {
 				k = 0;
 			}
 		}
-		//положим длину получившегося значения в нулеовй элемент массива
+		// положим длину получившегося значения в нулеовй элемент массива
 		// для того чтобы знать сколько цифр возвращать
 		while (arr1[arr1[0]] == 0 && arr1[0] > 1) {
 			arr1[0] = arr1[0] - 1;
@@ -917,16 +920,17 @@ public class Program {
 		System.out.println(z);
 
 		return result;
-		
+
 	}
+
 	public static void fillArrays(int[] array1, int[] array2, String str1, String str2) {
-		
+
 		var result = "";
 		var tmp = 0;
 		var counter = 0;
 
 		// запишем первую строку в первый массив
-		
+
 		// в нулевой элемент положим общее количество цифр в строке 1
 		array1[0] = str1.length();
 		// запишем первую строку в превый массив с конца
@@ -962,6 +966,200 @@ public class Program {
 		}
 
 	}
-	
-	
+
+	public static String MassVote(int N, int[] Votes) {
+
+		var result = "";
+		// определим сумму всех элементов в массиве
+		var sum = 0;
+		sum = IntStream.of(Votes).sum();
+		System.out.println(sum);
+
+		// Если сумма всех элементов равна нулю
+		// значит победителей нет. вернем массив
+		if (sum == 0) {
+			result = "No winner";
+		}
+		// Если сумма всех элементов равна 100
+		// тогда все вычисления будут целочисленными
+//		else if (sum == 100) {
+//			// создадим массив int
+//			int[] vot;
+//			// мы будем сравнивать значения в массиве парами,
+//			// по этому нам необходим четный массив
+//			if ((N % 2) == 0) {
+//				vot = new int[N];
+//			} else {
+//				vot = new int[N + 1];
+//			}
+//			// посчитаем голоса а результат запишем в созданный массив
+//			int voteInt = 0;
+//			for (int i = 0; i < Votes.length; i++) {
+//				// считаем
+//				voteInt = Votes[i] * 100 / sum;
+//				// запишем в массив
+//				vot[i] += voteInt;
+//
+//			}
+//			System.out.println(Arrays.toString(vot));
+//			// определим победителя
+//
+//			boolean noWin = false;
+//			int counter = 0;
+//			int res = 0;
+//			// в эту перем записываем только одинаковый результат 
+//			// сравнения двух элементов массива
+//			int a = 0;
+//
+//			// цикл по четным элементам массива
+//			for (int i = 0; i < vot.length; i += 2) {
+//				if (i + 1 <= vot.length) {
+//					if (vot[i] > vot[i + 1]) {
+//						if (vot[i] != a) {
+//							if (vot[i] > res) {
+//								res = vot[i];
+//								counter = i + 1;
+//								noWin = false;
+//							} else if (vot[i] == res) {
+//								noWin = true;
+//							}
+//						} else {
+//							noWin = true;
+//						}
+//
+//					} else if (vot[i] < vot[i + 1]) {
+//						if (vot[i + 1] != a) {
+//							if (vot[i + 1] > res) {
+//								res = vot[i + 1];
+//								if (i == 0) {
+//									counter = i + 2;
+//								} else {
+//									counter = i + 1;
+//								}
+//								noWin = false;
+//							} else if (vot[i] == res) {
+//								noWin = true;
+//							}
+//						} else {
+//							noWin = true;
+//						}
+//					} else {
+//						// в этой паре нет победителя
+//						a = vot[i];
+//						if (res < a) {
+//							res = vot[i];
+//							noWin = true;
+//						}
+//
+//					}
+//
+//				}
+//
+//			}
+//
+//			System.out.println(res);
+//			System.out.println(counter);
+//
+//			// вернем результат
+//			if (noWin == true) {
+//				result = "No winner";
+//			} else if (res > 50) {
+//				result = "majority winner " + counter;
+//			} else if (res < 50) {
+//				result = "minority winner " + counter;
+//			}
+
+//		} 
+	else {
+
+			// создадим массив типа double
+			double[] vot;
+			if ((N % 2) == 0) {
+				vot = new double[N];
+			} else {
+				vot = new double[N + 1];
+			}
+			// посчитаем голоса а результат запишем в новый массив
+			String str = "";
+			double voteDouble = 0;
+
+			for (int i = 0; i < Votes.length; i++) {
+				// считаем
+				voteDouble = Votes[i] * 100.0 / sum;
+				// округлим
+				str = String.format("%.3f", voteDouble);
+				// строку в число заменяя запятую на точку
+				double d = Double.parseDouble(str.replace(",", "."));
+				// запишем в массив
+				vot[i] += d;
+			}
+			System.out.println(Arrays.toString(vot));
+
+			// определим победителя
+			boolean noWin = false;
+			int counter = 0;
+			double res = 0;
+			double a = 0;
+
+			// цикл по четным элементам массива
+			for (int i = 0; i < vot.length; i += 2) {
+				// массив не кончился
+				if (i + 1 <= vot.length) {
+					if (vot[i] > vot[i + 1]) {
+						if (vot[i] != a) {
+							if (vot[i] > res) {
+								res = vot[i];
+								counter = i + 1;
+								noWin = false;
+							} else if (vot[i] == res) {
+								noWin = true;
+							}
+						} else {
+							noWin = true;
+						}
+
+					} else if (vot[i] < vot[i + 1]) {
+						if (vot[i + 1] != a) {
+							if (vot[i + 1] > res) {
+								res = vot[i + 1];
+								if (i == 0) {
+									counter = i + 2;
+								} else {
+									counter = i + 1;
+								}
+
+								noWin = false;
+							} else if (vot[i] == res) {
+								noWin = true;
+							}
+						} else {
+							noWin = true;
+						}
+					} else {
+						// в этой паре нет победителя
+						a = vot[i];
+						if (res < a) {
+							res = vot[i];
+							noWin = true;
+						}
+					}
+				}
+			}
+
+			System.out.println(res);
+			System.out.println(counter);
+
+			// вернем результат
+			if (noWin == true) {
+				result = "No winner";
+			} else if (res > 50) {
+				result = "majority winner " + counter;
+			} else if (res < 50) {
+				result = "minority winner " + counter;
+			}
+
+		}
+		return result;
+
+	}
 }

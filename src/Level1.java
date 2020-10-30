@@ -1,127 +1,93 @@
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class Level1 {
 
-	public static String BigMinus(String s1, String s2) {
+	public static String MassVote(int N, int[] Votes) {
 
 		var result = "";
-		int k = 0;
-		int[] arr1 = null;
-		int[] arr2 = null;
+		var sum = 0;
+		
+		sum = IntStream.of(Votes).sum();
 
-		if (s1.length() > s2.length()) {
-
-			int lenArr = s1.length() + 1;
-			arr1 = new int[lenArr];
-			arr2 = new int[lenArr];
-
-			fillArrays(arr1, arr2, s1, s2);
-
-		} else if (s1.length() < s2.length()) {
-
-			int lenArr = s2.length() + 1;
-			arr1 = new int[lenArr];
-			arr2 = new int[lenArr];
-
-			fillArrays(arr1, arr2, s2, s1);
-
-		} else {
-
-			var str = "";
-			var numArr1 = 0;
-			var numArr2 = 0;
-
-			for (int i = 0; i < s1.length(); i++) {
-
-				str += s1.charAt(i);
-				numArr1 = Integer.parseInt(str);
-				str = "";
-				str += s2.charAt(i);
-				numArr2 = Integer.parseInt(str);
-				str = "";
-
-				if (numArr1 > numArr2) {
-
-					int lenArr = s1.length() + 1;
-					arr1 = new int[lenArr];
-					arr2 = new int[lenArr];
-
-					fillArrays(arr1, arr2, s1, s2);
-					break;
-				}
-				if (numArr1 < numArr2) {
-
-					int lenArr = s2.length() + 1;
-					arr1 = new int[lenArr];
-					arr2 = new int[lenArr];
-
-					fillArrays(arr1, arr2, s2, s1);
-					break;
-				}
-			}
+		if (sum == 0) {
+			result = "No winner";
 		}
+		else {
 
-		if (arr1 == null) {
-
-			int lenArr = s1.length() + 1;
-			arr1 = new int[lenArr];
-			arr2 = new int[lenArr];
-
-			fillArrays(arr1, arr2, s1, s2);
-		}
-
-		for (int i = 1; i <= arr1[0]; i++) {
-			k = k + arr1[i] - arr2[i] + 10;
-			arr1[i] = k % 10;
-			if (k < 10) {
-				k = -1;
+			double[] vot;
+			
+			if ((N % 2) == 0) {
+				vot = new double[N];
 			} else {
-				k = 0;
+				vot = new double[N + 1];
 			}
-		}
 
-		while (arr1[arr1[0]] == 0 && arr1[0] > 1) {
-			arr1[0] = arr1[0] - 1;
-		}
+			String str = "";
+			double voteDouble = 0;
+			for (int i = 0; i < Votes.length; i++) {
+				
+				voteDouble = Votes[i] * 100.0 / sum;
+				str = String.format("%.3f", voteDouble);
+				double d = Double.parseDouble(str.replace(",", "."));
+				vot[i] += d;
+			}
 
-		result = "";
-		for (int i = arr1[0]; i > 0; i--) {
+			boolean noWin = false;
+			int counter = 0;
+			double res = 0;
+			double a = 0;
 
-			result += arr1[i];
+			for (int i = 0; i < vot.length; i += 2) {
+				
+				if (i + 1 <= vot.length) {
+					if (vot[i] > vot[i + 1]) {
+						if (vot[i] != a) {
+							if (vot[i] > res) {
+								res = vot[i];
+								counter = i + 1;
+								noWin = false;
+							} else if (vot[i] == res) {
+								noWin = true;
+							}
+						} else {
+							noWin = true;
+						}
+					} else if (vot[i] < vot[i + 1]) {
+						if (vot[i + 1] != a) {
+							if (vot[i + 1] > res) {
+								res = vot[i + 1];
+								if (i == 0) {
+									counter = i + 2;
+								} else {
+									counter = i + 1;
+								}
+								noWin = false;
+							} else if (vot[i] == res) {
+								noWin = true;
+							}
+						} else {
+							noWin = true;
+						}
+					} else {
+						a = vot[i];
+						if (res < a) {
+							res = vot[i];
+							noWin = true;
+						}
+					}
+				}
+			}
+
+			if (noWin == true) {
+				result = "No winner";
+			} else if (res > 50) {
+				result = "majority winner " + counter;
+			} else if (res < 50) {
+				result = "minority winner " + counter;
+			}
 		}
 		return result;
-	}
-
-	public static void fillArrays(int[] array1, int[] array2, String str1, String str2) {
-
-		var result = "";
-		var tmp = 0;
-		var counter = 0;
-
-		array1[0] = str1.length();
-		for (int i = str1.length() - 1; i >= 0; i--) {
-
-			result += str1.charAt(i);
-			tmp = Integer.parseInt(result);
-
-			array1[counter + 1] = tmp;
-
-			result = "";
-			counter++;
-		}
-		counter = 0;
-		array2[0] = str2.length();
-		for (int j = str2.length() - 1; j >= 0; j--) {
-
-			result += str2.charAt(j);
-			tmp = Integer.parseInt(result);
-
-			array2[counter + 1] = tmp;
-
-			result = "";
-			counter++;
-		}
-
 	}
 }
