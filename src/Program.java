@@ -6,8 +6,8 @@ import java.util.stream.IntStream;
 public class Program {
 	public static void main(String[] args) {
 		// var a = 5;
-		int arr[] = new int[] {23,50,27};
-		var N = 3;
+		int arr[] = new int[] {111, 111, 110, 110};
+		var N = 4;
 		// int arrSal[]= new int [] { 20000,100000,90000 };
 		// String s1 = "123";
 		// String s2 = "132";
