@@ -84,7 +84,7 @@ public class Level1 {
 				result = "No winner";
 			} else if (res > 50) {
 				result = "majority winner " + counter;
-			} else if (res < 50) {
+			} else if (res <= 50) {
 				result = "minority winner " + counter;
 			}
 		}

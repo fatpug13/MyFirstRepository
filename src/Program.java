@@ -6,8 +6,8 @@ import java.util.stream.IntStream;
 public class Program {
 	public static void main(String[] args) {
 		// var a = 5;
-		int arr[] = new int[] {5,10,10,15,60};
-		var N = 5;
+		int arr[] = new int[] {23,50,27};
+		var N = 3;
 		// int arrSal[]= new int [] { 20000,100000,90000 };
 		// String s1 = "123";
 		// String s2 = "132";
@@ -1154,7 +1154,7 @@ public class Program {
 				result = "No winner";
 			} else if (res > 50) {
 				result = "majority winner " + counter;
-			} else if (res < 50) {
+			} else if (res <= 50) {
 				result = "minority winner " + counter;
 			}
 
