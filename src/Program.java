@@ -6,12 +6,12 @@ import java.util.stream.IntStream;
 public class Program {
 	public static void main(String[] args) {
 		// var a = 5;
-		int arr[] = new int[] {110,118,111,111};
-		var N = 4;
+		int arr[] = new int[] {1234,1777};
+		var N = 2;
 		// int arrSal[]= new int [] { 20000,100000,90000 };
 		// String s1 = "123";
 		// String s2 = "132";
-		// Boolean isEncode = true;
+		 Boolean octal = false;
 		// var S = "12345";
 		// var subs = "12";
 		// var M = 4;
@@ -28,7 +28,8 @@ public class Program {
 		// System.out.println(TheRabbitsFoot(s, isEncode));
 		// System.out.println(PrintingCosts(s));
 		// System.out.println(BigMinus(s1, s2));
-		System.out.println(MassVote(N, arr));
+		// System.out.println(MassVote(N, arr));
+		System.out.println(Arrays.toString(UFO(N, arr, octal)));
 	}
 
 	public static boolean startsWith(String text, String substr)
@@ -980,97 +981,8 @@ public class Program {
 		if (sum == 0) {
 			result = "No winner";
 		}
-		// ≈сли сумма всех элементов равна 100
-		// тогда все вычислени€ будут целочисленными
-//		else if (sum == 100) {
-//			// создадим массив int
-//			int[] vot;
-//			// мы будем сравнивать значени€ в массиве парами,
-//			// по этому нам необходим четный массив
-//			if ((N % 2) == 0) {
-//				vot = new int[N];
-//			} else {
-//				vot = new int[N + 1];
-//			}
-//			// посчитаем голоса а результат запишем в созданный массив
-//			int voteInt = 0;
-//			for (int i = 0; i < Votes.length; i++) {
-//				// считаем
-//				voteInt = Votes[i] * 100 / sum;
-//				// запишем в массив
-//				vot[i] += voteInt;
-//
-//			}
-//			System.out.println(Arrays.toString(vot));
-//			// определим победител€
-//
-//			boolean noWin = false;
-//			int counter = 0;
-//			int res = 0;
-//			// в эту перем записываем только одинаковый результат 
-//			// сравнени€ двух элементов массива
-//			int a = 0;
-//
-//			// цикл по четным элементам массива
-//			for (int i = 0; i < vot.length; i += 2) {
-//				if (i + 1 <= vot.length) {
-//					if (vot[i] > vot[i + 1]) {
-//						if (vot[i] != a) {
-//							if (vot[i] > res) {
-//								res = vot[i];
-//								counter = i + 1;
-//								noWin = false;
-//							} else if (vot[i] == res) {
-//								noWin = true;
-//							}
-//						} else {
-//							noWin = true;
-//						}
-//
-//					} else if (vot[i] < vot[i + 1]) {
-//						if (vot[i + 1] != a) {
-//							if (vot[i + 1] > res) {
-//								res = vot[i + 1];
-//								if (i == 0) {
-//									counter = i + 2;
-//								} else {
-//									counter = i + 1;
-//								}
-//								noWin = false;
-//							} else if (vot[i] == res) {
-//								noWin = true;
-//							}
-//						} else {
-//							noWin = true;
-//						}
-//					} else {
-//						// в этой паре нет победител€
-//						a = vot[i];
-//						if (res < a) {
-//							res = vot[i];
-//							noWin = true;
-//						}
-//
-//					}
-//
-//				}
-//
-//			}
-//
-//			System.out.println(res);
-//			System.out.println(counter);
-//
-//			// вернем результат
-//			if (noWin == true) {
-//				result = "No winner";
-//			} else if (res > 50) {
-//				result = "majority winner " + counter;
-//			} else if (res < 50) {
-//				result = "minority winner " + counter;
-//			}
 
-//		} 
-	else {
+		else {
 
 			// создадим массив типа double
 			double[] vot;
@@ -1096,11 +1008,19 @@ public class Program {
 			System.out.println(Arrays.toString(vot));
 
 			// определим победител€
+			
+			/* »де€ така€, массив всегда должен быть четным, чтобы сравнивать элементы по парам.
+			 * ќбход массива с нул€ сравниваем два элемента, если они равны пишем результат в перем а 
+			 * (использую эту перем дл€ того чтобы пон€ть были ли одинаковые значени€) и res
+			 * если нулевой элемент больше первого элемента или наоборот, запишем больший элемент
+			 * в переменную res а дальше выполн€ем проверки c а и с последующими элементами.
+			 */
+			
 			boolean noWin = false;
 			int counter = 0;
 			double res = 0;
 			double a = 0;
-
+			
 			// цикл по четным элементам массива
 			for (int i = 0; i < vot.length; i += 2) {
 				// массив не кончилс€
@@ -1126,7 +1046,7 @@ public class Program {
 									counter = i + 2;
 								} else {
 									counter = i + 1;
-								}							
+								}
 								if (i + 2 == vot.length) {
 									counter = i + 2;
 								}
@@ -1164,4 +1084,32 @@ public class Program {
 		return result;
 
 	}
+	
+	public static int[] UFO(int N, int[] data, boolean octal) {
+
+		int[] result = new int[N];
+		int value = 8;
+
+		if (octal == true) {
+			convert(result, data, value);
+		} else {
+			value = 16;
+			convert(result, data, value);
+		}
+
+		return result;
+	}
+
+	public static void convert(int[] result, int[] data, int value) {
+
+		int k = 0;
+		String str = "";
+
+		for (int i = 0; i < data.length; i++) {
+			str = Integer.toString(data[i]);
+			k = Integer.parseInt(str, value);
+			result[i] = k;
+		}
+	}
+	
 }
