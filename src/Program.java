@@ -8,8 +8,8 @@ public class Program {
 		// var a = 5;
 		int[][] arr = new int[][] 
 		{
-			{3,5,5},
-			{5,2,2}
+			{3,6,2},
+			{6,2,2}
 			
 		};
 		var N = 2;
@@ -1160,7 +1160,9 @@ public class Program {
 					counterLightsRed --;
 				}else {
 					//горит зеленый, можно ехать
+					if(counterLightsGreen != 0) {
 					counterLightsGreen --;
+					}
 					//добавим путь 
 					way ++;
 				}
@@ -1171,12 +1173,13 @@ public class Program {
 				//отнимим счетчик светофоров, так как они работают с общим счетчиком
 				if (redSignal == true) {
 					//значит горит красный отнимим значение у карсного сигнала светофора
+					if(counterLightsRed != 0) {
 					counterLightsRed --;
+					}
 				}else {
 					//горит зеленый отнимим у зеленого
 					counterLightsGreen --;
-				}
-			
+				}			
 			}
 			
 			//пришло ли время переключить светофоры?
@@ -1191,13 +1194,17 @@ public class Program {
 				counterLightsGreen = lights[2];
 			}
 			
+			
+			//общее количество итераций и будет результат
+			travelTime += 1;
+			
 			// мы проехали текущий светофор?
 			if (way > haveLights) {
 				// есть еще светофоры на нашем пути?
-				if (counterLights <= N) {
+				if (counterLights < N) {
 					// получим данные о новом светофоре на нашем пути
 					getLightsInfo(track, lights);
-					// переопределим наши переменные. 
+					// переопределим наши переменные.
 					for (int i = 0; i < lights.length; i++) {
 						if (i == 0) {
 							haveLights = lights[i];
@@ -1207,33 +1214,42 @@ public class Program {
 						}
 						if (i == 2) {
 							counterLightsGreen = lights[i];
-						}	
+						}
 					}
-					//счетчик светофоров
+					// счетчик светофоров
 					counterLights += 1;
 					// вычислим какой сигнал светофора должен быть
 					// так как все светофоры работают одновременно
-					int k = 1;
-					for (int i = 1; i <= travelTime; i++) {
+					// int k = 1;
+					// int kRed = lights[1];
+					// int kGreen = lights[2];
+					// на первой итерации светофор горит красными
+					redSignal = true;
+					for (int i = 0; i < travelTime; i++) {
 						if (redSignal == true) {
-							if (k == counterLightsRed) {
+							if (counterLightsRed == 0) {
 								redSignal = false;
 								counterLightsRed = lights[1];
-								k = 0;
+								// k = 0;
+								counterLightsGreen--;
+							} else {
+								counterLightsRed--;
 							}
 						} else {
-							if (k == counterLightsGreen) {
+							if (counterLightsGreen == 0) {
 								redSignal = true;
 								counterLightsGreen = lights[2];
-								k = 0;
+								counterLightsRed--;
+								// k = 0;
+							} else {
+								counterLightsGreen--;
 							}
 						}
-						k += 1;
+						// k += 1;
 					}
 				}
 			}
-			//общее количество итераций и будет результат
-			travelTime += 1;
+
 		}
 		while(way != L);
 		

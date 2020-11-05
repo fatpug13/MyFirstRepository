@@ -4,11 +4,11 @@ import java.util.stream.IntStream;
 
 public class Level1 {
 
-public static int Unmanned(int L, int N, int [][] track) {
-		
+	public static int Unmanned(int L, int N, int[][] track) {
+
 		int travelTime = 0;
 		boolean redSignal = true;
-		int[] lights = new int[3];	
+		int[] lights = new int[3];
 		int haveLights = 0;
 		int counterLightsRed = 0;
 		int counterLightsGreen = 0;
@@ -29,25 +29,28 @@ public static int Unmanned(int L, int N, int [][] track) {
 			}
 		}
 		counterLights += 1;
-		
+
 		do {
-			
+
 			if (haveLights == way) {
-				if(redSignal == true) {
-					counterLightsRed --;
-				}else {
-					counterLightsGreen --;
-					way ++;
-				}
-			}
-			else {
-				way ++;
-				
 				if (redSignal == true) {
-					counterLightsRed --;
-				}else {
-					counterLightsGreen --;
-				}		
+					counterLightsRed--;
+				} else {
+					if (counterLightsGreen != 0) {
+						counterLightsGreen--;
+					}
+					way++;
+				}
+			} else {
+				way++;
+
+				if (redSignal == true) {
+					if (counterLightsRed != 0) {
+						counterLightsRed--;
+					}
+				} else {
+					counterLightsGreen--;
+				}
 			}
 
 			if (counterLightsRed == 0) {
@@ -58,13 +61,12 @@ public static int Unmanned(int L, int N, int [][] track) {
 				redSignal = true;
 				counterLightsGreen = lights[2];
 			}
-			
+
+			travelTime += 1;
+
 			if (way > haveLights) {
-
-				if (counterLights <= N) {
-					
+				if (counterLights < N) {
 					getLightsInfo(track, lights);
-
 					for (int i = 0; i < lights.length; i++) {
 						if (i == 0) {
 							haveLights = lights[i];
@@ -74,39 +76,41 @@ public static int Unmanned(int L, int N, int [][] track) {
 						}
 						if (i == 2) {
 							counterLightsGreen = lights[i];
-						}	
+						}
 					}
 
 					counterLights += 1;
 
-					int k = 1;
-					for (int i = 1; i <= travelTime; i++) {
+					redSignal = true;
+					for (int i = 0; i < travelTime; i++) {
 						if (redSignal == true) {
-							if (k == counterLightsRed) {
+							if (counterLightsRed == 0) {
 								redSignal = false;
 								counterLightsRed = lights[1];
-								k = 0;
+								counterLightsGreen--;
+							} else {
+								counterLightsRed--;
 							}
 						} else {
-							if (k == counterLightsGreen) {
+							if (counterLightsGreen == 0) {
 								redSignal = true;
 								counterLightsGreen = lights[2];
-								k = 0;
+								counterLightsRed--;
+							} else {
+								counterLightsGreen--;
 							}
 						}
-						k += 1;
 					}
 				}
 			}
-			travelTime += 1;
-		}
-		while(way != L);
-		
-		return travelTime;		
+
+		} while (way != L);
+
+		return travelTime;
 	}
-	
+
 	public static int[] getLightsInfo(int[][] data, int[] lights) {
-		
+
 		int haveLights = 0;
 		int redLights = 0;
 		int greenLights = 0;
@@ -137,5 +141,5 @@ public static int Unmanned(int L, int N, int [][] track) {
 		}
 		return lights;
 	}
-	
+
 }
