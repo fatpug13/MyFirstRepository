@@ -6,16 +6,21 @@ import java.util.stream.IntStream;
 public class Program {
 	public static void main(String[] args) {
 		// var a = 5;
-		int arr[] = new int[] {1234,1777};
+		int[][] arr = new int[][] 
+		{
+			{3,5,5},
+			{5,2,2}
+			
+		};
 		var N = 2;
 		// int arrSal[]= new int [] { 20000,100000,90000 };
 		// String s1 = "123";
 		// String s2 = "132";
-		 Boolean octal = false;
+		// Boolean octal = false;
 		// var S = "12345";
 		// var subs = "12";
 		// var M = 4;
-		// var L = 6;
+		 var L = 10;
 
 		// System.out.println(squirrel(a));
 		// System.out.println(odometer(arr));
@@ -29,7 +34,8 @@ public class Program {
 		// System.out.println(PrintingCosts(s));
 		// System.out.println(BigMinus(s1, s2));
 		// System.out.println(MassVote(N, arr));
-		System.out.println(Arrays.toString(UFO(N, arr, octal)));
+		// System.out.println(Arrays.toString(UFO(N, arr, octal)));
+		 System.out.println(Unmanned(L, N, arr));
 	}
 
 	public static boolean startsWith(String text, String substr)
@@ -1111,5 +1117,167 @@ public class Program {
 			result[i] = k;
 		}
 	}
+	
+	public static int Unmanned(int L, int N, int [][] track) {
+		
+		int travelTime = 0;
+		boolean redSignal = true;
+		//данные о каждом светофоре будем складывать в этот массив
+		int[] lights = new int[3];
+		
+		int haveLights = 0;
+
+		int counterLightsRed = 0;
+		int counterLightsGreen = 0;
+
+		int way = 1;
+		//счетчик светофоров
+		int counterLights = 0;
+		//получить данные о светофоре
+		getLightsInfo(track, lights);
+		//вернулс€ массив заполннеый данными первого светофора
+		//определим переменные данными светофора
+		for (int i = 0; i < lights.length; i++) {
+			if (i == 0) {
+				haveLights = lights[i];
+			}
+			if (i == 1) {
+				counterLightsRed = lights[i];
+			}
+			if (i == 2) {
+				counterLightsGreen = lights[i];
+			}
+		}
+		counterLights += 1;
+		
+		do {
+			
+			//на текущем шаге есть светофор?
+			if (haveLights == way) {
+				//ехеть можно только на зеленный
+				if(redSignal == true) {
+					//ждем когда загоритс€ зеленый
+					counterLightsRed --;
+				}else {
+					//горит зеленый, можно ехать
+					counterLightsGreen --;
+					//добавим путь 
+					way ++;
+				}
+			}
+			else {
+				//прибавим счетчик пути
+				way ++;
+				//отнимим счетчик светофоров, так как они работают с общим счетчиком
+				if (redSignal == true) {
+					//значит горит красный отнимим значение у карсного сигнала светофора
+					counterLightsRed --;
+				}else {
+					//горит зеленый отнимим у зеленого
+					counterLightsGreen --;
+				}
+			
+			}
+			
+			//пришло ли врем€ переключить светофоры?
+			if (counterLightsRed == 0) {
+				//включаем зеленый
+				redSignal = false;
+				//обнул€ем счетчик красного света
+				counterLightsRed = lights[1];
+			}
+			if (counterLightsGreen == 0) {
+				redSignal = true;
+				counterLightsGreen = lights[2];
+			}
+			
+			// мы проехали текущий светофор?
+			if (way > haveLights) {
+				// есть еще светофоры на нашем пути?
+				if (counterLights <= N) {
+					// получим данные о новом светофоре на нашем пути
+					getLightsInfo(track, lights);
+					// переопределим наши переменные. 
+					for (int i = 0; i < lights.length; i++) {
+						if (i == 0) {
+							haveLights = lights[i];
+						}
+						if (i == 1) {
+							counterLightsRed = lights[i];
+						}
+						if (i == 2) {
+							counterLightsGreen = lights[i];
+						}	
+					}
+					//счетчик светофоров
+					counterLights += 1;
+					// вычислим какой сигнал светофора должен быть
+					// так как все светофоры работают одновременно
+					int k = 1;
+					for (int i = 1; i <= travelTime; i++) {
+						if (redSignal == true) {
+							if (k == counterLightsRed) {
+								redSignal = false;
+								counterLightsRed = lights[1];
+								k = 0;
+							}
+						} else {
+							if (k == counterLightsGreen) {
+								redSignal = true;
+								counterLightsGreen = lights[2];
+								k = 0;
+							}
+						}
+						k += 1;
+					}
+				}
+			}
+			//общее количество итераций и будет результат
+			travelTime += 1;
+		}
+		while(way != L);
+		
+		return travelTime;	
+	}
+	
+	public static int[] getLightsInfo(int[][] data, int[] lights) {
+		
+		int haveLights = 0;
+		int redLights = 0;
+		int greenLights = 0;
+		//обойдем массив data и запишем в переменные данные светофора, 
+		//замен€€ уже записанные данные нулем 0.
+			
+		for (int i = 0; i < data.length; i++) {
+			for (int j = 0; j < data[i].length; j++) {
+				if (data[i][j] != 0) {
+					// где находитс€ светофор
+					if (j == 0) {
+						lights[j] = data[i][j];
+						haveLights = data[i][j];
+						data[i][j] = 0;
+					}
+					// длительность красного сигнала
+					if (j == 1) {
+						lights[j] = data[i][j];
+						redLights = data[i][j];
+						data[i][j] = 0;
+					}
+					// длительность зеленого сигнала
+					if (j == 2) {
+						lights[j] = data[i][j];
+						greenLights = data[i][j];
+						data[i][j] = 0;		
+					}
+				}
+			}
+			if(haveLights != 0 && redLights != 0 && greenLights!= 0) {
+				
+				break;
+			}		
+		}
+		return lights;
+	}
+	
 	
 }
