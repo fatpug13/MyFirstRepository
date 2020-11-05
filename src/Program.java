@@ -1130,7 +1130,7 @@ public class Program {
 		int counterLightsRed = 0;
 		int counterLightsGreen = 0;
 
-		int way = 1;
+		int way = 0;
 		//счетчик светофоров
 		int counterLights = 0;
 		//получить данные о светофоре

@@ -12,7 +12,7 @@ public static int Unmanned(int L, int N, int [][] track) {
 		int haveLights = 0;
 		int counterLightsRed = 0;
 		int counterLightsGreen = 0;
-		int way = 1;
+		int way = 0;
 		int counterLights = 0;
 
 		getLightsInfo(track, lights);
