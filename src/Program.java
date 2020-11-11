@@ -1,27 +1,31 @@
 
+import java.awt.Label;
 import java.math.BigInteger;
+import java.nio.channels.FileChannel.MapMode;
 import java.util.*;
 import java.util.stream.IntStream;
 
+
 public class Program {
 	public static void main(String[] args) {
-		// var a = 5;
-		int[][] arr = new int[][] 
-		{
-			{3,6,2},
-			{6,2,2}
-			
-		};
-		var N = 2;
+// 		var a = 5;
+//		int[][] arr = new int[][] 
+//		{
+//			{3,6,2},
+//			{6,2,2}	
+//		};
+		//var N = 2;
 		// int arrSal[]= new int [] { 20000,100000,90000 };
 		// String s1 = "123";
 		// String s2 = "132";
 		// Boolean octal = false;
 		// var S = "12345";
-		// var subs = "12";
-		// var M = 4;
-		 var L = 10;
-
+		 var S1 = "1234 2345 0987";
+		 var S2 = "34 98";
+		 var H1 = 3;
+		 var W1 = 4;
+		 var H2 = 2;
+		 var W2 = 2;
 		// System.out.println(squirrel(a));
 		// System.out.println(odometer(arr));
 		// System.out.println(ConquestCampaign(N, M, L, arr));
@@ -35,7 +39,8 @@ public class Program {
 		// System.out.println(BigMinus(s1, s2));
 		// System.out.println(MassVote(N, arr));
 		// System.out.println(Arrays.toString(UFO(N, arr, octal)));
-		 System.out.println(Unmanned(L, N, arr));
+		// System.out.println(Unmanned(L, N, arr));
+		System.out.println(TankRush(H1, W1, S1, H2, W2, S2));
 	}
 
 	public static boolean startsWith(String text, String substr)
@@ -1295,5 +1300,132 @@ public class Program {
 		return lights;
 	}
 	
+	public static boolean TankRush(int H1, int W1, String S1, int H2, int W2, String S2) {
+		
+		boolean result = true;
+		
+		//Удалим проблеы в словах
+		// для массива map
+		String newS1 = "";
+		newS1 = deleteSpace(S1, newS1);
+		// для массива groupingOfTanks
+		String newS2 = "";
+		newS2 = deleteSpace(S2, newS2);
+		
+		int[] arr1 = new int[H1 * W1];
+		int[] arr2 = new int[H2 * W2];
+		ArrayList res = new ArrayList<>();
+		//если arr2 больше чем arr1 имеет ли смысл вернуть сразу ложь?
+		if (arr2.length > arr1.length) {
+			result = false;
+		}else {
+		
+		fillArray(newS1, arr1);		
+		Arrays.sort(arr1);
+		System.out.println(Arrays.toString(arr1));
+		
+		fillArray(newS2, arr2);
+		Arrays.sort(arr2);
+		System.out.println(Arrays.toString(arr2));
+		
+		int i = 0;
+		int j = 0;
+		
+		while (i < arr1.length && j < arr2.length) {
+			if (arr1[i] > arr2[j]) {
+				j++;
+			}
+			else if (arr1[i] < arr2[j]) {
+				i++;
+			}
+			else {
+				res.add(arr1[i]);
+				i++;
+				j++;
+			}
+		}
+		
+		System.out.println(res);
+		
+		if (res.size() == arr2.length) {
+			result = true;
+		}
+		else {
+			result = false;
+		}
+		
+//		// создадим массивы по пришедшим данным и заполним их
+//		String[][] map = new String[H1][W1];
+//		fillArray(map, newS1);
+//		String[][] groupingOfTanks = new String[H2][W2];
+//		fillArray(groupingOfTanks, newS2);
+//		
+//		System.out.println(Arrays.deepToString(map));
+//		System.out.println(Arrays.deepToString(groupingOfTanks));
+
+		// проверим входит ли массив groupingOfTanks в массив map.
+		// если все элменты массива groupingOfTanks содержатся в массиве map
+		// тогда возврат истина иначе ложь
+		
+//		int res = 0;		
+//		for (int mapLineNum = 0; mapLineNum <= map.length - groupingOfTanks.length; mapLineNum++) {
+//			label:
+//			for (int mapColumnNum = 0; mapColumnNum <= map[mapLineNum].length
+//					- groupingOfTanks[0].length; mapColumnNum++) {
+//				for (int groupingOfTanksLine = 0; groupingOfTanksLine < groupingOfTanks.length; groupingOfTanksLine++) {
+//					for (int groupingOfTanksColumn = 0; groupingOfTanksColumn < groupingOfTanks[groupingOfTanksLine].length; groupingOfTanksLine++) {
+//
+//						if(map[mapLineNum + groupingOfTanksLine] [mapColumnNum + groupingOfTanksColumn] != groupingOfTanks[groupingOfTanksLine] [groupingOfTanksColumn]) {
+//							continue label;
+//						}					
+//					}
+//				}
+//				res ++;
+//			}
+//		}		
+//		System.out.println(res);
+
+		}
+		return result;
+	}
+	
+	public static void fillArray(String str, int[] array){
+		
+		String substr = "";
+		int k = 0;
+		for (int i = 0; i < str.length(); i++) {
+			substr += str.charAt(i);
+			k = Integer.parseInt(substr);
+			array[i] = k;
+			substr = "";
+		}
+		
+	}
+	
+	
+//	public static void fillArray(String[][] arr, String str) {
+//
+//		String substr = "";
+//		int counterStr = 0;
+//		for (int i = 0; i < arr.length; i++) {
+//			for (int j = 0; j < arr[i].length; j++) {
+//
+//				substr += str.charAt(counterStr);
+//				arr[i][j] = substr;
+//				substr = "";
+//				counterStr += 1;
+//			}
+//		}
+//	}
+
+	public static String deleteSpace(String str, String newStr) {
+
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) != ' ') {
+				newStr += str.charAt(i);
+			}
+		}
+		return newStr;
+	}
 	
 }

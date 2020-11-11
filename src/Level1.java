@@ -1,145 +1,77 @@
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 public class Level1 {
 
-	public static int Unmanned(int L, int N, int[][] track) {
+	public static boolean TankRush(int H1, int W1, String S1, int H2, int W2, String S2) {
 
-		int travelTime = 0;
-		boolean redSignal = true;
-		int[] lights = new int[3];
-		int haveLights = 0;
-		int counterLightsRed = 0;
-		int counterLightsGreen = 0;
-		int way = 0;
-		int counterLights = 0;
+		boolean result = true;
 
-		getLightsInfo(track, lights);
+		String newS1 = "";
+		newS1 = deleteSpace(S1, newS1);
 
-		for (int i = 0; i < lights.length; i++) {
-			if (i == 0) {
-				haveLights = lights[i];
-			}
-			if (i == 1) {
-				counterLightsRed = lights[i];
-			}
-			if (i == 2) {
-				counterLightsGreen = lights[i];
-			}
-		}
-		counterLights += 1;
+		String newS2 = "";
+		newS2 = deleteSpace(S2, newS2);
 
-		do {
+		int[] arr1 = new int[H1 * W1];
+		int[] arr2 = new int[H2 * W2];
+		ArrayList res = new ArrayList<>();
 
-			if (haveLights == way) {
-				if (redSignal == true) {
-					counterLightsRed--;
+		if (arr2.length > arr1.length) {
+			result = false;
+		} else {
+
+			fillArray(newS1, arr1);
+			Arrays.sort(arr1);
+
+			fillArray(newS2, arr2);
+			Arrays.sort(arr2);
+
+			int i = 0;
+			int j = 0;
+
+			while (i < arr1.length && j < arr2.length) {
+				if (arr1[i] > arr2[j]) {
+					j++;
+				} else if (arr1[i] < arr2[j]) {
+					i++;
 				} else {
-					if (counterLightsGreen != 0) {
-						counterLightsGreen--;
-					}
-					way++;
+					res.add(arr1[i]);
+					i++;
+					j++;
 				}
+			}
+
+			if (res.size() == arr2.length) {
+				result = true;
 			} else {
-				way++;
-
-				if (redSignal == true) {
-					if (counterLightsRed != 0) {
-						counterLightsRed--;
-					}
-				} else {
-					counterLightsGreen--;
-				}
-			}
-
-			if (counterLightsRed == 0) {
-				redSignal = false;
-				counterLightsRed = lights[1];
-			}
-			if (counterLightsGreen == 0) {
-				redSignal = true;
-				counterLightsGreen = lights[2];
-			}
-
-			travelTime += 1;
-
-			if (way > haveLights) {
-				if (counterLights < N) {
-					getLightsInfo(track, lights);
-					for (int i = 0; i < lights.length; i++) {
-						if (i == 0) {
-							haveLights = lights[i];
-						}
-						if (i == 1) {
-							counterLightsRed = lights[i];
-						}
-						if (i == 2) {
-							counterLightsGreen = lights[i];
-						}
-					}
-
-					counterLights += 1;
-
-					redSignal = true;
-					for (int i = 0; i < travelTime; i++) {
-						if (redSignal == true) {
-							if (counterLightsRed == 0) {
-								redSignal = false;
-								counterLightsRed = lights[1];
-								counterLightsGreen--;
-							} else {
-								counterLightsRed--;
-							}
-						} else {
-							if (counterLightsGreen == 0) {
-								redSignal = true;
-								counterLightsGreen = lights[2];
-								counterLightsRed--;
-							} else {
-								counterLightsGreen--;
-							}
-						}
-					}
-				}
-			}
-
-		} while (way != L);
-
-		return travelTime;
-	}
-
-	public static int[] getLightsInfo(int[][] data, int[] lights) {
-
-		int haveLights = 0;
-		int redLights = 0;
-		int greenLights = 0;
-
-		for (int i = 0; i < data.length; i++) {
-			for (int j = 0; j < data[i].length; j++) {
-				if (data[i][j] != 0) {
-					if (j == 0) {
-						lights[j] = data[i][j];
-						haveLights = data[i][j];
-						data[i][j] = 0;
-					}
-					if (j == 1) {
-						lights[j] = data[i][j];
-						redLights = data[i][j];
-						data[i][j] = 0;
-					}
-					if (j == 2) {
-						lights[j] = data[i][j];
-						greenLights = data[i][j];
-						data[i][j] = 0;
-					}
-				}
-			}
-			if (haveLights != 0 && redLights != 0 && greenLights != 0) {
-				break;
+				result = false;
 			}
 		}
-		return lights;
+
+		return result;
 	}
 
+	public static void fillArray(String str, int[] array) {
+
+		String substr = "";
+		int k = 0;
+		for (int i = 0; i < str.length(); i++) {
+			substr += str.charAt(i);
+			k = Integer.parseInt(substr);
+			array[i] = k;
+			substr = "";
+		}
+	}
+
+	public static String deleteSpace(String str, String newStr) {
+
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) != ' ') {
+				newStr += str.charAt(i);
+			}
+		}
+		return newStr;
+	}
+	
 }
