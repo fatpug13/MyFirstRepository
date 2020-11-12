@@ -1,7 +1,5 @@
 
-import java.awt.Label;
 import java.math.BigInteger;
-import java.nio.channels.FileChannel.MapMode;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -1312,111 +1310,154 @@ public class Program {
 		String newS2 = "";
 		newS2 = deleteSpace(S2, newS2);
 		
-		int[] arr1 = new int[H1 * W1];
-		int[] arr2 = new int[H2 * W2];
-		ArrayList res = new ArrayList<>();
-		//если arr2 больше чем arr1 имеет ли смысл вернуть сразу ложь?
-		if (arr2.length > arr1.length) {
-			result = false;
-		}else {
+
 		
-		fillArray(newS1, arr1);		
-		Arrays.sort(arr1);
-		System.out.println(Arrays.toString(arr1));
+		// создадим массивы по пришедшим данным и заполним их
+		String[][] map = new String[H1][W1];
+		fillArray(map, newS1);
+		String[][] groupingOfTanks = new String[H2][W2];
+		fillArray(groupingOfTanks, newS2);
 		
-		fillArray(newS2, arr2);
-		Arrays.sort(arr2);
-		System.out.println(Arrays.toString(arr2));
+		//результат цикла пишем сюда
+		ArrayList<Integer> res = new ArrayList<>();
 		
-		int i = 0;
-		int j = 0;
-		
-		while (i < arr1.length && j < arr2.length) {
-			if (arr1[i] > arr2[j]) {
-				j++;
-			}
-			else if (arr1[i] < arr2[j]) {
-				i++;
-			}
-			else {
-				res.add(arr1[i]);
-				i++;
-				j++;
-			}
-		}
-		
-		System.out.println(res);
-		
-		if (res.size() == arr2.length) {
-			result = true;
-		}
-		else {
-			result = false;
-		}
-		
-//		// создадим массивы по пришедшим данным и заполним их
-//		String[][] map = new String[H1][W1];
-//		fillArray(map, newS1);
-//		String[][] groupingOfTanks = new String[H2][W2];
-//		fillArray(groupingOfTanks, newS2);
-//		
-//		System.out.println(Arrays.deepToString(map));
-//		System.out.println(Arrays.deepToString(groupingOfTanks));
+		System.out.println(Arrays.deepToString(map));
+		System.out.println(Arrays.deepToString(groupingOfTanks));
 
 		// проверим входит ли массив groupingOfTanks в массив map.
-		// если все элменты массива groupingOfTanks содержатся в массиве map
+		// если все элменты массива groupingOfTanks содержатся в массиве map в каждой строке
 		// тогда возврат истина иначе ложь
 		
-//		int res = 0;		
-//		for (int mapLineNum = 0; mapLineNum <= map.length - groupingOfTanks.length; mapLineNum++) {
-//			label:
-//			for (int mapColumnNum = 0; mapColumnNum <= map[mapLineNum].length
-//					- groupingOfTanks[0].length; mapColumnNum++) {
-//				for (int groupingOfTanksLine = 0; groupingOfTanksLine < groupingOfTanks.length; groupingOfTanksLine++) {
-//					for (int groupingOfTanksColumn = 0; groupingOfTanksColumn < groupingOfTanks[groupingOfTanksLine].length; groupingOfTanksLine++) {
-//
-//						if(map[mapLineNum + groupingOfTanksLine] [mapColumnNum + groupingOfTanksColumn] != groupingOfTanks[groupingOfTanksLine] [groupingOfTanksColumn]) {
-//							continue label;
-//						}					
-//					}
-//				}
-//				res ++;
-//			}
-//		}		
-//		System.out.println(res);
 
+		boolean marker = false;
+		
+		int a = 0;
+		int b = 0;
+		
+		String strMap = "";
+		String strGrTanks = "";
+		
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+
+				for (int k = 0; k < groupingOfTanks.length; k++) {
+					for (int l = 0; l < groupingOfTanks[k].length; l++) {
+
+						// получим текущее значение из каждого массива
+						strMap = map[i][j];
+						strGrTanks = groupingOfTanks[k][l];
+						// строку в число
+						a = Integer.parseInt(strMap);
+						b = Integer.parseInt(strGrTanks);
+
+						if (a == b) {
+							marker = true;
+						}
+
+						// очистим переменные для следующего значения
+						strMap = "";
+						strGrTanks = "";
+						a = 0;
+						b = 0;
+
+					}
+				}
+
+			}
+			
+			if (marker == true) {
+				res.add(1);
+			} else {
+				res.add(0);
+			}
 		}
+				
+		System.out.println(res);
+		
+		//обойдем коллекцию, если встретиться 0 вернем false
+		for (int res1 : res) {
+			if (res1 != 0) {
+				result = true;
+			}else {
+				result = false;
+				break;
+			}
+		}
+		
+		
 		return result;
 	}
-	
-	public static void fillArray(String str, int[] array){
 		
-		String substr = "";
-		int k = 0;
-		for (int i = 0; i < str.length(); i++) {
-			substr += str.charAt(i);
-			k = Integer.parseInt(substr);
-			array[i] = k;
-			substr = "";
-		}
-		
-	}
-	
-	
-//	public static void fillArray(String[][] arr, String str) {
-//
-//		String substr = "";
-//		int counterStr = 0;
-//		for (int i = 0; i < arr.length; i++) {
-//			for (int j = 0; j < arr[i].length; j++) {
-//
-//				substr += str.charAt(counterStr);
-//				arr[i][j] = substr;
-//				substr = "";
-//				counterStr += 1;
-//			}
+//	int[] arr1 = new int[H1 * W1];
+//	int[] arr2 = new int[H2 * W2];
+//	ArrayList res = new ArrayList<>();
+//	//если arr2 больше чем arr1 имеет ли смысл вернуть сразу ложь?
+//	if (arr2.length > arr1.length) {
+//		result = false;
+//	}else {
+//	
+//	fillArray(newS1, arr1);		
+//	Arrays.sort(arr1);
+//	System.out.println(Arrays.toString(arr1));
+//	
+//	fillArray(newS2, arr2);
+//	Arrays.sort(arr2);
+//	System.out.println(Arrays.toString(arr2));
+//	
+//	int i = 0;
+//	int j = 0;
+//	
+//	while (i < arr1.length && j < arr2.length) {
+//		if (arr1[i] > arr2[j]) {
+//			j++;
+//		}
+//		else if (arr1[i] < arr2[j]) {
+//			i++;
+//		}
+//		else {
+//			res.add(arr1[i]);
+//			i++;
+//			j++;
 //		}
 //	}
+//	
+//	System.out.println(res);
+//	
+//	if (res.size() == arr2.length) {
+//		result = true;
+//	}
+//	else {
+//		result = false;
+//	}	
+//	
+//	public static void fillArray(String str, int[] array){
+//		
+//		String substr = "";
+//		int k = 0;
+//		for (int i = 0; i < str.length(); i++) {
+//			substr += str.charAt(i);
+//			k = Integer.parseInt(substr);
+//			array[i] = k;
+//			substr = "";
+//		}
+//		
+//	}
+//	
+	
+	public static void fillArray(String[][] arr, String str) {
+
+		String substr = "";
+		int counterStr = 0;
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr[i].length; j++) {
+
+				substr += str.charAt(counterStr);
+				arr[i][j] = substr;
+				substr = "";
+				counterStr += 1;
+			}
+		}
+	}
 
 	public static String deleteSpace(String str, String newStr) {
 

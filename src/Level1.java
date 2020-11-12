@@ -9,58 +9,78 @@ public class Level1 {
 
 		String newS1 = "";
 		newS1 = deleteSpace(S1, newS1);
-
 		String newS2 = "";
 		newS2 = deleteSpace(S2, newS2);
 
-		int[] arr1 = new int[H1 * W1];
-		int[] arr2 = new int[H2 * W2];
-		ArrayList res = new ArrayList<>();
+		String[][] map = new String[H1][W1];
+		fillArray(map, newS1);
+		String[][] groupingOfTanks = new String[H2][W2];
+		fillArray(groupingOfTanks, newS2);
 
-		if (arr2.length > arr1.length) {
-			result = false;
-		} else {
+		ArrayList<Integer> res = new ArrayList<>();
 
-			fillArray(newS1, arr1);
-			Arrays.sort(arr1);
+		boolean marker = false;
+		int a = 0;
+		int b = 0;
+		String strMap = "";
+		String strGrTanks = "";
 
-			fillArray(newS2, arr2);
-			Arrays.sort(arr2);
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
 
-			int i = 0;
-			int j = 0;
+				for (int k = 0; k < groupingOfTanks.length; k++) {
+					for (int l = 0; l < groupingOfTanks[k].length; l++) {
 
-			while (i < arr1.length && j < arr2.length) {
-				if (arr1[i] > arr2[j]) {
-					j++;
-				} else if (arr1[i] < arr2[j]) {
-					i++;
-				} else {
-					res.add(arr1[i]);
-					i++;
-					j++;
+						strMap = map[i][j];
+						strGrTanks = groupingOfTanks[k][l];
+						a = Integer.parseInt(strMap);
+						b = Integer.parseInt(strGrTanks);
+
+						if (a == b) {
+							marker = true;
+						}
+
+						strMap = "";
+						strGrTanks = "";
+						a = 0;
+						b = 0;
+
+					}
 				}
+
 			}
 
-			if (res.size() == arr2.length) {
+			if (marker == true) {
+				res.add(1);
+			} else {
+				res.add(0);
+			}
+		}
+
+		for (int res1 : res) {
+			if (res1 != 0) {
 				result = true;
 			} else {
 				result = false;
+				break;
 			}
 		}
 
 		return result;
 	}
 
-	public static void fillArray(String str, int[] array) {
+	public static void fillArray(String[][] arr, String str) {
 
 		String substr = "";
-		int k = 0;
-		for (int i = 0; i < str.length(); i++) {
-			substr += str.charAt(i);
-			k = Integer.parseInt(substr);
-			array[i] = k;
-			substr = "";
+		int counterStr = 0;
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr[i].length; j++) {
+
+				substr += str.charAt(counterStr);
+				arr[i][j] = substr;
+				substr = "";
+				counterStr += 1;
+			}
 		}
 	}
 
@@ -73,5 +93,4 @@ public class Level1 {
 		}
 		return newStr;
 	}
-	
 }
