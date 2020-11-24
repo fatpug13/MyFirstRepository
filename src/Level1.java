@@ -3,43 +3,42 @@ import java.util.*;
 
 public class Level1 {
 
-	public static int MaximumDiscount(int N, int[] price) {
+	public static boolean LineAnalysis(String line) {
 
-		int result = 0;
-		Arrays.sort(price);
+		boolean result = true;
+		String pattern = "";
+		int countPointInPattern = 0;
 
-		if (N == 3) {
-			result = price[0];
-		} else if (N > 3) {
+		for (int i = 0; i < line.length(); i++) {
 
-			int countFreeProd = N / 3;
-			int discount = 0;
-
-			for (int i = 0; i < countFreeProd; i++) {
-				discount += price[i];
+			if (i == 0 && line.charAt(i) == '*') {
+				pattern += line.charAt(i);
+			} else if (line.charAt(i) == '.') {
+				pattern += line.charAt(i);
+				countPointInPattern += 1;
+			} else if (line.charAt(i) == '*') {
+				pattern += line.charAt(i);
+				break;
 			}
+		}
 
-			int anotherDiscount = 0;
+		int countPointInLine = 0;
+		for (int i = 0; i < line.length(); i++) {
 
-			for (int i = N - 3; i >= 0;) {
-
-				if (countFreeProd != 0) {
-					anotherDiscount += price[i];
+			if (i == 0 && line.charAt(i) == '*') {
+				countPointInLine = 0;
+			} else if (line.charAt(i) == '.') {
+				countPointInLine += 1;
+			} else if (line.charAt(i) == '*') {
+				if (countPointInLine == countPointInPattern) {
+					result = true;
+					countPointInLine = 0;
+				} else {
+					result = false;
+					countPointInLine = 0;
+					break;
 				}
-
-				countFreeProd--;
-				i -= 3;
 			}
-
-			if (discount > anotherDiscount) {
-				result = discount;
-			} else {
-				result = anotherDiscount;
-			}
-
-		} else {
-
-			result = 0;
 		}
 
 		return result;

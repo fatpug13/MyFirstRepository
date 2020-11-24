@@ -2,6 +2,8 @@
 import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.IntStream;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Program {
 
@@ -11,10 +13,11 @@ public class Program {
 		 * Вызов функций.
 		 */
 
+		String str = "**";
 //		var a = 5;
 //		int[][] arr = new int[][] { { 3, 6, 2 }, { 6, 2, 2 } };
-		var N = 7;
-		int arr[] = new int[]{400,350,300,250,200,150,100};
+//		var N = 7;
+//		int arr[] = new int[]{400,350,300,250,200,150,100};
 //		String s1 = "123";
 //		String s2 = "132";
 //		Boolean octal = false;
@@ -40,7 +43,8 @@ public class Program {
 //		System.out.println(Arrays.toString(UFO(N, arr, octal)));
 //		System.out.println(Unmanned(L, N, arr));
 //		System.out.println(TankRush(H1, W1, S1, H2, W2, S2));
-		System.out.println(MaximumDiscount(N, arr));
+//		System.out.println(MaximumDiscount(N, arr));
+		System.out.println(LineAnalysis(str));
 
 	}
 
@@ -1424,7 +1428,7 @@ public class Program {
 		int travelTime = 0;
 		boolean redSignal = true;
 
-		// данные о каждом светофоре будем складывать в этот массив
+		// данные о каждом светофоре будем записывать в этот массив
 		int[] lights = new int[3];
 		int haveLights = 0;
 		int counterLightsRed = 0;
@@ -1809,4 +1813,73 @@ public class Program {
 		return result;
 	}
 	
+	public static boolean LineAnalysis(String line) {
+
+		/*
+		 * 
+		 * Машинное распознавание паттернов Олег получил инвестиции на стартап по
+		 * машинному обучению, и занимается распознаванием закономерностей в тексте. Его
+		 * первый продукт будет анализировать текст, преобразованный из изображений
+		 * точек и звёздочек, которые рисуют первоклассники в тетрадках.
+		 * Последовательности всегда составлены по общему шаблону, но первоклассники
+		 * пока часто ошибаются, и забывают поставить точку, рисуют лишнюю звёздочку, и
+		 * т. п. На вход программы поступают строки, состоящие из символов "." и "*",
+		 * всегда начинающиеся и завершающиеся звёздочкой. В них всегда повторяется
+		 * единый шаблон, например: *..*..*..*..*..*..* Такой пример считается
+		 * корректным. Однако первоклассники иногда ошибаются, и могут написать такие
+		 * ошибочные строки: *..*...*..*..*..*..* ..*..*..*..*..**..* Ещё примеры
+		 * корректных строк: * *** *.......*.......* ** *.* Функция bool
+		 * LineAnalysis(string line) получает на вход строку для анализа и возвращает
+		 * логическое true/false, обозначающее корректность строки.
+		 */
+
+		boolean result = true;
+
+		// определим шаблон который используется в строке
+		
+
+		// Каждая строка начинается и заканчивается "*". Посчитаем сколько точек между
+		// звездочками.
+		String pattern = "";
+		int countPointInPattern = 0;
+		for (int i = 0; i < line.length(); i++) {
+
+			if (i == 0 && line.charAt(i) == '*') {
+				pattern += line.charAt(i);
+			} else if (line.charAt(i) == '.') {
+				pattern += line.charAt(i);
+				countPointInPattern += 1;
+			} else if (line.charAt(i) == '*') {
+				pattern += line.charAt(i);
+				break;
+			}
+
+		}
+
+		System.out.println(countPointInPattern);
+		System.out.println(pattern);
+
+		// обойдем строку еще раз и опеределим результат
+		int countPointInLine = 0;
+		for (int i = 0; i < line.length(); i++) {
+
+			if (i == 0 && line.charAt(i) == '*') {
+				countPointInLine = 0;
+			} else if (line.charAt(i) == '.') {
+				countPointInLine += 1;
+			} else if (line.charAt(i) == '*') {
+				if (countPointInLine == countPointInPattern) {
+					result = true;
+					countPointInLine = 0;
+				} else {
+					result = false;
+					countPointInLine = 0;
+					break;
+				}
+			}
+		}
+
+		return result;
+	}
+		
 }
