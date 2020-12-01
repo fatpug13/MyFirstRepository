@@ -68,6 +68,6 @@ public class Level1 {
 			}
 			numOftry++;
 
-		} while (needIteration != false || numOftry < 3);
+		} while ((needIteration != false) && (numOftry < 3));
 	}
 }

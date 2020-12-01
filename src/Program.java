@@ -15,8 +15,8 @@ public class Program {
 //		String str = "**";
 //		var a = 5;
 //		int[][] arr = new int[][] { { 3, 6, 2 }, { 6, 2, 2 } };
-		var N = 7;
-		int arr[] = new int[]{1,3,4,5,6,2,7};
+		var N = 10;
+		int arr[] = new int[]{1,3,4,5,6,3,3,3,3,3};
 //		String s1 = "123";
 //		String s2 = "132";
 //		Boolean octal = false;
@@ -1999,7 +1999,7 @@ public class Program {
 			}			
 			numOftry ++;
 			
-		} while(needIteration != false || numOftry < 3 );
+		} while ((needIteration != false) && (numOftry < 3));
 	}
 
 	
