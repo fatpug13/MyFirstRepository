@@ -2,8 +2,7 @@
 import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.IntStream;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+
 
 public class Program {
 
@@ -13,11 +12,11 @@ public class Program {
 		 * Вызов функций.
 		 */
 
-		String str = "**";
+//		String str = "**";
 //		var a = 5;
 //		int[][] arr = new int[][] { { 3, 6, 2 }, { 6, 2, 2 } };
-//		var N = 7;
-//		int arr[] = new int[]{400,350,300,250,200,150,100};
+		var N = 7;
+		int arr[] = new int[]{1,3,4,5,6,2,7};
 //		String s1 = "123";
 //		String s2 = "132";
 //		Boolean octal = false;
@@ -44,7 +43,8 @@ public class Program {
 //		System.out.println(Unmanned(L, N, arr));
 //		System.out.println(TankRush(H1, W1, S1, H2, W2, S2));
 //		System.out.println(MaximumDiscount(N, arr));
-		System.out.println(LineAnalysis(str));
+//		System.out.println(LineAnalysis(str));
+		System.out.println(MisterRobot(N, arr));
 
 	}
 
@@ -1859,7 +1859,7 @@ public class Program {
 		System.out.println(countPointInPattern);
 		System.out.println(pattern);
 
-		// обойдем строку еще раз и опеределим результат
+		// обойдем строку еще раз и сравинм количество точек во всей строке между "*" и количестовм точек в шаблоне.
 		int countPointInLine = 0;
 		for (int i = 0; i < line.length(); i++) {
 
@@ -1881,5 +1881,126 @@ public class Program {
 
 		return result;
 	}
+	
+	public static boolean MisterRobot(int N, int[] data) {
 		
+		/*
+		 * Хакер Эллиот (Мистер Робот) подбирает код для проникновения в хранилище
+		 * данных "Стальная гора". Он собирается взломать систему климат-контроля, чтобы
+		 * уничтожить все магнитные ленты Корпорации Зла. Помогите Эллиоту подобрать
+		 * подходящий смарт-контроллер, который бы допускал потенциальную возможность
+		 * взлома. Для анализа поступает массив, в котором случайно перемешаны числа от
+		 * 1 до N (без пропусков), N > 4. Например, N=7 [1,3,4,5,6,2,7]
+		 * 
+		 * Хакерская утилита может делать только одну операцию: брать любые три идущие
+		 * подряд элемента массива, и сдвигать их по кругу влево произвольное количество
+		 * раз. Но эту операцию она может выполнять неограниченное количество раз.
+		 * 
+		 * Например:
+		 * 
+		 * [1,3,4,5,6,2,7] [5,6,2] -> [6,2,5] -> [2,5,6] [1,3,4,2,5,6,7] [3,4,2] ->
+		 * [4,2,3] -> [2,3,4] [1,2,3,4,5,6,7] OK
+		 * 
+		 * Задача: определить, можно ли с помощью этой операции превратить массив в
+		 * упорядоченный по возрастанию. Программа должна работать быстро (укладываться
+		 * в 1 секунду при N ~= 10).
+		 * 
+		 * Функция
+		 * 
+		 * bool MisterRobot(int N, int [] data)
+		 * 
+		 * получает значение N и сам массив, и возвращает true, если этот массив
+		 * возможно упорядочить вышеописанным способом.
+		 */
+		
+		//запомним занчения в начале выполнения кода
+		long start = System.currentTimeMillis();
+		
+		
+		boolean result = false;
+		int ctr = N - 2;
+		int takingElem = N - 2;
+		int[] array2 = new int[3];
+		
+		//сколько раз можно взять 3 элемента из массива?
+		int couterTry = N/3;
+		System.out.println(N/3);
+		
+		do {
+			// взять три элемента из массива 
+			for (int i = 2; i >= 0; i--) {
+				if (takingElem != 0) {
+					array2[i] = data[takingElem];
+					takingElem--;
+				} 
+			}
+			//Нам нужно захватить один элемент из прошлой итерации цикла do
+			takingElem ++;
+			System.out.println(Arrays.toString(array2));
+
+			// передать массив с тремя элементами в функцию сдвига по куругу.
+			performLeftShift(array2);
+			System.out.println(Arrays.toString(array2));
+
+			// вставить в массив
+			for (int i = 2; i >= 0; i--) {
+				if (ctr != 0) {
+					data[ctr] = array2[i];
+					ctr--;
+				}
+			}
+			//так как при вставке в массив брали элемент который использовали в предыдущей итерации цикла do
+			ctr++;
+			// проверить остортирован ли весь массив. если истина вернуть истина
+			for (int i = 0; i < data.length - 1; i++) {
+				if (data[i + 1] < data[i]) {
+					result = false;
+					break;
+				}
+				result = true;
+			}
+
+			System.out.println(Arrays.toString(data));
+			
+			//уменьшим количество попыток
+			couterTry --;
+			
+		} while (couterTry != 0);
+		
+		//выводим время выполнения программы
+		System.out.println("Время выполнение программы: " + (System.currentTimeMillis() - start) + " Мсек");
+		return result;
+	}
+	
+	private static void performLeftShift(int[] arr) {
+
+		/*
+		 * Функция выполняет сдвиг элементов влево по кругу а затем проверяет
+		 * остортирован ли массив по возрастанию. После того как все элменты 
+		 * прошли 1 круг и если элементы в нем не отсортированы по возрастанию, 
+		 * заканчивает работу.  
+		 */
+		int numOftry = 0;
+		boolean needIteration = false;
+
+		do	{
+			int tmp = arr[0];
+			for (int j = 0; j < arr.length - 1; j++) {
+				arr[j] = arr[j + 1];
+			}
+			arr[arr.length - 1] = tmp;
+			//массив отсортировани по возрастанию? 
+			for (int i = 0; i < arr.length - 1; i++) {
+				if (arr[i + 1] < arr[i]) {
+					needIteration = true;
+					break;
+				}
+				needIteration = false;
+			}			
+			numOftry ++;
+			
+		} while(needIteration != false || numOftry < 3 );
+	}
+
+	
 }
