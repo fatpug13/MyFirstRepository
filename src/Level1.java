@@ -3,71 +3,54 @@ import java.util.*;
 
 public class Level1 {
 
-	public static boolean MisterRobot(int N, int[] data) {
+	private static String[] ShopOLAP(int N, String[] items) {
 
-		boolean result = false;
-		int ctr = N - 2;
-		int takenElem = N - 2;
-		int[] array2 = new int[3];
-		
-		int couterTry = N / 3;
-		do {
+		String[] result = null;
+		TreeMap<String, Integer> productSales = new TreeMap<String, Integer>();
 
-			for (int i = 2; i >= 0; i--) {
-				if (takenElem != 0) {
-					array2[i] = data[takenElem];
-					takenElem--;
+		String nameProd = "";
+		String priceStr = "";
+		boolean fullName = false;
+		int currentValue = 0;
+		for (int i = 0; i < items.length; i++) {
+
+			for (int j = 0; j < items[i].length(); j++) {
+
+				if (fullName == false) {
+					if (items[i].charAt(j) != ' ') {
+						nameProd += items[i].charAt(j);
+					} else {
+						fullName = true;
+					}
+				} else {
+					priceStr += items[i].charAt(j);
 				}
 			}
-			takenElem++;
-			
-			performLeftShift(array2);
 
-			for (int i = 2; i >= 0; i--) {
-				if (ctr != 0) {
-					data[ctr] = array2[i];
-					ctr--;
-				}
+			int price = Integer.parseInt(priceStr);
+			if (productSales.containsKey(nameProd) == true) {
+
+				currentValue = productSales.get(nameProd);
+				price += currentValue;
+
+				productSales.put(nameProd, price);
+			} else {
+				productSales.put(nameProd, price);
 			}
-			ctr++;
+			nameProd = "";
+			priceStr = "";
+			price = 0;
+			fullName = false;
+		}
 
-			for (int i = 0; i < data.length - 1; i++) {
-				if (data[i + 1] < data[i]) {
-					result = false;
-					break;
-				}
-				result = true;
-			}
+		result = new String[productSales.size()];
+		int i = 0;
 
-			couterTry--;
-
-		} while (couterTry != 0);
-
+		for (Map.Entry<String, Integer> entry : productSales.entrySet()) {
+			result[i] = entry.getKey() + " " + Integer.toString(entry.getValue());
+			i++;
+		}
 		return result;
 	}
 
-	private static void performLeftShift(int[] arr) {
-
-		int numOftry = 0;
-		boolean needIteration = false;
-
-		do {
-			int tmp = arr[0];
-			for (int j = 0; j < arr.length - 1; j++) {
-				arr[j] = arr[j + 1];
-			}
-			
-			arr[arr.length - 1] = tmp;
-
-			for (int i = 0; i < arr.length - 1; i++) {
-				if (arr[i + 1] < arr[i]) {
-					needIteration = true;
-					break;
-				}
-				needIteration = false;
-			}
-			numOftry++;
-
-		} while ((needIteration != false) && (numOftry < 3));
-	}
 }

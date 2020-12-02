@@ -16,7 +16,8 @@ public class Program {
 //		var a = 5;
 //		int[][] arr = new int[][] { { 3, 6, 2 }, { 6, 2, 2 } };
 		var N = 10;
-		int arr[] = new int[]{1,3,4,5,6,3,3,3,3,3};
+//		int arr[] = new int[]{1,3,4,5,6,3,3,3,3,3};
+		String arr[] = new String[] {"платье1 5", "сумка32 2","платье1 1","сумка23 2","сумка128 4"};
 //		String s1 = "123";
 //		String s2 = "132";
 //		Boolean octal = false;
@@ -44,7 +45,8 @@ public class Program {
 //		System.out.println(TankRush(H1, W1, S1, H2, W2, S2));
 //		System.out.println(MaximumDiscount(N, arr));
 //		System.out.println(LineAnalysis(str));
-		System.out.println(MisterRobot(N, arr));
+//		System.out.println(MisterRobot(N, arr));
+		System.out.println(Arrays.toString(ShopOLAP(N, arr)));
 
 	}
 
@@ -2002,5 +2004,103 @@ public class Program {
 		} while ((needIteration != false) && (numOftry < 3));
 	}
 
+	private static String[] ShopOLAP(int N, String [] items) {
+		
+		/*
+		 * Интернет-магазин "Платья и Сумки" быстро расширяется, и его создатели
+		 * заинтересованы в подробной аналитической отчётности о продажах товара. К
+		 * сожалению, первая версия магазина была сделана очень криво, поэтому данные
+		 * хранятся в системе в виде, плохо подходящем для обработки. Так, каждая запись
+		 * о продаже представляет собой строку формата
+		 * 
+		 * название-товара количество-проданных-штук
+		 * 
+		 * например:
+		 * 
+		 * платье1 5 сумка32 2 платье1 1 сумка23 2 сумка128 4
+		 * 
+		 * Названия товаров могут повторяться.
+		 * 
+		 * Ваша задача: сгруппировать продажи по названиям товаров, расположив в
+		 * результирующем списке товары, отсортированные по количеству продаж. Если эти
+		 * количества для каких-то товаров совпадут, названия товаров должны следовать в
+		 * порядке лексикографического возрастания.
+		 * 
+		 * Например, вышеприведённый пример преобразуется в такой результат:
+		 * 
+		 * платье1 6 сумка128 4 сумка23 2 сумка32 2
+		 * 
+		 * Функция
+		 * 
+		 * string [] ShopOLAP(int N, string [] items)
+		 * 
+		 * получает на вход N >= 1 строк о товарах в вышеприведённом формате, и выдаёт
+		 * массив длиной M <= N, содержащий сводку по продажам в сгруппированном виде.
+		 */
+		
+		String[] result = null;
+
+		// создадим струтуру имя товара - кол-во проданных штук, которая автоматически
+		// будет отсортирована компаратором.
+		TreeMap<String, Integer> productSales = new TreeMap<String, Integer>();
+
+		// обйдем каждый элемент массива собирая нименование товара по символам, при
+		// встрече с пробелом, запишем нименование товара в структуру а после,
+		// добавим количество проданных штук.
+
+		String nameProd = "";
+		String priceStr = "";
+		boolean fullName = false;
+		int currentValue = 0;
+		for (int i = 0; i < items.length; i++) {
+
+			for (int j = 0; j < items[i].length(); j++) {
+				// получим символ
+				if (fullName == false) {
+					if (items[i].charAt(j) != ' ') {
+						nameProd += items[i].charAt(j);
+					} else {
+						// встретили пробел
+						fullName = true;
+					}
+				} else {
+					priceStr += items[i].charAt(j);
+				}
+			}
+			// преобразуем перем priceStr в число
+			int price = Integer.parseInt(priceStr);
+			// добавим данные в структуру
+			if (productSales.containsKey(nameProd) == true) {
+				// прибавим к имеющемуся значению
+				currentValue = productSales.get(nameProd);
+				price += currentValue;
+				// добавим запись
+				productSales.put(nameProd, price);
+			} else {
+				productSales.put(nameProd, price);
+			}
+			// очистим переменные для нового элемента
+			nameProd = "";
+			priceStr = "";
+			price = 0;
+			fullName = false;
+		}
+
+		for (Map.Entry<String, Integer> entry : productSales.entrySet()) {
+
+			System.out.println(entry.getKey() + " = " + entry.getValue());
+		}
+
+		// перепишем структуру в массив
+		// инициализируем массив
+		result = new String[productSales.size()];
+		int i = 0;
+		for (Map.Entry<String, Integer> entry : productSales.entrySet()) {
+
+			result[i] = entry.getKey() + " " + Integer.toString(entry.getValue());
+			i++;
+		}
+		return result;
+	}
 	
 }
