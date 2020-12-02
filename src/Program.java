@@ -2004,7 +2004,7 @@ public class Program {
 		} while ((needIteration != false) && (numOftry < 3));
 	}
 
-	private static String[] ShopOLAP(int N, String [] items) {
+	private static String[] ShopOLAP(int N, String[] items) {
 		
 		/*
 		 * Интернет-магазин "Платья и Сумки" быстро расширяется, и его создатели

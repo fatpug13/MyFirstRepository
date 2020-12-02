@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Level1 {
 
-	private static String[] ShopOLAP(int N, String[] items) {
+	public static String[] ShopOLAP(int N, String[] items) {
 
 		String[] result = null;
 		TreeMap<String, Integer> productSales = new TreeMap<String, Integer>();
