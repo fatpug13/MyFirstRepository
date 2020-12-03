@@ -42,14 +42,33 @@ public class Level1 {
 			price = 0;
 			fullName = false;
 		}
+		
+		List list = new ArrayList(productSales.entrySet());
+		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+			@Override
+			public int compare(Map.Entry<String, Integer> a, Map.Entry<String, Integer> b) {
+				return b.getValue().compareTo(a.getValue());
+			}
+		});
 
-		result = new String[productSales.size()];
-		int i = 0;
+		result = new String[list.size()];
+		String str = "";
+		String product = "";
 
-		for (Map.Entry<String, Integer> entry : productSales.entrySet()) {
-			result[i] = entry.getKey() + " " + Integer.toString(entry.getValue());
-			i++;
+		for (int i = 0; i < list.size(); i++) {
+			str += list.get(i);
+			for (int j = 0; j < str.length(); j++) {
+				if (str.charAt(j) == '=') {
+					product += " ";
+				} else {
+					product += str.charAt(j);
+				}
+			}
+			result[i] = product;
+			product = "";
+			str = "";
 		}
+
 		return result;
 	}
 

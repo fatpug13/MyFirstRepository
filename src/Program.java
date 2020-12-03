@@ -1,7 +1,11 @@
 
 import java.math.BigInteger;
 import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 
 public class Program {
@@ -17,7 +21,7 @@ public class Program {
 //		int[][] arr = new int[][] { { 3, 6, 2 }, { 6, 2, 2 } };
 		var N = 10;
 //		int arr[] = new int[]{1,3,4,5,6,3,3,3,3,3};
-		String arr[] = new String[] {"платье1 5", "сумка32 2","платье1 1","сумка23 2","сумка128 4"};
+		String arr[] = new String[] {"платье1 5", "сумка32 2","платье1 1","сумка23 2","сумка128 9"};
 //		String s1 = "123";
 //		String s2 = "132";
 //		Boolean octal = false;
@@ -2042,7 +2046,7 @@ public class Program {
 
 		// создадим струтуру имя товара - кол-во проданных штук, которая автоматически
 		// будет отсортирована компаратором.
-		TreeMap<String, Integer> productSales = new TreeMap<String, Integer>();
+		TreeMap<String, Integer> productSales = new TreeMap<>();
 
 		// обйдем каждый элемент массива собирая нименование товара по символам, при
 		// встрече с пробелом, запишем нименование товара в структуру а после,
@@ -2086,20 +2090,34 @@ public class Program {
 			fullName = false;
 		}
 
-		for (Map.Entry<String, Integer> entry : productSales.entrySet()) {
+		List list = new ArrayList(productSales.entrySet());
+		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+			@Override
+			public int compare(Map.Entry<String, Integer> a, Map.Entry<String, Integer> b) {
+				return b.getValue().compareTo(a.getValue());
+			}
+		});
+		System.out.println(list);
 
-			System.out.println(entry.getKey() + " = " + entry.getValue());
-		}
-
-		// перепишем структуру в массив
 		// инициализируем массив
-		result = new String[productSales.size()];
-		int i = 0;
-		for (Map.Entry<String, Integer> entry : productSales.entrySet()) {
+		result = new String[list.size()];
+		String str = "";
+		String product = "";
 
-			result[i] = entry.getKey() + " " + Integer.toString(entry.getValue());
-			i++;
+		for (int i = 0; i < list.size(); i++) {
+			str += list.get(i);
+			for (int j = 0; j < str.length(); j++) {
+				if (str.charAt(j) == '=') {
+					product += " ";
+				} else {
+					product += str.charAt(j);
+				}
+			}
+			result[i] = product;
+			product = "";
+			str = "";
 		}
+
 		return result;
 	}
 	
