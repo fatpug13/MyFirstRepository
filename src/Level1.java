@@ -3,70 +3,173 @@ import java.util.*;
 
 public class Level1 {
 
-	public static String[] ShopOLAP(int N, String[] items) {
+	static boolean undoComm = false;
+	static boolean clearHistory = false;
+	static int counterUndo = 2;
+	static int counterIter = 1;
+	static LinkedList<String> historyCommand1And2 = new LinkedList<String>();
+	static LinkedList<String> historyAllCommand = new LinkedList<String>();
 
-		String[] result = null;
-		TreeMap<String, Integer> productSales = new TreeMap<String, Integer>();
+	public static String BastShoe(String command) {
 
-		String nameProd = "";
-		String priceStr = "";
-		boolean fullName = false;
-		int currentValue = 0;
-		for (int i = 0; i < items.length; i++) {
+		String result = "";
+		char numbCommand = ' ';
+		String param = "";
 
-			for (int j = 0; j < items[i].length(); j++) {
+		for (int i = 0; i < command.length(); i++) {
+			if (i == 0) {
+				numbCommand = command.charAt(i);
+			} else {
+				if (i == 1) {
 
-				if (fullName == false) {
-					if (items[i].charAt(j) != ' ') {
-						nameProd += items[i].charAt(j);
-					} else {
-						fullName = true;
+				} else if (i == 2) {
+					if (command.charAt(i) != ' ') {
+						param += command.charAt(i);
 					}
 				} else {
-					priceStr += items[i].charAt(j);
+					param += command.charAt(i);
 				}
 			}
-
-			int price = Integer.parseInt(priceStr);
-			if (productSales.containsKey(nameProd) == true) {
-
-				currentValue = productSales.get(nameProd);
-				price += currentValue;
-
-				productSales.put(nameProd, price);
-			} else {
-				productSales.put(nameProd, price);
-			}
-			nameProd = "";
-			priceStr = "";
-			price = 0;
-			fullName = false;
 		}
-		
-		List list = new ArrayList(productSales.entrySet());
-		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
-			@Override
-			public int compare(Map.Entry<String, Integer> a, Map.Entry<String, Integer> b) {
-				return b.getValue().compareTo(a.getValue());
+
+		if (counterIter == 1) {
+			historyAllCommand.addLast("");
+		}
+
+		String word = "";
+		String currentCommand = "";
+		int indexCommand = 0;
+
+		switch (numbCommand) {
+		case '1':
+
+			word = historyAllCommand.getLast();
+			result = addText(param, word);
+
+			if (undoComm == true) {
+				historyCommand1And2.clear();
+				historyCommand1And2.addLast(result);
+				historyCommand1And2.addLast(word);
+				clearHistory = true;
+			} else {
+				historyCommand1And2.addLast(result);
+				counterUndo = 2;
 			}
-		});
 
-		result = new String[list.size()];
-		String str = "";
-		String product = "";
+			historyAllCommand.addLast(result);
 
-		for (int i = 0; i < list.size(); i++) {
-			str += list.get(i);
-			for (int j = 0; j < str.length(); j++) {
-				if (str.charAt(j) == '=') {
-					product += " ";
+			break;
+		case '2':
+
+			word = historyAllCommand.getLast();
+			result = dellSymbol(param, word);
+
+			if (undoComm == true) {
+				historyCommand1And2.clear();
+				historyCommand1And2.addLast(result);
+				historyCommand1And2.addLast(word);
+				clearHistory = true;
+			} else {
+				historyCommand1And2.addLast(result);
+				counterUndo = 2;
+			}
+
+			historyAllCommand.addLast(result);
+
+			break;
+		case '3':
+
+			word = historyAllCommand.getLast();
+			result = getSymbol(param, word);
+			historyAllCommand.addLast(result);
+
+			break;
+		case '4':
+
+			if (clearHistory == true) {
+				result = historyCommand1And2.getLast();
+			} else {
+				currentCommand = historyAllCommand.getLast();
+				indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
+
+				if (indexCommand - 1 > 0) {
+					result = historyCommand1And2.get(indexCommand - 1);
 				} else {
-					product += str.charAt(j);
+					result = historyCommand1And2.getFirst();
 				}
 			}
-			result[i] = product;
-			product = "";
-			str = "";
+
+			historyAllCommand.addLast(result);
+			undoComm = true;
+
+			break;
+		case '5':
+
+			if (clearHistory == true) {
+				result = historyCommand1And2.getFirst();
+			} else {
+				currentCommand = historyAllCommand.getLast();
+				indexCommand = historyCommand1And2.indexOf(currentCommand);
+				if (indexCommand + 1 < historyCommand1And2.size()) {
+					result = historyCommand1And2.get(indexCommand + 1);
+				} else {
+					result = historyCommand1And2.getLast();
+				}
+
+				counterUndo = 2;
+			}
+
+			historyAllCommand.addLast(result);
+
+			break;
+
+		default:
+
+			result = historyAllCommand.getLast();
+		}
+
+		counterIter++;
+		return result;
+	}
+
+	public static String addText(String s1, String s2) {
+
+		String result = "";
+		if (s2.isEmpty()) {
+			result = s1;
+		} else {
+			result = s2;
+			for (int i = 0; i < s1.length(); i++) {
+				result += s1.charAt(i);
+			}
+		}
+
+		return result;
+	}
+
+	public static String dellSymbol(String countSymbols, String s2) {
+
+		String result = "";
+		int countSy = Integer.parseInt(countSymbols);
+
+		if (countSy <= s2.length()) {
+			for (int i = 0; i < s2.length() - countSy; i++) {
+				result += s2.charAt(i);
+			}
+		} else {
+
+		}
+
+		return result;
+	}
+
+	public static String getSymbol(String indexSymbol, String s2) {
+
+		String result = "";
+		int numbSymb = Integer.parseInt(indexSymbol);
+		if (numbSymb <= s2.length()) {
+			result += s2.charAt(numbSymb);
+		} else {
 		}
 
 		return result;

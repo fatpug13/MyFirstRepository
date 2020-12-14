@@ -1,16 +1,21 @@
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.*;
-import java.util.Map.Entry;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 
 public class Program {
+	
+	static boolean undoComm = false;
+	static boolean clearHistory = false;
+	static int counterUndo = 2;
+	static int counterIter = 1;
+	static LinkedList<String> historyCommand1And2 = new LinkedList<String>();
+	static LinkedList<String> historyAllCommand = new LinkedList<String>();
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		/*
 		 * Вызов функций.
@@ -19,9 +24,9 @@ public class Program {
 //		String str = "**";
 //		var a = 5;
 //		int[][] arr = new int[][] { { 3, 6, 2 }, { 6, 2, 2 } };
-		var N = 10;
+		var N = "1 Привет";
 //		int arr[] = new int[]{1,3,4,5,6,3,3,3,3,3};
-		String arr[] = new String[] {"платье1 5", "сумка32 2","платье1 1","сумка23 2","сумка128 9"};
+//		String arr[] = new String[] {"платье1 5", "сумка32 2","платье1 1","сумка23 2","сумка128 9"};
 //		String s1 = "123";
 //		String s2 = "132";
 //		Boolean octal = false;
@@ -50,8 +55,15 @@ public class Program {
 //		System.out.println(MaximumDiscount(N, arr));
 //		System.out.println(LineAnalysis(str));
 //		System.out.println(MisterRobot(N, arr));
-		System.out.println(Arrays.toString(ShopOLAP(N, arr)));
+//		System.out.println(Arrays.toString(ShopOLAP(N, arr)));
 
+		Scanner sc = new Scanner("1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n"+ "6 100\n"); //"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "4 \n" + "4 \n" + "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n");	//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");
+
+		while (sc.hasNext()) {
+			System.out.println(BastShoe(sc.nextLine()));
+		}
+
+		sc.close();
 	}
 
 	public static boolean startsWith(String text, String substr)
@@ -75,7 +87,7 @@ public class Program {
 		/*
 		 * ... вернуть строкой первое число факториала ...
 		 */
-		
+
 		var result = 1;
 
 		if (N == 0 || N == 1) {
@@ -1740,9 +1752,9 @@ public class Program {
 		}
 		return newStr;
 	}
-	
-	public static int MaximumDiscount(int N, int [] price) {
-		
+
+	public static int MaximumDiscount(int N, int[] price) {
+
 		/*
 		 * Шопоголики Оксана -- шопоголик. Она постоянно выискивает магазины, где
 		 * предлагаются различные скидки, и совершает на них опустошающие набеги.
@@ -1765,60 +1777,59 @@ public class Program {
 		 * price) получает на вход количество предметов N и список их цен. Возвращает
 		 * она максимально возможную величину скидки.
 		 */
-				
+
 		int result = 0;
-		
-		//отсортируем массив price по возр.
+
+		// отсортируем массив price по возр.
 		Arrays.sort(price);
-		//System.out.println(Arrays.toString(price));
-		
-		if (N == 3) {	
-			//0й элемент массива, это возможная выгода при таком количестве покупок.
+		// System.out.println(Arrays.toString(price));
+
+		if (N == 3) {
+			// 0й элемент массива, это возможная выгода при таком количестве покупок.
 			result = price[0];
-		}else if (N > 3) {
-			
+		} else if (N > 3) {
+
 			// посчитаем сколько мы можем забрать товаров бесплатно
-			int countFreeProd = N / 3; 
-			//System.out.println(countFreeProd);
+			int countFreeProd = N / 3;
+			// System.out.println(countFreeProd);
 			// посчитаем нашу скидку
 			int discount = 0;
 			for (int i = 0; i < countFreeProd; i++) {
 				discount += price[i];
 			}
-			//System.out.println(discount);
-			
-			//можем увеличить нашу скидку?
-			//обойдем массив с конца и посчитаем каждый третий элемент
-			//затем сравним что получилось с перем discount
+			// System.out.println(discount);
+
+			// можем увеличить нашу скидку?
+			// обойдем массив с конца и посчитаем каждый третий элемент
+			// затем сравним что получилось с перем discount
 			int anotherDiscount = 0;
-			
-			for(int i = N - 3; i >= 0;) {
-				
-				//System.out.println(price[i]);
-				
+
+			for (int i = N - 3; i >= 0;) {
+
+				// System.out.println(price[i]);
+
 				if (countFreeProd != 0) {
 					anotherDiscount += price[i];
 				}
-				
-				countFreeProd --;
-				i -= 3; 
+
+				countFreeProd--;
+				i -= 3;
 			}
-			
+
 			if (discount > anotherDiscount) {
 				result = discount;
-			}else {
+			} else {
 				result = anotherDiscount;
 			}
-			
-		}else {
-			//нет скидки
+
+		} else {
+			// нет скидки
 			result = 0;
 		}
-		
 
 		return result;
 	}
-	
+
 	public static boolean LineAnalysis(String line) {
 
 		/*
@@ -1842,7 +1853,6 @@ public class Program {
 		boolean result = true;
 
 		// определим шаблон который используется в строке
-		
 
 		// Каждая строка начинается и заканчивается "*". Посчитаем сколько точек между
 		// звездочками.
@@ -1865,7 +1875,8 @@ public class Program {
 		System.out.println(countPointInPattern);
 		System.out.println(pattern);
 
-		// обойдем строку еще раз и сравинм количество точек во всей строке между "*" и количестовм точек в шаблоне.
+		// обойдем строку еще раз и сравинм количество точек во всей строке между "*" и
+		// количестовм точек в шаблоне.
 		int countPointInLine = 0;
 		for (int i = 0; i < line.length(); i++) {
 
@@ -1887,9 +1898,9 @@ public class Program {
 
 		return result;
 	}
-	
+
 	public static boolean MisterRobot(int N, int[] data) {
-		
+
 		/*
 		 * Хакер Эллиот (Мистер Робот) подбирает код для проникновения в хранилище
 		 * данных "Стальная гора". Он собирается взломать систему климат-контроля, чтобы
@@ -1918,30 +1929,29 @@ public class Program {
 		 * получает значение N и сам массив, и возвращает true, если этот массив
 		 * возможно упорядочить вышеописанным способом.
 		 */
-		
-		//запомним занчения в начале выполнения кода
+
+		// запомним занчения в начале выполнения кода
 		long start = System.currentTimeMillis();
-		
-		
+
 		boolean result = false;
 		int ctr = N - 2;
 		int takingElem = N - 2;
 		int[] array2 = new int[3];
-		
-		//сколько раз можно взять 3 элемента из массива?
-		int couterTry = N/3;
-		System.out.println(N/3);
-		
+
+		// сколько раз можно взять 3 элемента из массива?
+		int couterTry = N / 3;
+		System.out.println(N / 3);
+
 		do {
-			// взять три элемента из массива 
+			// взять три элемента из массива
 			for (int i = 2; i >= 0; i--) {
 				if (takingElem != 0) {
 					array2[i] = data[takingElem];
 					takingElem--;
-				} 
+				}
 			}
-			//Нам нужно захватить один элемент из прошлой итерации цикла do
-			takingElem ++;
+			// Нам нужно захватить один элемент из прошлой итерации цикла do
+			takingElem++;
 			System.out.println(Arrays.toString(array2));
 
 			// передать массив с тремя элементами в функцию сдвига по куругу.
@@ -1955,7 +1965,8 @@ public class Program {
 					ctr--;
 				}
 			}
-			//так как при вставке в массив брали элемент который использовали в предыдущей итерации цикла do
+			// так как при вставке в массив брали элемент который использовали в предыдущей
+			// итерации цикла do
 			ctr++;
 			// проверить остортирован ли весь массив. если истина вернуть истина
 			for (int i = 0; i < data.length - 1; i++) {
@@ -1967,49 +1978,49 @@ public class Program {
 			}
 
 			System.out.println(Arrays.toString(data));
-			
-			//уменьшим количество попыток
-			couterTry --;
-			
+
+			// уменьшим количество попыток
+			couterTry--;
+
 		} while (couterTry != 0);
-		
-		//выводим время выполнения программы
+
+		// выводим время выполнения программы
 		System.out.println("Время выполнение программы: " + (System.currentTimeMillis() - start) + " Мсек");
 		return result;
 	}
-	
+
 	private static void performLeftShift(int[] arr) {
 
 		/*
 		 * Функция выполняет сдвиг элементов влево по кругу а затем проверяет
-		 * остортирован ли массив по возрастанию. После того как все элменты 
-		 * прошли 1 круг и если элементы в нем не отсортированы по возрастанию, 
-		 * заканчивает работу.  
+		 * остортирован ли массив по возрастанию. После того как все элменты прошли 1
+		 * круг и если элементы в нем не отсортированы по возрастанию, заканчивает
+		 * работу.
 		 */
 		int numOftry = 0;
 		boolean needIteration = false;
 
-		do	{
+		do {
 			int tmp = arr[0];
 			for (int j = 0; j < arr.length - 1; j++) {
 				arr[j] = arr[j + 1];
 			}
 			arr[arr.length - 1] = tmp;
-			//массив отсортировани по возрастанию? 
+			// массив отсортировани по возрастанию?
 			for (int i = 0; i < arr.length - 1; i++) {
 				if (arr[i + 1] < arr[i]) {
 					needIteration = true;
 					break;
 				}
 				needIteration = false;
-			}			
-			numOftry ++;
-			
+			}
+			numOftry++;
+
 		} while ((needIteration != false) && (numOftry < 3));
 	}
 
 	public static String[] ShopOLAP(int N, String[] items) {
-		
+
 		/*
 		 * Интернет-магазин "Платья и Сумки" быстро расширяется, и его создатели
 		 * заинтересованы в подробной аналитической отчётности о продажах товара. К
@@ -2041,7 +2052,7 @@ public class Program {
 		 * получает на вход N >= 1 строк о товарах в вышеприведённом формате, и выдаёт
 		 * массив длиной M <= N, содержащий сводку по продажам в сгруппированном виде.
 		 */
-		
+
 		String[] result = null;
 
 		// создадим струтуру имя товара - кол-во проданных штук, которая автоматически
@@ -2049,7 +2060,7 @@ public class Program {
 		TreeMap<String, Integer> productSales = new TreeMap<>();
 
 		// обйдем каждый элемент массива собирая нименование товара по символам, при
-		// встрече с пробелом, запишем нименование товара в структуру а после,
+		// встрече с пробелом, запишем наименование товара в структуру а после,
 		// добавим количество проданных штук.
 
 		String nameProd = "";
@@ -2090,6 +2101,7 @@ public class Program {
 			fullName = false;
 		}
 
+		// отсортируем мапу, переписав ее в ArrayList
 		List list = new ArrayList(productSales.entrySet());
 		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
 			@Override
@@ -2097,13 +2109,12 @@ public class Program {
 				return b.getValue().compareTo(a.getValue());
 			}
 		});
-		System.out.println(list);
 
 		// инициализируем массив
 		result = new String[list.size()];
 		String str = "";
 		String product = "";
-
+		// перепишем лист в массив игнорируя знак =.
 		for (int i = 0; i < list.size(); i++) {
 			str += list.get(i);
 			for (int j = 0; j < str.length(); j++) {
@@ -2120,5 +2131,279 @@ public class Program {
 
 		return result;
 	}
-	
+
+	public static String BastShoe(String command) {
+
+		/*
+		 * В рамках проекта тотального импортозамещения решено полностью с нуля
+		 * переписать весь офисный софт в стране. Вы получили подряд с бюджетом миллион
+		 * рублей по созданию оригинального текстового редактора "Лапоть". Закодируйте
+		 * его максимально компактно!
+		 * 
+		 * "Лапоть" поддерживает пять операций:
+		 * 
+		 * 1. Добавить(S) -- в конец текущей строки (исходно пустая) добавляется строка
+		 * S;
+		 * 
+		 * 2. Удалить(N) -- удалить N символов из конца текущей строки. Если N больше
+		 * длины текущей строки, удаляем из неё все символы;
+		 * 
+		 * 3. Выдать(i) -- выдать i-й символ текущей строки (индексация начинается с
+		 * нуля) в формате строки (строковый тип). Если индекс за пределами строки,
+		 * возвращайте пустую строку;
+		 * 
+		 * 4. Undo() -- отмена последней операции 1 или 2; отмена должна уметь
+		 * выполняться при необходимости неограниченное число раз;
+		 * 
+		 * 5. Redo() -- выполнить заново последнюю отменённую с помощью Undo операцию;
+		 * Redo должна уметь выполняться при необходимости неограниченное число раз.
+		 * Если после Undo выполняется операция 1 или 2, то -- предыдущая цепочка
+		 * операций для Undo обнуляется (откатить можно только последнюю операцию 1 или
+		 * 2); -- Redo более становится нечего откатывать.
+		 * 
+		 * На вход редактора подаётся одна строка, первый символ которой -- номер
+		 * операции (1-5) и через пробел, при необходимости, параметр соответствующей
+		 * операции.
+		 * 
+		 * Например:
+		 * 
+		 * 1 Привет В текущей строке будет "Привет" 1 , Мир! Привет, Мир! 1 ++ Привет,
+		 * Мир!++ 2 2 Привет, Мир! 4 Привет, Мир!++ 4 Привет, Мир! 1 * Привет, Мир!* 4
+		 * Привет, Мир! 4 Привет, Мир! 4 Привет, Мир! 3 6 , 2 100
+		 * 
+		 * 1 Привет Привет 1 , Мир! Привет, Мир! 1 ++ Привет, Мир!++ 4 Привет, Мир! 4
+		 * Привет 5 Привет, Мир! 4 Привет 5 Привет, Мир! 5 Привет, Мир!++ 5 Привет,
+		 * Мир!++ 5 Привет, Мир!++ 4 Привет, Мир! 4 Привет 2 2 Прив 4 Привет 5 Прив 5
+		 * Прив 5 Прив
+		 * 
+		 * Функция
+		 * 
+		 * string BastShoe(string command)
+		 * 
+		 * получает на вход строку в формате "N параметр", где N -- код операции (1-5),
+		 * и возвращает текущую строку, или символ в формате строки, если команда
+		 * Выдать(), или пустую строку в случае её ошибки. Например,
+		 * BastShoe("1 Привет") = "Привет"
+		 * 
+		 * Если команда задана некорректно, Лапоть ничего не делает (просто возвращает
+		 * текущую строку без изменений).
+		 */
+
+		String result = "";
+		// Определим какое действие нам необходимо выполнить
+		// обойдем строку вытащим номер команды и строку
+		char numbCommand = ' ';
+		String param = "";
+		
+		for (int i = 0; i < command.length(); i++) {
+			// первый символ строки - номер команды
+			if (i == 0) {
+				numbCommand = command.charAt(i);
+			} else {
+				if (i == 1) {
+					// пробле не нужен ничего не пишем
+				} else if (i == 2) {
+					// есть пробел
+					if (command.charAt(i) != ' ') {
+						// добавим символ в слово
+						param += command.charAt(i);
+					}
+				} else {
+					// все остальные символы д
+					param += command.charAt(i);
+				}
+			}
+		}
+
+		//начальное заполнение коллекции на первой итерации
+		if (counterIter == 1) {
+			historyAllCommand.addLast("");
+		}
+
+		String word = "";
+		String currentCommand = "";
+		int indexCommand = 0;
+		
+		// какую команду бдуем исполнять?
+		switch (numbCommand) {
+		case '1':
+			// в конец текущей строки (исходно пустая) добавляется строка str
+
+			word = historyAllCommand.getLast();
+			result = addText(param, word);
+			
+			if (undoComm == true) {
+				// если была отмена операции, очистим коллекцию с операциями
+				// очистим текущую цепочку команд
+				historyCommand1And2.clear();
+				//добавим исполненую команду
+				historyCommand1And2.addLast(result);
+				// добавим последнюю
+				historyCommand1And2.addLast(word);
+				clearHistory = true;
+			} else {
+				historyCommand1And2.addLast(result);
+				counterUndo = 2;
+			}
+
+			historyAllCommand.addLast(result);
+
+			break;
+		case '2':
+			// удалить N символов из конца текущей строки. Если N больше
+			// * длины текущей строки, удаляем из неё все символы
+			
+			word = historyAllCommand.getLast();
+			result = dellSymbol(param, word);
+
+			if (undoComm == true) {
+				// если была отмена операции, очистим коллекцию с операциями
+				// очистим текущую цепочку команд
+				historyCommand1And2.clear();
+				//добавим исполненую команду
+				historyCommand1And2.addLast(result);
+				// добавим последнюю
+				historyCommand1And2.addLast(word);				
+				clearHistory = true;
+			} else {			
+				historyCommand1And2.addLast(result);
+				counterUndo = 2;
+			}
+
+			historyAllCommand.addLast(result);
+
+			break;
+		case '3':
+			// Выдать(i) -- выдать i-й символ текущей строки (индексация начинается с нуля)
+			// в формате строки (строковый тип). Если индекс за пределами строки,
+			// возвращайте пустую строку;
+			
+			word = historyAllCommand.getLast();
+			result = getSymbol(param, word);		
+			historyAllCommand.addLast(result);
+			
+			break;
+		case '4':
+			// отмена последней операции 1 или 2; отмена должна уметь выполняться при
+			// необходимости неограниченное число раз Если после Undo выполняется операция 1
+			// или 2, то предыдущая цепочка операций для Undo обнуляется (откатить можно
+			// только последнюю операцию 1 или 2);
+
+			// если была очистка истории команд будем возвращать только 1 результат
+			if (clearHistory == true) {
+				result = historyCommand1And2.getLast();
+			} else {				
+				currentCommand = historyAllCommand.getLast();
+				indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
+				
+				if (indexCommand - 1 > 0) {
+				result =  historyCommand1And2.get(indexCommand - 1);
+				} else {
+					result = historyCommand1And2.getFirst();
+				}
+			}
+
+			historyAllCommand.addLast(result);
+			undoComm = true;
+
+			break;
+		case '5':
+			// выполнить заново последнюю отменённую с помощью Undo операцию; Redo должна
+			// уметь выполняться при необходимости неограниченное число раз.
+			
+			// если была очистка истории команд будем возвращать только 1 результат
+			if (clearHistory == true) {
+				result = historyCommand1And2.getFirst();
+			} else {
+
+				// получим последнюю команду
+				currentCommand = historyAllCommand.getLast();
+				// найти текущую операцию в списке комманд и получить следующую
+				indexCommand = historyCommand1And2.indexOf(currentCommand);
+				if (indexCommand + 1 < historyCommand1And2.size()) {
+					result = historyCommand1And2.get(indexCommand + 1);
+				} else {
+					result = historyCommand1And2.getLast();
+				}
+			
+				counterUndo = 2;
+			}
+			
+			historyAllCommand.addLast(result);
+			
+			break;
+
+		default:
+			// если команда задана некорректно, возвращаем текущую команду
+			result = historyAllCommand.getLast();
+		}
+
+		counterIter++;
+		return result;
+	}
+
+	public static String addText(String s1, String s2) {
+		
+		/*
+		 * Функция добавляет текст содержащийся в перем s1 в конец строки перем s2 
+		 * и результат записывает в перем result.
+		 */
+		
+		String result = "";
+		if (s2.isEmpty()) {
+			result = s1;
+		} else {
+			// допишем в конец строки новое слово
+			result = s2;
+			for (int i = 0; i < s1.length(); i++) {
+				result += s1.charAt(i);
+			}
+
+		}
+
+		return result;
+	}
+
+	public static String dellSymbol(String countSymbols, String s2) {
+		
+		/*
+		 * Функция удаляет заданное в перем countSymbols кол-во символов из перем s2.
+		 * Результат записывается в перем result.
+		 */
+		
+		String result = "";
+		// преробразуем строку в число
+		int countSy = Integer.parseInt(countSymbols);
+
+		if (countSy <= s2.length()) {
+			// удалим с конца строки нужное кол-во символов
+			for (int i = 0; i < s2.length() - countSy; i++) {
+				result += s2.charAt(i);
+			}
+
+		} else {
+			// вернем пустую перем result
+		}
+
+		return result;
+	}
+
+	public static String getSymbol(String indexSymbol, String s2) {
+		
+		/*
+		 * Функция получет символ из перем s2, индекс которого задан в перем indexSymbol.
+		 * Результат записывается в перем result. 
+		 */
+
+		String result = "";
+		int numbSymb = Integer.parseInt(indexSymbol);
+		if (numbSymb <= s2.length()) {
+			// получим необходимый символ
+			result += s2.charAt(numbSymb);
+		} else {
+			// вернем пустую перем result
+		}
+
+		return result;
+	}
 }
