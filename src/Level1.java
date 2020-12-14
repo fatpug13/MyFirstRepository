@@ -5,7 +5,6 @@ public class Level1 {
 
 	static boolean undoComm = false;
 	static boolean clearHistory = false;
-	static int counterUndo = 2;
 	static int counterIter = 1;
 	static LinkedList<String> historyCommand1And2 = new LinkedList<String>();
 	static LinkedList<String> historyAllCommand = new LinkedList<String>();
@@ -53,7 +52,6 @@ public class Level1 {
 				clearHistory = true;
 			} else {
 				historyCommand1And2.addLast(result);
-				counterUndo = 2;
 			}
 
 			historyAllCommand.addLast(result);
@@ -71,7 +69,6 @@ public class Level1 {
 				clearHistory = true;
 			} else {
 				historyCommand1And2.addLast(result);
-				counterUndo = 2;
 			}
 
 			historyAllCommand.addLast(result);
@@ -115,8 +112,6 @@ public class Level1 {
 				} else {
 					result = historyCommand1And2.getLast();
 				}
-
-				counterUndo = 2;
 			}
 
 			historyAllCommand.addLast(result);
