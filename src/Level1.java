@@ -78,7 +78,7 @@ public class Level1 {
 
 			word = historyAllCommand.getLast();
 			result = getSymbol(param, word);
-			//historyAllCommand.addLast(result);
+			
 
 			break;
 		case '4':
@@ -162,7 +162,7 @@ public class Level1 {
 
 		String result = "";
 		int numbSymb = Integer.parseInt(indexSymbol);
-		if (numbSymb <= s2.length()) {
+		if (numbSymb < s2.length()) {
 			result += s2.charAt(numbSymb);
 		} else {
 		}

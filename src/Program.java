@@ -56,7 +56,7 @@ public class Program {
 //		System.out.println(MisterRobot(N, arr));
 //		System.out.println(Arrays.toString(ShopOLAP(N, arr)));
 
-		Scanner sc = new Scanner("1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n"+ "6 100\n"); //"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "4 \n" + "4 \n" + "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n");	//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");
+		Scanner sc = new Scanner("1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "4 \n" + "4 \n" + "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "3 4\n"); //"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "4 \n" + "4 \n" + "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n");	//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");
 
 		while (sc.hasNext()) {
 			System.out.println(BastShoe(sc.nextLine()));
@@ -2277,7 +2277,7 @@ public class Program {
 			
 			word = historyAllCommand.getLast();
 			result = getSymbol(param, word);		
-			historyAllCommand.addLast(result);
+			//historyAllCommand.addLast(result);
 			
 			break;
 		case '4':
@@ -2392,7 +2392,7 @@ public class Program {
 
 		String result = "";
 		int numbSymb = Integer.parseInt(indexSymbol);
-		if (numbSymb <= s2.length()) {
+		if (numbSymb < s2.length()) {
 			// получим необходимый символ
 			result += s2.charAt(numbSymb);
 		} else {
