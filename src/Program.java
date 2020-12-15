@@ -56,7 +56,11 @@ public class Program {
 //		System.out.println(MisterRobot(N, arr));
 //		System.out.println(Arrays.toString(ShopOLAP(N, arr)));
 
-		Scanner sc = new Scanner("1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "4 \n" + "4 \n" + "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "3 4\n"); //"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "4 \n" + "4 \n" + "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n");	//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");
+		Scanner sc = new Scanner("1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n"
+		+ "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");
+		
+		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");	
+		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n"+ "4 \n"+ "4 \n"+ "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n");
 
 		while (sc.hasNext()) {
 			System.out.println(BastShoe(sc.nextLine()));
@@ -2245,6 +2249,8 @@ public class Program {
 			}
 
 			historyAllCommand.addLast(result);
+			
+			undoComm = false;
 
 			break;
 		case '2':
@@ -2268,6 +2274,8 @@ public class Program {
 			}
 
 			historyAllCommand.addLast(result);
+			
+			undoComm = false;
 
 			break;
 		case '3':
@@ -2302,6 +2310,8 @@ public class Program {
 
 			historyAllCommand.addLast(result);
 			undoComm = true;
+			
+			
 
 			break;
 		case '5':
@@ -2316,7 +2326,7 @@ public class Program {
 				// получим последнюю команду
 				currentCommand = historyAllCommand.getLast();
 				// найти текущую операцию в списке комманд и получить следующую
-				indexCommand = historyCommand1And2.indexOf(currentCommand);
+				indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
 				if (indexCommand + 1 < historyCommand1And2.size()) {
 					result = historyCommand1And2.get(indexCommand + 1);
 				} else {

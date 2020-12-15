@@ -55,6 +55,7 @@ public class Level1 {
 			}
 
 			historyAllCommand.addLast(result);
+			undoComm = false;
 
 			break;
 		case '2':
@@ -72,6 +73,7 @@ public class Level1 {
 			}
 
 			historyAllCommand.addLast(result);
+			undoComm = false;
 
 			break;
 		case '3':
@@ -106,7 +108,7 @@ public class Level1 {
 				result = historyCommand1And2.getFirst();
 			} else {
 				currentCommand = historyAllCommand.getLast();
-				indexCommand = historyCommand1And2.indexOf(currentCommand);
+				indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
 				if (indexCommand + 1 < historyCommand1And2.size()) {
 					result = historyCommand1And2.get(indexCommand + 1);
 				} else {
