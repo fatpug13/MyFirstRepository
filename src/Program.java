@@ -23,7 +23,7 @@ public class Program {
 //		String str = "**";
 //		var a = 5;
 //		int[][] arr = new int[][] { { 3, 6, 2 }, { 6, 2, 2 } };
-		var N = "1 Привет";
+//		var N = "1 Привет";
 //		int arr[] = new int[]{1,3,4,5,6,3,3,3,3,3};
 //		String arr[] = new String[] {"платье1 5", "сумка32 2","платье1 1","сумка23 2","сумка128 9"};
 //		String s1 = "123";
@@ -56,8 +56,7 @@ public class Program {
 //		System.out.println(MisterRobot(N, arr));
 //		System.out.println(Arrays.toString(ShopOLAP(N, arr)));
 
-		Scanner sc = new Scanner("1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n"
-		+ "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");
+		Scanner sc = new Scanner("1 Привет\n"+ "4 \n" );
 		
 		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");	
 		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n"+ "4 \n"+ "4 \n"+ "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n");
@@ -2221,6 +2220,7 @@ public class Program {
 		//начальное заполнение коллекции на первой итерации
 		if (counterIter == 1) {
 			historyAllCommand.addLast("");
+			historyCommand1And2.addLast("");
 		}
 
 		String word = "";

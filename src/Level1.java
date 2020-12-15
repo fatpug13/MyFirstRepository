@@ -33,6 +33,7 @@ public class Level1 {
 
 		if (counterIter == 1) {
 			historyAllCommand.addLast("");
+			historyCommand1And2.addLast("");
 		}
 
 		String word = "";
