@@ -82,8 +82,8 @@ public class Level1 {
 			word = historyAllCommand.getLast();
 			result = getSymbol(param, word);
 			
-			historyAllCommand.addLast(result);
-			historyCommand1And2.addLast(result);
+			undoComm = false;			
+			clearHistory = false ;
 			
 
 			break;
