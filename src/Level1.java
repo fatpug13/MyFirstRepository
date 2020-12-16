@@ -82,6 +82,9 @@ public class Level1 {
 			word = historyAllCommand.getLast();
 			result = getSymbol(param, word);
 			
+			historyAllCommand.addLast(result);
+			historyCommand1And2.addLast(result);
+			
 
 			break;
 		case '4':

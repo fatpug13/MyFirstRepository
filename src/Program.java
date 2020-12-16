@@ -56,7 +56,7 @@ public class Program {
 //		System.out.println(MisterRobot(N, arr));
 //		System.out.println(Arrays.toString(ShopOLAP(N, arr)));
 
-		Scanner sc = new Scanner("1 Привет\n"+ "4 \n" );
+		Scanner sc = new Scanner("1 Привет\n" + "3 3\n" + "1 Привет\n" +"4 \n"+"4 \n");
 		
 		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");	
 		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n"+ "4 \n"+ "4 \n"+ "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n");
@@ -2284,8 +2284,10 @@ public class Program {
 			// возвращайте пустую строку;
 			
 			word = historyAllCommand.getLast();
-			result = getSymbol(param, word);		
-			//historyAllCommand.addLast(result);
+			result = getSymbol(param, word);
+			
+			historyAllCommand.addLast(result);
+			historyCommand1And2.addLast(result);
 			
 			break;
 		case '4':
