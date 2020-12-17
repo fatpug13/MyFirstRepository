@@ -56,7 +56,7 @@ public class Program {
 //		System.out.println(MisterRobot(N, arr));
 //		System.out.println(Arrays.toString(ShopOLAP(N, arr)));
 
-		Scanner sc = new Scanner("1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n"+ "1 ++\n"+ "4 \n");
+		Scanner sc = new Scanner("1 abcd\n" + "1 e\n" + "1 f\n" + "1 g\n" + "1 h\n"+ "4 \n"+ "4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n");
 		
 		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");	
 		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n"+ "4 \n"+ "4 \n"+ "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n");
@@ -2220,7 +2220,7 @@ public class Program {
 		//начальное заполнение коллекции на первой итерации
 		if (counterIter == 1) {
 			historyAllCommand.addLast("");
-			historyCommand1And2.addLast("");
+			//historyCommand1And2.addLast("");
 		}
 
 		String word = "";
@@ -2288,8 +2288,6 @@ public class Program {
 			
 			undoComm = false;			
 			clearHistory = false ;
-//			historyAllCommand.addLast(result);
-//			historyCommand1And2.addLast(result);
 			
 			break;
 		case '4':
