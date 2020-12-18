@@ -9,7 +9,6 @@ import java.util.stream.IntStream;
 public class Program {
 	
 	static boolean undoComm = false;
-	static boolean clearHistory = false;
 	static int counterIter = 1;
 	static LinkedList<String> historyCommand1And2 = new LinkedList<String>();
 	static LinkedList<String> historyAllCommand = new LinkedList<String>();
@@ -56,8 +55,9 @@ public class Program {
 //		System.out.println(MisterRobot(N, arr));
 //		System.out.println(Arrays.toString(ShopOLAP(N, arr)));
 
-		Scanner sc = new Scanner("1 abcd\n" + "1 e\n" + "1 f\n" + "1 g\n" + "1 h\n"+ "4 \n"+ "4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n"+"4 \n");
+		Scanner sc = new Scanner("1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");
 		
+		//"1 abcd\n" + "1 e\n" + "4 \n"+ "1 e\n"+ "1 f\n"+ "1 g\n"+ "1 h\n"+ "4 \n"+ "4 \n"+ "4 \n"+ "4 \n"+ "4 \n"+ "4 \n");
 		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");	
 		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n"+ "4 \n"+ "4 \n"+ "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n");
 
@@ -2216,11 +2216,10 @@ public class Program {
 				}
 			}
 		}
-
+		
 		//начальное заполнение коллекции на первой итерации
 		if (counterIter == 1) {
 			historyAllCommand.addLast("");
-			//historyCommand1And2.addLast("");
 		}
 
 		String word = "";
@@ -2231,25 +2230,23 @@ public class Program {
 		switch (numbCommand) {
 		case '1':
 			// в конец текущей строки (исходно пустая) добавляется строка str
-
+			
 			word = historyAllCommand.getLast();
 			result = addText(param, word);
 			
 			if (undoComm == true) {
-				// если была отмена операции, очистим коллекцию с операциями
+				// если последняя операции была 4, очистим коллекцию с операциями
 				// очистим текущую цепочку команд
 				historyCommand1And2.clear();
-				//добавим исполненую команду
-				historyCommand1And2.addLast(result);
-				// добавим последнюю
+				//добавим предыдущую команду
 				historyCommand1And2.addLast(word);
-				clearHistory = true;
+				// добавим исполняемую
+				historyCommand1And2.addLast(result);
 			} else {
 				historyCommand1And2.addLast(result);
 			}
 
 			historyAllCommand.addLast(result);
-			
 			undoComm = false;
 
 			break;
@@ -2261,20 +2258,18 @@ public class Program {
 			result = dellSymbol(param, word);
 
 			if (undoComm == true) {
-				// если была отмена операции, очистим коллекцию с операциями
+				// если последняя операции была 4, очистим коллекцию с операциями
 				// очистим текущую цепочку команд
 				historyCommand1And2.clear();
-				//добавим исполненую команду
-				historyCommand1And2.addLast(result);
-				// добавим последнюю
-				historyCommand1And2.addLast(word);				
-				clearHistory = true;
+				//добавим предыдущую команду
+				historyCommand1And2.addLast(word);
+				// добавим исполняемую
+				historyCommand1And2.addLast(result);				
 			} else {			
 				historyCommand1And2.addLast(result);
 			}
 
 			historyAllCommand.addLast(result);
-			
 			undoComm = false;
 
 			break;
@@ -2287,7 +2282,6 @@ public class Program {
 			result = getSymbol(param, word);
 			
 			undoComm = false;			
-			clearHistory = false ;
 			
 			break;
 		case '4':
@@ -2296,47 +2290,35 @@ public class Program {
 			// или 2, то предыдущая цепочка операций для Undo обнуляется (откатить можно
 			// только последнюю операцию 1 или 2);
 
-			// если была очистка истории команд будем возвращать только 1 результат
-			if (clearHistory == true) {
-				result = historyCommand1And2.getLast();
-			} else {				
-				currentCommand = historyAllCommand.getLast();
-				indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
-				
-				if (indexCommand - 1 > 0) {
-				result =  historyCommand1And2.get(indexCommand - 1);
-				} else {
-					result = historyCommand1And2.getFirst();
-				}
+			currentCommand = historyAllCommand.getLast();
+			indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
+
+			if (indexCommand - 1 > 0) {
+				result = historyCommand1And2.get(indexCommand - 1);
+			} else {
+				result = historyCommand1And2.getFirst();
 			}
 
 			historyAllCommand.addLast(result);
 			undoComm = true;
-			
-			
 
 			break;
 		case '5':
 			// выполнить заново последнюю отменённую с помощью Undo операцию; Redo должна
 			// уметь выполняться при необходимости неограниченное число раз.
-			
-			// если была очистка истории команд будем возвращать только 1 результат
-			if (clearHistory == true) {
-				result = historyCommand1And2.getFirst();
-			} else {
 
-				// получим последнюю команду
-				currentCommand = historyAllCommand.getLast();
-				// найти текущую операцию в списке комманд и получить следующую
-				indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
-				if (indexCommand + 1 < historyCommand1And2.size()) {
-					result = historyCommand1And2.get(indexCommand + 1);
-				} else {
-					result = historyCommand1And2.getLast();
-				}
+			// получим последнюю команду
+			currentCommand = historyAllCommand.getLast();
+			// найти текущую операцию в списке комманд и получить следующую
+			indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
+			if (indexCommand + 1 < historyCommand1And2.size()) {
+				result = historyCommand1And2.get(indexCommand + 1);
+			} else {
+				result = historyCommand1And2.getLast();
 			}
-			
+
 			historyAllCommand.addLast(result);
+			undoComm = false;
 			
 			break;
 

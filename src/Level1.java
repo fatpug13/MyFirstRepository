@@ -4,7 +4,6 @@ import java.util.*;
 public class Level1 {
 
 	static boolean undoComm = false;
-	static boolean clearHistory = false;
 	static int counterIter = 1;
 	static LinkedList<String> historyCommand1And2 = new LinkedList<String>();
 	static LinkedList<String> historyAllCommand = new LinkedList<String>();
@@ -14,13 +13,12 @@ public class Level1 {
 		String result = "";
 		char numbCommand = ' ';
 		String param = "";
-
+		
 		for (int i = 0; i < command.length(); i++) {
 			if (i == 0) {
 				numbCommand = command.charAt(i);
 			} else {
 				if (i == 1) {
-
 				} else if (i == 2) {
 					if (command.charAt(i) != ' ') {
 						param += command.charAt(i);
@@ -44,12 +42,11 @@ public class Level1 {
 
 			word = historyAllCommand.getLast();
 			result = addText(param, word);
-
+			
 			if (undoComm == true) {
 				historyCommand1And2.clear();
-				historyCommand1And2.addLast(result);
 				historyCommand1And2.addLast(word);
-				clearHistory = true;
+				historyCommand1And2.addLast(result);
 			} else {
 				historyCommand1And2.addLast(result);
 			}
@@ -65,10 +62,9 @@ public class Level1 {
 
 			if (undoComm == true) {
 				historyCommand1And2.clear();
-				historyCommand1And2.addLast(result);
 				historyCommand1And2.addLast(word);
-				clearHistory = true;
-			} else {
+				historyCommand1And2.addLast(result);				
+			} else {			
 				historyCommand1And2.addLast(result);
 			}
 
@@ -82,23 +78,17 @@ public class Level1 {
 			result = getSymbol(param, word);
 			
 			undoComm = false;			
-			clearHistory = false ;
 			
-
 			break;
 		case '4':
 
-			if (clearHistory == true) {
-				result = historyCommand1And2.getLast();
-			} else {
-				currentCommand = historyAllCommand.getLast();
-				indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
+			currentCommand = historyAllCommand.getLast();
+			indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
 
-				if (indexCommand - 1 > 0) {
-					result = historyCommand1And2.get(indexCommand - 1);
-				} else {
-					result = historyCommand1And2.getFirst();
-				}
+			if (indexCommand - 1 > 0) {
+				result = historyCommand1And2.get(indexCommand - 1);
+			} else {
+				result = historyCommand1And2.getFirst();
 			}
 
 			historyAllCommand.addLast(result);
@@ -107,24 +97,21 @@ public class Level1 {
 			break;
 		case '5':
 
-			if (clearHistory == true) {
-				result = historyCommand1And2.getFirst();
+			currentCommand = historyAllCommand.getLast();
+			indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
+			
+			if (indexCommand + 1 < historyCommand1And2.size()) {
+				result = historyCommand1And2.get(indexCommand + 1);
 			} else {
-				currentCommand = historyAllCommand.getLast();
-				indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
-				if (indexCommand + 1 < historyCommand1And2.size()) {
-					result = historyCommand1And2.get(indexCommand + 1);
-				} else {
-					result = historyCommand1And2.getLast();
-				}
+				result = historyCommand1And2.getLast();
 			}
 
 			historyAllCommand.addLast(result);
-
+			undoComm = false;
+			
 			break;
 
 		default:
-
 			result = historyAllCommand.getLast();
 		}
 
