@@ -65,7 +65,7 @@ public class Program {
 //
 //		sc.close();
 //	}
-		Scanner sc = new Scanner("ая\n" + "fff\n" + "нклм\n" + "вибк\n" + "вкиб\n"); //"ая\n" + "fff\n" + "нклм\n" + "вибк\n"+  "нклм\n" + "вкиб\n"
+		Scanner sc = new Scanner("azw\n"+ "ая\n"); //"ая\n" + "fff\n" + "нклм\n" + "вибк\n"+  "нклм\n" + "вкиб\n"
 
 		while (sc.hasNext()) {
 			System.out.println(BiggerGreater(sc.nextLine()));
@@ -2498,7 +2498,14 @@ public class Program {
 
 			}
 			System.out.println(MagWrd.toString());
-
+			
+			//проверим количество магических слов
+			if(MagWrd.size() == 1) {
+				//вернем результат
+				result = MagWrd.get(0);
+			}else {
+			
+			
 			// второй этап сравнения. Выберим из ArrayList тот, который меньше всех.
 			
 			for (int i = 1; i < MagWrd.size(); i++) {
@@ -2542,7 +2549,7 @@ public class Program {
 				}
 			}
 		}
-
+		}
 		return result;
 	}
 	

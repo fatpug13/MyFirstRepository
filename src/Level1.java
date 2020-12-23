@@ -50,40 +50,44 @@ public class Level1 {
 
 			}
 
-			for (int i = 1; i < MagWrd.size(); i++) {
+			if (MagWrd.size() == 1) {
+				result = MagWrd.get(0);
+			} else {
 
-				if (i == 1) {
+				for (int i = 1; i < MagWrd.size(); i++) {
 
-					previousMagicWrd = MagWrd.get(0);
-					currMagicWrd = MagWrd.get(i);
-					val1 = currMagicWrd.compareTo(previousMagicWrd);
+					if (i == 1) {
 
-					if (val1 < 0) {
-						result = currMagicWrd;
-					} else if (val1 > 0) {
-						result = previousMagicWrd;
-					}
+						previousMagicWrd = MagWrd.get(0);
+						currMagicWrd = MagWrd.get(i);
+						val1 = currMagicWrd.compareTo(previousMagicWrd);
 
-				} else {
-
-					previousMagicWrd = MagWrd.get(i - 1);
-					currMagicWrd = MagWrd.get(i);
-					val1 = currMagicWrd.compareTo(previousMagicWrd);
-
-					if (val1 < 0) {
-
-					} else if (val1 > 0) {
-						val2 = result.compareTo(previousMagicWrd);
-						if (val2 < 0) {
-
-						} else if (val2 > 0) {
+						if (val1 < 0) {
+							result = currMagicWrd;
+						} else if (val1 > 0) {
 							result = previousMagicWrd;
+						}
+
+					} else {
+
+						previousMagicWrd = MagWrd.get(i - 1);
+						currMagicWrd = MagWrd.get(i);
+						val1 = currMagicWrd.compareTo(previousMagicWrd);
+
+						if (val1 < 0) {
+
+						} else if (val1 > 0) {
+							val2 = result.compareTo(previousMagicWrd);
+							if (val2 < 0) {
+
+							} else if (val2 > 0) {
+								result = previousMagicWrd;
+							}
 						}
 					}
 				}
 			}
 		}
-
 		return result;
 	}
 
