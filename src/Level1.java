@@ -3,163 +3,138 @@ import java.util.*;
 
 public class Level1 {
 
-	static boolean undoComm = false;
-	static int counterIter = 1;
-	static LinkedList<String> historyCommand1And2 = new LinkedList<String>();
-	static LinkedList<String> historyAllCommand = new LinkedList<String>();
-
-	public static String BastShoe(String command) {
+	public static String BiggerGreater(String input) {
 
 		String result = "";
-		char numbCommand = ' ';
-		String param = "";
-		
-		for (int i = 0; i < command.length(); i++) {
-			if (i == 0) {
-				numbCommand = command.charAt(i);
-			} else {
+		boolean allSymbolsAreTheSame = false;
+
+		for (int i = 1; i < input.length(); i++) {
+
+			if (input.charAt(i) != input.charAt(i - 1)) {
+				allSymbolsAreTheSame = false;
+				break;
+			}
+			allSymbolsAreTheSame = true;
+		}
+
+		if (allSymbolsAreTheSame == false) {
+
+			String originalWord = input;
+			String subStr = "";
+			String[] arrSymbols = new String[originalWord.length()];
+			ArrayList<String> arrMagicWords = new ArrayList<String>();
+			ArrayList<String> MagWrd = new ArrayList<String>();
+
+			for (int i = 0; i < originalWord.length(); i++) {
+				subStr += originalWord.charAt(i);
+				arrSymbols[i] = subStr;
+				subStr = "";
+			}
+
+			replaceTwoSymbols(originalWord, arrMagicWords, arrSymbols);
+
+			String previousMagicWrd = "";
+			String currMagicWrd = "";
+			int val1 = 0;
+			int val2 = 0;
+			int curValue = 0;
+
+			for (int i = 0; i < arrMagicWords.size() - 1; i++) {
+
+				currMagicWrd = arrMagicWords.get(i);
+				curValue = originalWord.compareTo(currMagicWrd);
+
+				if (curValue < 0) {
+					MagWrd.add(currMagicWrd);
+				}
+
+			}
+
+			for (int i = 1; i < MagWrd.size(); i++) {
+
 				if (i == 1) {
-				} else if (i == 2) {
-					if (command.charAt(i) != ' ') {
-						param += command.charAt(i);
+
+					previousMagicWrd = MagWrd.get(0);
+					currMagicWrd = MagWrd.get(i);
+					val1 = currMagicWrd.compareTo(previousMagicWrd);
+
+					if (val1 < 0) {
+						result = currMagicWrd;
+					} else if (val1 > 0) {
+						result = previousMagicWrd;
 					}
+
 				} else {
-					param += command.charAt(i);
+
+					previousMagicWrd = MagWrd.get(i - 1);
+					currMagicWrd = MagWrd.get(i);
+					val1 = currMagicWrd.compareTo(previousMagicWrd);
+
+					if (val1 < 0) {
+
+					} else if (val1 > 0) {
+						val2 = result.compareTo(previousMagicWrd);
+						if (val2 < 0) {
+
+						} else if (val2 > 0) {
+							result = previousMagicWrd;
+						}
+					}
 				}
 			}
 		}
 
-		if (counterIter == 1) {
-			historyAllCommand.addLast("");
-		}
-
-		String word = "";
-		String currentCommand = "";
-		int indexCommand = 0;
-
-		switch (numbCommand) {
-		case '1':
-
-			word = historyAllCommand.getLast();
-			result = addText(param, word);
-			
-			if (undoComm == true) {
-				historyCommand1And2.clear();
-				historyCommand1And2.addLast(word);
-				historyCommand1And2.addLast(result);
-			} else {
-				historyCommand1And2.addLast(result);
-			}
-
-			historyAllCommand.addLast(result);
-			undoComm = false;
-
-			break;
-		case '2':
-
-			word = historyAllCommand.getLast();
-			result = dellSymbol(param, word);
-
-			if (undoComm == true) {
-				historyCommand1And2.clear();
-				historyCommand1And2.addLast(word);
-				historyCommand1And2.addLast(result);				
-			} else {			
-				historyCommand1And2.addLast(result);
-			}
-
-			historyAllCommand.addLast(result);
-			undoComm = false;
-
-			break;
-		case '3':
-
-			word = historyAllCommand.getLast();
-			result = getSymbol(param, word);
-			
-			undoComm = false;			
-			
-			break;
-		case '4':
-
-			currentCommand = historyAllCommand.getLast();
-			indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
-
-			if (indexCommand - 1 > 0) {
-				result = historyCommand1And2.get(indexCommand - 1);
-			} else {
-				result = historyCommand1And2.getFirst();
-			}
-
-			historyAllCommand.addLast(result);
-			undoComm = true;
-
-			break;
-		case '5':
-
-			currentCommand = historyAllCommand.getLast();
-			indexCommand = historyCommand1And2.lastIndexOf(currentCommand);
-			
-			if (indexCommand + 1 < historyCommand1And2.size()) {
-				result = historyCommand1And2.get(indexCommand + 1);
-			} else {
-				result = historyCommand1And2.getLast();
-			}
-
-			historyAllCommand.addLast(result);
-			undoComm = false;
-			
-			break;
-
-		default:
-			result = historyAllCommand.getLast();
-		}
-
-		counterIter++;
 		return result;
 	}
 
-	public static String addText(String s1, String s2) {
+	public static ArrayList<String> replaceTwoSymbols(String word, ArrayList<String> magicWords,
+			String[] arraySymbols) {
 
-		String result = "";
-		if (s2.isEmpty()) {
-			result = s1;
-		} else {
-			result = s2;
-			for (int i = 0; i < s1.length(); i++) {
-				result += s1.charAt(i);
+		int step = 2;
+		int counter = 0;
+		int resultCompare = 0;
+		Boolean needIteration = true;
+		String tmp = "";
+		String magicWord = "";
+
+		do {
+
+			if (word.length() - step < 0) {
+				step = 2;
+				counter = word.length() - step;
+			} else {
+				counter = word.length() - step;
 			}
-		}
 
-		return result;
-	}
+			for (int i = 0; i < arraySymbols.length; i++) {
 
-	public static String dellSymbol(String countSymbols, String s2) {
+				if (i < counter) {
+					magicWord += arraySymbols[i];
+				} else if (i == counter) {
+					tmp = arraySymbols[i];
+				} else if (i == counter + 1) {
+					magicWord += arraySymbols[i];
+					magicWord += tmp;
 
-		String result = "";
-		int countSy = Integer.parseInt(countSymbols);
-
-		if (countSy <= s2.length()) {
-			for (int i = 0; i < s2.length() - countSy; i++) {
-				result += s2.charAt(i);
+					arraySymbols[i - 1] = arraySymbols[i];
+					arraySymbols[i] = tmp;
+				} else {
+					magicWord += arraySymbols[i];
+				}
 			}
-		} else {
 
-		}
+			step++;
+			magicWords.add(magicWord);
+			resultCompare = word.compareTo(magicWord);
 
-		return result;
-	}
+			if (resultCompare == 0) {
+				needIteration = false;
+			}
+			magicWord = "";
 
-	public static String getSymbol(String indexSymbol, String s2) {
+		} while (needIteration == true);
 
-		String result = "";
-		int numbSymb = Integer.parseInt(indexSymbol);
-		if (numbSymb < s2.length()) {
-			result += s2.charAt(numbSymb);
-		} else {
-		}
-
-		return result;
+		return magicWords;
 	}
 
 }

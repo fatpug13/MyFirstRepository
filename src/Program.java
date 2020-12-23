@@ -54,20 +54,26 @@ public class Program {
 //		System.out.println(LineAnalysis(str));
 //		System.out.println(MisterRobot(N, arr));
 //		System.out.println(Arrays.toString(ShopOLAP(N, arr)));
-
-		Scanner sc = new Scanner("1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");
-		
-		//"1 abcd\n" + "1 e\n" + "4 \n"+ "1 e\n"+ "1 f\n"+ "1 g\n"+ "1 h\n"+ "4 \n"+ "4 \n"+ "4 \n"+ "4 \n"+ "4 \n"+ "4 \n");
-		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");	
-		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n"+ "4 \n"+ "4 \n"+ "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n");
+//		Scanner sc = new Scanner("1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");
+//		//"1 abcd\n" + "1 e\n" + "4 \n"+ "1 e\n"+ "1 f\n"+ "1 g\n"+ "1 h\n"+ "4 \n"+ "4 \n"+ "4 \n"+ "4 \n"+ "4 \n"+ "4 \n");
+//		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");	
+//		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n"+ "4 \n"+ "4 \n"+ "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n");
+//
+//		while (sc.hasNext()) {
+//			System.out.println(BastShoe(sc.nextLine()));
+//		}
+//
+//		sc.close();
+//	}
+		Scanner sc = new Scanner("ая\n" + "fff\n" + "нклм\n" + "вибк\n" + "вкиб\n"); //"ая\n" + "fff\n" + "нклм\n" + "вибк\n"+  "нклм\n" + "вкиб\n"
 
 		while (sc.hasNext()) {
-			System.out.println(BastShoe(sc.nextLine()));
+			System.out.println(BiggerGreater(sc.nextLine()));
+
 		}
-
 		sc.close();
+		
 	}
-
 	public static boolean startsWith(String text, String substr)
 
 	{
@@ -2394,6 +2400,223 @@ public class Program {
 		}
 
 		return result;
+	}
+	
+	public static String BiggerGreater(String input) {
+		
+		/*
+		 * Гарри Поттер идёт в первый класс Хогвартса
+		 * 
+		 * Казалось бы, чего тут сложного -- выучил несколько колдовских слов, произнёс,
+		 * и... никакого эффекта. Именно поэтому в специальных учебных заведениях
+		 * наподобие Хогвартса вербальную магию изучают годами. Дело в том, что в
+		 * волшебных учебниках написаны слова заклинания, которые сами по себе не
+		 * работают. Их надо уметь преобразовывать в действующую магию с помощью
+		 * специальных алгоритмов. Давайте познакомимся с одним из них.
+		 * 
+		 * У нас имеется не-магическое слово -- стандартная последовательность русских и
+		 * английских букв (строковый тип). Такие слова в любом языке программирования
+		 * можно сравнивать, используя обычный лексикографический порядок, когда "а"
+		 * меньше чем "я", "a" меньше чем "z" и т. д.
+		 * 
+		 * Задача: преобразовать такое слово в магическое с помощью любого числа
+		 * перестановок двух любых букв в слове, либо убедиться, что получить магическое
+		 * слово невозможно.
+		 * 
+		 * Итоговое слово должно отвечать двум требованиям: 1) оно лексикографически
+		 * больше, чем исходное слово; 2) оно наименьшее из всех лексикографически
+		 * больших слов, которые можно получить перестановкой пары букв.
+		 * 
+		 * Тестовые примеры:
+		 * 
+		 * "ая" преобразовываем в "яа" "fff" - невозможно преобразовать "нклм" в "нкмл"
+		 * "вибк" в "викб" "вкиб" в "ибвк"
+		 * 
+		 * Функция
+		 * 
+		 * string BiggerGreater(string input)
+		 * 
+		 * получает на вход исходную строку длиной 2 или более русских или английских
+		 * строковых (маленьких) букв, и возвращает итоговое магическое слово. Если
+		 * получить его невозможно, возвращается пустая строка. Например,
+		 * BiggerGreater("вибк") = "викб"; BiggerGreater("fff") = "".
+		 */
+		
+		String result = "";
+		boolean allSymbolsAreTheSame = false;
+
+		// сравним каждое значение в строке
+		for (int i = 1; i < input.length(); i++) {
+
+			if (input.charAt(i) != input.charAt(i - 1)) {
+				// символы не одинаковые, будем преобразовывать в магическое слово
+				allSymbolsAreTheSame = false;
+				break;
+			}
+			// все символы в строке одинаковые, магии не будет.
+			allSymbolsAreTheSame = true;
+		}
+
+		
+		if (allSymbolsAreTheSame == false) {
+			// Преобразуем в магическое слово.
+
+			String originalWord = input;
+			String subStr = "";
+			String[] arrSymbols = new String[originalWord.length()];
+			ArrayList<String> arrMagicWords = new ArrayList<String>();
+			ArrayList<String> MagWrd = new ArrayList<String>();
+
+			// строку в массив
+			for (int i = 0; i < originalWord.length(); i++) {
+				subStr += originalWord.charAt(i);
+				arrSymbols[i] = subStr;
+				subStr = "";
+			}
+
+			replaceTwoSymbols(originalWord, arrMagicWords, arrSymbols);			
+			System.out.println(arrMagicWords.toString());
+
+			// Сравним магические слова в 2 этапа:
+			String previousMagicWrd = "";
+			String currMagicWrd = "";
+			int val1 = 0;
+			int val2 = 0;
+			int curValue = 0;
+
+			// первый этап сравнения. Запишем в ArrayList те, которые меньше нуля т.е.
+			// аргумент является строкой лексически большей, чем originalWord.
+			
+			for (int i = 0; i < arrMagicWords.size() - 1; i++) {
+
+				currMagicWrd = arrMagicWords.get(i);
+				curValue = originalWord.compareTo(currMagicWrd);
+				
+				if (curValue < 0) {
+					MagWrd.add(currMagicWrd);
+				}
+
+			}
+			System.out.println(MagWrd.toString());
+
+			// второй этап сравнения. Выберим из ArrayList тот, который меньше всех.
+			
+			for (int i = 1; i < MagWrd.size(); i++) {
+
+				if (i == 1) {
+					
+					previousMagicWrd = MagWrd.get(0);
+					currMagicWrd = MagWrd.get(i);
+					val1 = currMagicWrd.compareTo(previousMagicWrd);
+
+					if (val1 < 0) {
+						// аргумент больше чем currMagicWrd. Нам нужен наименьший
+						result = currMagicWrd;
+					} else if (val1 > 0) {
+						// аргумент меньше чем currMagicWrd. Это наш.
+						result = previousMagicWrd;
+					}
+
+				} else {
+					
+					previousMagicWrd = MagWrd.get(i - 1);
+					currMagicWrd = MagWrd.get(i);
+					val1 = currMagicWrd.compareTo(previousMagicWrd);
+
+					if (val1 < 0) {
+						// аргумент больше чем currMagicWrd. Нам нужен наименьший
+
+					} else if (val1 > 0) {
+						// аргумент меньше чем currMagicWrd. Это наш. Сравним с result
+						val2 = result.compareTo(previousMagicWrd);
+
+						if (val2 < 0) {
+							// аргумент больше чем result. Нам нужен наименьший
+							// не меняем result
+						} else if (val2 > 0) {
+							// аргумент меньше чем result. Это наш.
+							result = previousMagicWrd;
+
+						}
+					}
+				}
+			}
+		}
+
+		return result;
+	}
+	
+	public static ArrayList<String> replaceTwoSymbols(String word, ArrayList<String> magicWords, String[] arraySymbols) {
+		
+		/*
+		 * Функция выполняет поочередную перестановку 2х символов в массиве
+		 * arraySymbols. В результате получается новое слово которое записывается в
+		 * ArrayList magicWords. Перестановка продолжается до тех пор, пока в результате
+		 * перестановок не будет получено такое же слово как в перем word. Перестановка
+		 * символов начинается с конца массива .
+		 */
+		
+		int step = 2;
+		int counter = 0;
+		int resultCompare = 0;
+		Boolean needIteration = true;
+		String tmp = "";
+		String magicWord = "";
+
+		do {
+
+			if (word.length() - step < 0) {
+				// значит находимся за пределами длины слова
+				// начнем с конца.
+				step = 2;
+				counter = word.length() - step;
+			} else {
+				// длина слова еще позволяет нам идти к началу строки.
+				counter = word.length() - step;
+			}
+
+			for (int i = 0; i < arraySymbols.length; i++) {
+
+				if (i < counter) {
+					magicWord += arraySymbols[i];
+				} else if (i == counter) {
+					// запомним результат. Он нам понадобится на следующей итерации.
+					tmp = arraySymbols[i];
+
+				} else if (i == counter + 1) {
+
+					magicWord += arraySymbols[i];
+					magicWord += tmp;
+					// так же перестраиваем массив
+					arraySymbols[i - 1] = arraySymbols[i];
+					arraySymbols[i] = tmp;
+
+				} else {
+					magicWord += arraySymbols[i];
+				}
+
+			}
+			// увеличим шаг
+			step++;
+			// запишем в структуру
+			magicWords.add(magicWord);
+			// сравним магическое слово с исходным
+			resultCompare = word.compareTo(magicWord);
+
+			if (resultCompare == 0) {
+				// значит магическое слово полностью идентично исходному
+				// дальнейшая перестановка символов не имеет значение
+				needIteration = false;
+			}
+
+			// очистим слово
+			magicWord = "";
+
+		} while (needIteration == true);
+
+		
+		return magicWords;
+		
 	}
 	
 }
