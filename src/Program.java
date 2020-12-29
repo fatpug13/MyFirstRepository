@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 
+
+
 public class Program {
 	
 	static boolean undoComm = false;
@@ -54,21 +56,15 @@ public class Program {
 //		System.out.println(LineAnalysis(str));
 //		System.out.println(MisterRobot(N, arr));
 //		System.out.println(Arrays.toString(ShopOLAP(N, arr)));
-//		Scanner sc = new Scanner("1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");
-//		//"1 abcd\n" + "1 e\n" + "4 \n"+ "1 e\n"+ "1 f\n"+ "1 g\n"+ "1 h\n"+ "4 \n"+ "4 \n"+ "4 \n"+ "4 \n"+ "4 \n"+ "4 \n");
-//		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n" + "2 2\n" + "4 \n" + "4 \n" + "1 *\n" + "4 \n" + "4 \n" + "4 \n" + "3 6\n" + "2 100\n");	
-//		//"1 Привет\n" + "1  , Мир!\n" + "1 ++\n"+ "4 \n"+ "4 \n"+ "5 \n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "5 \n"+ "4 \n"+ "4 \n"+ "2 2\n"+ "4 \n"+ "5 \n"+ "5 \n"+ "5 \n");
-//
-//		while (sc.hasNext()) {
-//			System.out.println(BastShoe(sc.nextLine()));
-//		}
-//
-//		sc.close();
-//	}
-		Scanner sc = new Scanner("azw\n"+ "ая\n"); //"ая\n" + "fff\n" + "нклм\n" + "вибк\n"+  "нклм\n" + "вкиб\n"
+//		System.out.println(BastShoe(sc.nextLine()));
+//		System.out.println(BiggerGreater(sc.nextLine()));
+//		System.out.println(SherlockValidString(sc.nextLine()));
+
+		Scanner sc = new Scanner("xyz\n" + "xyzaa\n" + "xxyyz\n" + "xyzzz\n" + "xxyyza\n" + "xxyyzabc\n"+ "xx\n"); 
+		//"xyzzz\n" + "xxyyza \n" + "xxyyzabc\n"+ "xx\n" + 
 
 		while (sc.hasNext()) {
-			System.out.println(BiggerGreater(sc.nextLine()));
+			System.out.println(SherlockValidString(sc.nextLine()));
 
 		}
 		sc.close();
@@ -1997,7 +1993,7 @@ public class Program {
 		return result;
 	}
 
-	private static void performLeftShift(int[] arr) {
+	public static void performLeftShift(int[] arr) {
 
 		/*
 		 * Функция выполняет сдвиг элементов влево по кругу а затем проверяет
@@ -2505,7 +2501,6 @@ public class Program {
 				result = MagWrd.get(0);
 			}else {
 			
-			
 			// второй этап сравнения. Выберим из ArrayList тот, который меньше всех.
 			
 			for (int i = 1; i < MagWrd.size(); i++) {
@@ -2626,4 +2621,170 @@ public class Program {
 		
 	}
 	
+	public static boolean SherlockValidString(String s) {
+		
+		/*
+		 * Шерлок Холмс и механическая шкатулка
+		 * 
+		 * Сама суть этой загадки и то возбужденное состояние, в котором пребывал клиент
+		 * Холмса, придавали этому делу необычный характер. Да и, кроме предстоящего
+		 * расследования, мастерство моего друга, его умение удивительно быстро
+		 * овладевать ситуацией и на основании тщательных наблюдений и простой логики
+		 * делать поразительные по своей точности выводы зачаровывали меня. Изучать
+		 * систему его работы и приемы, с помощью которых он в два счета распутывал
+		 * сложнейшие загадки, для меня было настоящим удовольствием.
+		 * 
+		 * Шерлок Холмс в свободное время упражняется в проверке валидных паролей к его
+		 * новой механической шкатулке. Пароли строятся из латинских букв и считаются
+		 * валидными, если в соответствующей строке пароля все буквы встречаются
+		 * одинаковое количество раз. Кроме того, разрешается удалить одну любую букву,
+		 * чтобы выполнилось условие равенства частоты всех букв.
+		 * 
+		 * Например, строка xyz будет валидна, и строка xyzaa будет валидна (можно
+		 * удалить одну a), и строка xxyyz будет валидна (можно удалить z). А строка
+		 * xyzzz, или строка xxyyza или строка xxyyzabc невалидны.
+		 * 
+		 * Напишите функцию, проверяющую строку на валидность.
+		 * 
+		 * Функция
+		 * 
+		 * boolean SherlockValidString(string s)
+		 * 
+		 * получает на вход исходную строку длиной 2 или более английских букв, и
+		 * возвращает true, если строка валидна.
+		 */
+		
+		boolean result = false;
+
+		// строку в массив
+		char[] chArr = s.toCharArray();
+
+		// массив цифр. Каждый символ соответствует числу.
+		// сюда пишем результат преобразования Char в число.
+		// Т.е. символ a = 97, z = 122 и т.д..
+		int[] arr = new int[255];
+		ArrayList<Integer> countSymbols = new ArrayList<>();
+		boolean everyoneIsEqual = true;
+		int maxIndexSymb = 0;
+		int minIndexSymb = 0;
+		int symb = 0;
+
+		System.out.println(Arrays.toString(chArr));
+
+		// заполним массив номерами символов из строки
+		for (int i = 0; i < s.length(); i++) {
+			arr[s.charAt(i)]++;
+		}
+
+		// проверим сколько раз встречаются символы в слове
+		for (int i = 0; i < 255; i++) {
+			if (arr[i] > 0) {
+				countSymbols.add(arr[i]);
+				System.out.println((char) i + " встречается " + arr[i] + " раз");
+			}
+		}
+
+		// Если все символы встречаются одинаковое количесвто раз значит пароль валидный
+		// вернем истину
+		
+		for (int i = 1; i < countSymbols.size(); i++) {
+
+			if (countSymbols.get(i) < countSymbols.get(i - 1)) {
+				everyoneIsEqual = false;
+
+				if (i == 1) {
+					// на первой итерации
+					maxIndexSymb = countSymbols.indexOf(countSymbols.get(i - 1));
+
+					minIndexSymb = countSymbols.indexOf(countSymbols.get(i));
+				} else {
+
+					if (countSymbols.get(maxIndexSymb) < countSymbols.get(i - 1)) {
+						maxIndexSymb = countSymbols.indexOf(countSymbols.get(i - 1));
+
+					} else {
+						minIndexSymb = countSymbols.indexOf(countSymbols.get(i));
+					}
+				}
+			} else if (countSymbols.get(i) > countSymbols.get(i - 1)) {
+				everyoneIsEqual = false;
+
+				if (i == 1) {
+					// на первой итерации
+					maxIndexSymb = countSymbols.indexOf(countSymbols.get(i));
+
+					minIndexSymb = countSymbols.indexOf(countSymbols.get(i - 1));
+				} else {
+					if (countSymbols.get(maxIndexSymb) < countSymbols.get(i)) {
+						maxIndexSymb = countSymbols.indexOf(countSymbols.get(i));
+
+					} else {
+						minIndexSymb = countSymbols.indexOf(countSymbols.get(i - 1));
+					}
+				}
+			} else {
+				// равны. все ок
+				// everyoneIsEqual изначально в значении true.
+			}
+		}
+		
+		
+		if (everyoneIsEqual == true) {
+			// Если после проверки все символы равны, вернем результат.
+			result = true;
+		} else {
+			// иначе удалим один символ (будем удалять самый наибольший и самый наимешьний).
+			// После каждого удаления символа проверим, все ли символы встречаются
+			// одинаковое количество раз.
+
+			// вычтим у наибольшего символа 1.
+			symb = countSymbols.get(maxIndexSymb);
+			symb -= 1;
+			countSymbols.set(maxIndexSymb, symb);
+
+			// проверим, одинаковое ли кол-во символов теперь?
+			result = checkSymbols(result, countSymbols);
+
+			if (result == false) {
+				//если после удаление символа все символы неодинаковы, возможно
+				//поможет удаление наименьшего символа.
+
+				// вернем в исходное состояние ArrayList
+				symb = countSymbols.get(maxIndexSymb);
+				symb += 1;
+				countSymbols.set(maxIndexSymb, symb);
+
+				// Вычтим из наименьшего символа единицу
+				symb = countSymbols.get(minIndexSymb);
+				symb -= 1;
+				if (symb != 0) {
+					countSymbols.set(minIndexSymb, symb);
+				} else {
+					countSymbols.remove(minIndexSymb);
+				}
+
+				// проверим, одинаковое ли кол-во символов теперь?
+				result = checkSymbols(result, countSymbols);
+			}
+		}
+
+		return result;
+
+	}
+	
+	public static boolean checkSymbols(boolean checkResult, ArrayList<Integer> countSymbols) {
+
+		for (int i = 1; i < countSymbols.size(); i++) {
+			if (countSymbols.get(i) == countSymbols.get(i - 1)) {
+				checkResult = true;
+			} else {
+				checkResult = false;
+				break;
+			}
+		}
+
+		return checkResult;
+
+	}
+
 }
