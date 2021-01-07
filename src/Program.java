@@ -2,8 +2,9 @@
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.*;
-
 import java.util.stream.IntStream;
+
+
 
 
 
@@ -20,7 +21,7 @@ public class Program {
 		/*
 		 * Вызов функций.
 		 */
-
+		String arr[] = new String[] {".+..","..+.",".+.."};
 //		String str = "**";
 //		var a = 5;
 //		int[][] arr = new int[][] { { 3, 6, 2 }, { 6, 2, 2 } };
@@ -59,15 +60,16 @@ public class Program {
 //		System.out.println(BastShoe(sc.nextLine()));
 //		System.out.println(BiggerGreater(sc.nextLine()));
 //		System.out.println(SherlockValidString(sc.nextLine()));
+		System.out.println(Arrays.toString(TreeOfLife(3,4, 12, arr)));
 
-		Scanner sc = new Scanner("xyz\n" + "xyzaa\n" + "xxyyz\n" + "xyzzz\n" + "xxyyza\n" + "xxyyzabc\n"+ "xx\n"); 
-		//"xyzzz\n" + "xxyyza \n" + "xxyyzabc\n"+ "xx\n" + 
-
-		while (sc.hasNext()) {
-			System.out.println(SherlockValidString(sc.nextLine()));
-
-		}
-		sc.close();
+//		Scanner sc = new Scanner("xyz\n" + "xyzaa\n" + "xxyyz\n" + "xyzzz\n" + "xxyyza\n" + "xxyyzabc\n"+ "xx\n"); 
+//		//"xyzzz\n" + "xxyyza \n" + "xxyyzabc\n"+ "xx\n" + 
+//
+//		while (sc.hasNext()) {
+//			System.out.println(SherlockValidString(sc.nextLine()));
+//
+//		}
+//		sc.close();
 		
 	}
 	public static boolean startsWith(String text, String substr)
@@ -200,7 +202,7 @@ public class Program {
 
 			// Начинаем захват со второго дня
 			do {
-				// обойдем массив в цикле. ÷икл по N координатам (строкам)
+				// обойдем массив в цикле. Цикл по N координатам (строкам)
 				for (var i = 0; i < battleground.length; i++) {
 
 					// цикл по M координатам (столбцамы)
@@ -2205,7 +2207,7 @@ public class Program {
 				numbCommand = command.charAt(i);
 			} else {
 				if (i == 1) {
-					// пробле не нужен ничего не пишем
+					// пробел не нужен ничего не пишем
 				} else if (i == 2) {
 					// есть пробел
 					if (command.charAt(i) != ' ') {
@@ -2773,6 +2775,11 @@ public class Program {
 	}
 	
 	public static boolean checkSymbols(boolean checkResult, ArrayList<Integer> countSymbols) {
+		
+		/*
+		 * Функция выполняет поочередное сравнение символов в массиве. Если все символы равны друг другу
+		 * возвращается истина. 
+		 */
 
 		for (int i = 1; i < countSymbols.size(); i++) {
 			if (countSymbols.get(i) == countSymbols.get(i - 1)) {
@@ -2787,4 +2794,238 @@ public class Program {
 
 	}
 
+	public static String[] TreeOfLife(int H, int W, int N, String [] tree) {
+		
+		/*
+		 * 
+		 * Древо Жизни Андрассил
+		 * 
+		 * Только в Изумрудном Сне существует Древо Жизни Андрассил. Племена фурболгов,
+		 * живущие в гигантском пне Нордскола, из поколения в поколение передают легенду
+		 * об этом дереве, которое когда-нибудь вернётся в реальность и очистит мирные
+		 * земли от порчи Древних Богов.
+		 * 
+		 * Главный шаман фурболгов хранит манускрипт, описывающий схему развития
+		 * Андрассила. Смоделируйте её на компьютере, чтобы всегда можно было узнать, на
+		 * каком году в каком состоянии оно будет находиться.
+		 * 
+		 * Дерево описывается массивом размером HxW. Каждый элемент массива принимает
+		 * значение либо 0 (пусто), либо 1 (ветка дерева). При этом у каждого
+		 * элемента-ветки имеется дополнительная характеристика, равная сроку её жизни в
+		 * годах.
+		 * 
+		 * Исходные данные: размер массива, количество лет для моделирования, и
+		 * начальная структура дерева в виде текстового изображения (списка текстовых
+		 * строк).
+		 * 
+		 * Например, размер 3x4, моделируем 12 лет, каждый пустой элемент задаётся
+		 * символом ".", каждая ветка -- символом "+" (её возраст считается равным 1
+		 * году):
+		 * 
+		 * 3 4 12
+		 * 
+		 * .+.. ..+. .+..
+		 * 
+		 * Каждый год дерево перерождается по следующему алгоритму: - в "первый"
+		 * (чётный) год все ветки стареют на один год, и все пустые клетки заполняются
+		 * новыми корнями с возрастом 1 год (визуально всё заполнено символами "+"); -
+		 * во "второй" (нечётный) год все ветки стареют на один год; ветки, возраст
+		 * которых три или более лет, погибают, уничтожая также четыре окружающие ветки
+		 * (если они существуют) -- по горизонтали и вертикали.
+		 * 
+		 * Процесс гибели веток с соседями происходит одновременно, т.е. надо учитывать,
+		 * что каждая ветка с возрастом 3+ лет обязательно уничтожает окружающие ветки
+		 * (нельзя удалять ветки-соседи простым перебором, потому что соседи тоже в свою
+		 * очередь могут удалять своих соседей).
+		 * 
+		 * В примере для наглядности заменим ветки на числа с возрастом веток.
+		 * 
+		 * Исходное дерево:
+		 * 
+		 * .1.. ..1. .1..
+		 * 
+		 * Прошёл 1-й "чётный" год:
+		 * 
+		 * 1211 1121 1211
+		 * 
+		 * 2-й "нечётный" год:
+		 * 
+		 * 2322 2232 2322
+		 * 
+		 * Уничтожение:
+		 * 
+		 * ...2 2... ...2
+		 * 
+		 * 3-й "чётный" год (по чётным годам старые ветки не уничтожаются):
+		 * 
+		 * 1113 3111 1113
+		 * 
+		 * 4-й "нечётный" год:
+		 * 
+		 * 2224 4222 2224
+		 * 
+		 * Уничтожение:
+		 * 
+		 * .2.. ..2. .2..
+		 * 
+		 * и т. д.
+		 * 
+		 * Напишите программу, которая моделирует N лет развития дерева, и выводит его
+		 * результирующую форму -- список/массив строк (используются только символы "."
+		 * и "+").
+		 * 
+		 * Функция
+		 * 
+		 * string [] TreeOfLife(int H, int W, int N, string [] tree)
+		 * 
+		 * получает высоту H (количество строк) и ширину W (длина строк) дерева,
+		 * количество лет моделирования N и сам список строк, задающий начальное дерево
+		 * с помощью "." и "+".
+		 * 
+		 * Например, исходный пример:
+		 * 
+		 * TreeOfLife(3,4, 12, [".+..","..+.",".+.."])
+		 * 
+		 */
+		
+		
+		String[] result = new String[H];
+		//начальное заполнение
+		//H - строки W - столбцы
+		int[][] treeDescription = new int[H][W];
+		char chSymbol =' ';
+		int intSymbol = 0;
+		
+		// заполним двумерный массив
+		for (var i = 0; i < treeDescription.length; i++) {
+			for (var j = 0; j < treeDescription[i].length; j++) {
+
+				chSymbol = tree[i].charAt(j);
+
+				if (chSymbol == '+') {
+					intSymbol = 1;
+					treeDescription[i][j] = intSymbol;
+				}
+			}
+		}
+		
+		//начальное заполнение
+		System.out.println(Arrays.deepToString(treeDescription));
+		
+		//Моделирование развития дерева
+		//начинаем с четного года
+		int counterYears = 1;
+		int valueLine = 0;
+		int valueColumn = 0;
+		LinkedList<Integer> coordinatesMaxValut = new LinkedList<>();
+		
+		
+		do {
+			
+			//на каждом году жизни увеличиваем время жизни дерева на 1.
+			for (var i = 0; i < treeDescription.length; i++) {
+				for (var j = 0; j < treeDescription[i].length; j++) {
+					
+					treeDescription[i][j]++;
+	
+				}
+			}
+			
+			//System.out.println(Arrays.deepToString(treeDescription));
+			//если счетчик лет - четное число, будем уничтожать ветки
+			//т.к. в условии задачи четные числа - нечетный год.
+			if(counterYears % 2 == 0) {
+				
+				//найдем индексы максимальных значений.
+				for (var i = 0; i < treeDescription.length; i++) {
+					for (var j = 1; j < treeDescription[i].length; j++) {
+										
+						if(treeDescription[i][j] > treeDescription[i][j - 1]) {
+							valueLine = i;
+							valueColumn = j;
+						}else if (treeDescription[i][j] < treeDescription[i][j - 1]){
+							valueLine = i;
+							valueColumn = j - 1;
+							}
+						
+						}
+					//запишем координаты макс занчения
+					coordinatesMaxValut.addLast(valueLine);
+					coordinatesMaxValut.addLast(valueColumn);
+					
+					}
+				
+				//удалим максимальные значения и те которые рядом с ним
+				
+				for (var i = 0; i < treeDescription.length; i++) {
+					for (var j = 0; j < treeDescription[i].length; j++) {
+
+						// координаты макс значения для текуей строки
+						if (j == 0) {
+							valueLine = coordinatesMaxValut.pollFirst();
+							valueColumn = coordinatesMaxValut.pollFirst();
+						}
+
+						if (treeDescription[i][j] != 0) {
+							// это макс в тек строке?
+							if (treeDescription[valueLine][valueColumn] == treeDescription[i][j]) {
+								// удаляем крестом
+
+								// текущую
+								treeDescription[i][j] = 0;
+								// вверх
+								if (i - 1 >= 0) {
+									// можно удалять
+									treeDescription[i - 1][j] = 0;
+								}
+								// вниз
+								if (i + 1 <= treeDescription.length - 1) {
+									// можно удалять
+									treeDescription[i + 1][j] = 0;
+								}
+								// вправо
+								if (j + 1 <= treeDescription[i].length - 1) {
+									treeDescription[i][j + 1] = 0;
+								}
+								// влево
+								if (j - 1 >= 0) {
+									treeDescription[i][j - 1] = 0;
+								}
+							}
+						}
+					}
+				
+				}	
+				
+			
+
+			}
+			
+			counterYears++;
+			System.out.println(Arrays.deepToString(treeDescription));
+			
+		}while(counterYears <= N);
+		
+		//моделирование окончено. Вернем резултат в виде "." и "+"
+		String str = "";
+		for (var i = 0; i < treeDescription.length; i++) {
+			for (var j = 0; j < treeDescription[i].length; j++) {
+				
+				if (treeDescription[i][j] != 0) {
+					str += "+";
+				}else {
+					str += ".";
+				}
+				
+			}
+			
+			result[i] = str;
+			str = "";
+		}
+		
+		
+		return result;
+		
+	}
 }
+

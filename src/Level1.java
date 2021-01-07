@@ -3,103 +3,113 @@ import java.util.*;
 
 public class Level1 {
 
-	public static boolean SherlockValidString(String s) {
+	public static String[] TreeOfLife(int H, int W, int N, String[] tree) {
 
-		boolean result = false;
-		int[] arr = new int[255];
-		ArrayList<Integer> countSymbols = new ArrayList<>();
-		boolean everyoneIsEqual = true;
-		int maxIndexSymb = 0;
-		int minIndexSymb = 0;
-		int symb = 0;
+		String[] result = new String[H];
+		int[][] treeDescription = new int[H][W];
+		char chSymbol = ' ';
+		int intSymbol = 0;
 
-		for (int i = 0; i < s.length(); i++) {
-			arr[s.charAt(i)]++;
-		}
+		for (var i = 0; i < treeDescription.length; i++) {
+			for (var j = 0; j < treeDescription[i].length; j++) {
 
-		for (int i = 0; i < 255; i++) {
-			if (arr[i] > 0) {
-				countSymbols.add(arr[i]);
+				chSymbol = tree[i].charAt(j);
+
+				if (chSymbol == '+') {
+					intSymbol = 1;
+					treeDescription[i][j] = intSymbol;
+				}
 			}
 		}
 
-		for (int i = 1; i < countSymbols.size(); i++) {
+		int counterYears = 1;
+		int valueLine = 0;
+		int valueColumn = 0;
+		LinkedList<Integer> coordinatesMaxValut = new LinkedList<>();
 
-			if (countSymbols.get(i) < countSymbols.get(i - 1)) {
-				everyoneIsEqual = false;
+		do {
 
-				if (i == 1) {
-					maxIndexSymb = countSymbols.indexOf(countSymbols.get(i - 1));
-					minIndexSymb = countSymbols.indexOf(countSymbols.get(i));
-				} else {
-					if (countSymbols.get(maxIndexSymb) < countSymbols.get(i - 1)) {
-						maxIndexSymb = countSymbols.indexOf(countSymbols.get(i - 1));
-					} else {
-						minIndexSymb = countSymbols.indexOf(countSymbols.get(i));
+			for (var i = 0; i < treeDescription.length; i++) {
+				for (var j = 0; j < treeDescription[i].length; j++) {
+					treeDescription[i][j]++;
+				}
+			}
+
+			if (counterYears % 2 == 0) {
+
+				for (var i = 0; i < treeDescription.length; i++) {
+					for (var j = 1; j < treeDescription[i].length; j++) {
+
+						if (treeDescription[i][j] > treeDescription[i][j - 1]) {
+							valueLine = i;
+							valueColumn = j;
+						} else if (treeDescription[i][j] < treeDescription[i][j - 1]) {
+							valueLine = i;
+							valueColumn = j - 1;
+						}
+
+					}
+
+					coordinatesMaxValut.addLast(valueLine);
+					coordinatesMaxValut.addLast(valueColumn);
+
+				}
+
+				for (var i = 0; i < treeDescription.length; i++) {
+					for (var j = 0; j < treeDescription[i].length; j++) {
+
+						if (j == 0) {
+							valueLine = coordinatesMaxValut.pollFirst();
+							valueColumn = coordinatesMaxValut.pollFirst();
+						}
+
+						if (treeDescription[i][j] != 0) {
+
+							if (treeDescription[valueLine][valueColumn] == treeDescription[i][j]) {
+
+								treeDescription[i][j] = 0;
+
+								if (i - 1 >= 0) {
+									treeDescription[i - 1][j] = 0;
+								}
+
+								if (i + 1 <= treeDescription.length - 1) {
+									treeDescription[i + 1][j] = 0;
+								}
+
+								if (j + 1 <= treeDescription[i].length - 1) {
+									treeDescription[i][j + 1] = 0;
+								}
+
+								if (j - 1 >= 0) {
+									treeDescription[i][j - 1] = 0;
+								}
+							}
+						}
 					}
 				}
-			} else if (countSymbols.get(i) > countSymbols.get(i - 1)) {
-				everyoneIsEqual = false;
-
-				if (i == 1) {
-					maxIndexSymb = countSymbols.indexOf(countSymbols.get(i));
-					minIndexSymb = countSymbols.indexOf(countSymbols.get(i - 1));
-				} else {
-					if (countSymbols.get(maxIndexSymb) < countSymbols.get(i)) {
-						maxIndexSymb = countSymbols.indexOf(countSymbols.get(i));
-					} else {
-						minIndexSymb = countSymbols.indexOf(countSymbols.get(i - 1));
-					}
-				}
-			} else {
-
 			}
-		}
 
-		if (everyoneIsEqual == true) {
-			result = true;
-		} else {
+			counterYears++;
 
-			symb = countSymbols.get(maxIndexSymb);
-			symb -= 1;
-			countSymbols.set(maxIndexSymb, symb);
+		} while (counterYears <= N);
 
-			result = checkSymbols(result, countSymbols);
+		String str = "";
+		for (var i = 0; i < treeDescription.length; i++) {
+			for (var j = 0; j < treeDescription[i].length; j++) {
 
-			if (result == false) {
-
-				symb = countSymbols.get(maxIndexSymb);
-				symb += 1;
-				countSymbols.set(maxIndexSymb, symb);
-
-				symb = countSymbols.get(minIndexSymb);
-				symb -= 1;
-				if (symb != 0) {
-					countSymbols.set(minIndexSymb, symb);
+				if (treeDescription[i][j] != 0) {
+					str += "+";
 				} else {
-					countSymbols.remove(minIndexSymb);
+					str += ".";
 				}
 
-				result = checkSymbols(result, countSymbols);
 			}
+			result[i] = str;
+			str = "";
 		}
 
 		return result;
-
-	}
-
-	public static boolean checkSymbols(boolean checkResult, ArrayList<Integer> countSymbols) {
-
-		for (int i = 1; i < countSymbols.size(); i++) {
-			if (countSymbols.get(i) == countSymbols.get(i - 1)) {
-				checkResult = true;
-			} else {
-				checkResult = false;
-				break;
-			}
-		}
-
-		return checkResult;
 
 	}
 
