@@ -7,7 +7,7 @@ public class Level1 {
 
 		String[] result = new String[H];
 		int[][] treeDescription = new int[H][W];
-		char chSymbol = ' ';
+		char chSymbol =' ';
 		int intSymbol = 0;
 
 		for (var i = 0; i < treeDescription.length; i++) {
@@ -21,39 +21,40 @@ public class Level1 {
 				}
 			}
 		}
-
+		
 		int counterYears = 1;
 		int valueLine = 0;
 		int valueColumn = 0;
 		LinkedList<Integer> coordinatesMaxValut = new LinkedList<>();
-
+		int maxVal = 0;
+		
 		do {
 
 			for (var i = 0; i < treeDescription.length; i++) {
-				for (var j = 0; j < treeDescription[i].length; j++) {
-					treeDescription[i][j]++;
+				for (var j = 0; j < treeDescription[i].length; j++) {					
+					treeDescription[i][j]++;	
 				}
 			}
 
-			if (counterYears % 2 == 0) {
-
+			if(counterYears % 2 == 0) {
+				
 				for (var i = 0; i < treeDescription.length; i++) {
 					for (var j = 1; j < treeDescription[i].length; j++) {
-
-						if (treeDescription[i][j] > treeDescription[i][j - 1]) {
+										
+						if(treeDescription[i][j] > treeDescription[i][j - 1]) {
 							valueLine = i;
 							valueColumn = j;
-						} else if (treeDescription[i][j] < treeDescription[i][j - 1]) {
+						}else if (treeDescription[i][j] < treeDescription[i][j - 1]){
 							valueLine = i;
 							valueColumn = j - 1;
+							}
+						
 						}
-
-					}
 
 					coordinatesMaxValut.addLast(valueLine);
 					coordinatesMaxValut.addLast(valueColumn);
-
-				}
+					
+					}
 
 				for (var i = 0; i < treeDescription.length; i++) {
 					for (var j = 0; j < treeDescription[i].length; j++) {
@@ -61,56 +62,64 @@ public class Level1 {
 						if (j == 0) {
 							valueLine = coordinatesMaxValut.pollFirst();
 							valueColumn = coordinatesMaxValut.pollFirst();
+							
+							maxVal = treeDescription[valueLine][valueColumn];
 						}
 
 						if (treeDescription[i][j] != 0) {
 
-							if (treeDescription[valueLine][valueColumn] == treeDescription[i][j]) {
+							if (maxVal == treeDescription[i][j] && maxVal >= 3) {
 
 								treeDescription[i][j] = 0;
-
+								
 								if (i - 1 >= 0) {
+									if(maxVal != treeDescription[i - 1][j]) {
 									treeDescription[i - 1][j] = 0;
+									}									
 								}
-
 								if (i + 1 <= treeDescription.length - 1) {
+									if (maxVal != treeDescription[i + 1][j]) {										
 									treeDescription[i + 1][j] = 0;
+									}									
 								}
-
 								if (j + 1 <= treeDescription[i].length - 1) {
+									
+									if(maxVal != treeDescription[i][j + 1]) {										
 									treeDescription[i][j + 1] = 0;
+									}
 								}
-
 								if (j - 1 >= 0) {
-									treeDescription[i][j - 1] = 0;
+
+									if (maxVal != treeDescription[i][j - 1]) {
+										treeDescription[i][j - 1] = 0;
+									}								
 								}
 							}
 						}
-					}
-				}
+					}			
+				}	
 			}
-
+			
 			counterYears++;
-
-		} while (counterYears <= N);
+			
+		}while(counterYears <= N);
 
 		String str = "";
 		for (var i = 0; i < treeDescription.length; i++) {
 			for (var j = 0; j < treeDescription[i].length; j++) {
-
+				
 				if (treeDescription[i][j] != 0) {
 					str += "+";
-				} else {
+				}else {
 					str += ".";
-				}
-
+				}				
 			}
+			
 			result[i] = str;
 			str = "";
-		}
-
-		return result;
-
+		}		
+		
+		return result;	
 	}
 
 }

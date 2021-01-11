@@ -60,7 +60,7 @@ public class Program {
 //		System.out.println(BastShoe(sc.nextLine()));
 //		System.out.println(BiggerGreater(sc.nextLine()));
 //		System.out.println(SherlockValidString(sc.nextLine()));
-		System.out.println(Arrays.toString(TreeOfLife(3,4, 12, arr)));
+		System.out.println(Arrays.toString(TreeOfLife(3,4, 4, arr)));
 
 //		Scanner sc = new Scanner("xyz\n" + "xyzaa\n" + "xxyyz\n" + "xyzzz\n" + "xxyyza\n" + "xxyyzabc\n"+ "xx\n"); 
 //		//"xyzzz\n" + "xxyyza \n" + "xxyyzabc\n"+ "xx\n" + 
@@ -2910,7 +2910,7 @@ public class Program {
 		}
 		
 		//начальное заполнение
-		System.out.println(Arrays.deepToString(treeDescription));
+		System.out.println("Начальное заполнение " + Arrays.deepToString(treeDescription));
 		
 		//Моделирование развития дерева
 		//начинаем с четного года
@@ -2918,7 +2918,7 @@ public class Program {
 		int valueLine = 0;
 		int valueColumn = 0;
 		LinkedList<Integer> coordinatesMaxValut = new LinkedList<>();
-		
+		int maxVal = 0;
 		
 		do {
 			
@@ -2931,7 +2931,7 @@ public class Program {
 				}
 			}
 			
-			//System.out.println(Arrays.deepToString(treeDescription));
+			System.out.println("Прошел 1 год: " + Arrays.deepToString(treeDescription));
 			//если счетчик лет - четное число, будем уничтожать ветки
 			//т.к. в условии задачи четные числа - нечетный год.
 			if(counterYears % 2 == 0) {
@@ -2964,32 +2964,47 @@ public class Program {
 						if (j == 0) {
 							valueLine = coordinatesMaxValut.pollFirst();
 							valueColumn = coordinatesMaxValut.pollFirst();
+							
+							maxVal = treeDescription[valueLine][valueColumn];
 						}
 
 						if (treeDescription[i][j] != 0) {
 							// это макс в тек строке?
-							if (treeDescription[valueLine][valueColumn] == treeDescription[i][j]) {
+							if (maxVal == treeDescription[i][j] && maxVal >= 3) {
 								// удаляем крестом
 
 								// текущую
 								treeDescription[i][j] = 0;
+								
 								// вверх
 								if (i - 1 >= 0) {
-									// можно удалять
+									// можно удалять?
+									if(maxVal != treeDescription[i - 1][j]) {
 									treeDescription[i - 1][j] = 0;
+									}
+									
 								}
 								// вниз
 								if (i + 1 <= treeDescription.length - 1) {
 									// можно удалять
+									if (maxVal != treeDescription[i + 1][j]) {										
 									treeDescription[i + 1][j] = 0;
+									}
+									
 								}
 								// вправо
 								if (j + 1 <= treeDescription[i].length - 1) {
+									
+									if(maxVal != treeDescription[i][j + 1]) {										
 									treeDescription[i][j + 1] = 0;
+									}
 								}
 								// влево
 								if (j - 1 >= 0) {
-									treeDescription[i][j - 1] = 0;
+
+									if (maxVal != treeDescription[i][j - 1]) {
+										treeDescription[i][j - 1] = 0;
+									}								
 								}
 							}
 						}
@@ -2997,12 +3012,12 @@ public class Program {
 				
 				}	
 				
-			
+				System.out.println("Уничтожение "+ Arrays.deepToString(treeDescription));
 
 			}
 			
 			counterYears++;
-			System.out.println(Arrays.deepToString(treeDescription));
+			System.out.println("Итог "+ Arrays.deepToString(treeDescription));
 			
 		}while(counterYears <= N);
 		
