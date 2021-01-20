@@ -3,123 +3,129 @@ import java.util.*;
 
 public class Level1 {
 
-	public static String[] TreeOfLife(int H, int W, int N, String[] tree) {
-
-		String[] result = new String[H];
-		int[][] treeDescription = new int[H][W];
-		char chSymbol =' ';
-		int intSymbol = 0;
-
-		for (var i = 0; i < treeDescription.length; i++) {
-			for (var j = 0; j < treeDescription[i].length; j++) {
-
-				chSymbol = tree[i].charAt(j);
-
-				if (chSymbol == '+') {
-					intSymbol = 1;
-					treeDescription[i][j] = intSymbol;
-				}
+	public static void MatrixTurn(String Matrix[], int M, int N, int T) {
+		
+		
+		int [][] originalMatrix = new int[M][N];
+		int[][] rotatedMatrix = new int[M][N];
+		
+		for (var i = 0; i < originalMatrix.length; i++) {
+			for (var j = 0; j < originalMatrix[i].length; j++) {
+				originalMatrix[i][j] = Character.getNumericValue(Matrix[i].charAt(j));
 			}
 		}
-		
-		int counterYears = 1;
-		int valueLine = 0;
-		int valueColumn = 0;
-		LinkedList<Integer> coordinatesMaxValut = new LinkedList<>();
-		int maxVal = 0;
-		
+
+		turnArray(originalMatrix, rotatedMatrix, M, N, T);
+
+		String str = "";		
+		for (var i = 0; i < originalMatrix.length; i++) {
+			for (var j = 0; j < originalMatrix[i].length; j++) {			
+				str += Integer.toString(originalMatrix[i][j]);
+			}
+			Matrix[i] = str;
+			str = "";
+		}
+
+	}
+	
+	private static void turnArray(int[][] originalMatrix, int[][] rotatedMatrix, int M, int N, int T) {
+
 		do {
 
-			for (var i = 0; i < treeDescription.length; i++) {
-				for (var j = 0; j < treeDescription[i].length; j++) {					
-					treeDescription[i][j]++;	
+			for (int k = 0; k < M / 2; k++) { 
+				for (int j = k; j < N - 1 - k; j++) { 
+
+					int top = originalMatrix[k][j];
+					if (rotatedMatrix[k][j] == 0) {
+						rotatedMatrix[k][j] = originalMatrix[k + 1][j];
+					}
+					if (rotatedMatrix[k][j + 1] == 0) {
+						rotatedMatrix[k][j + 1] = top;
+					}
+
+					if (M % 2 == 0) {
+
+						if (j < M / 2) {
+							
+							int right = originalMatrix[j][N - 1 - k];
+							if (rotatedMatrix[j][N - 1 - k] == 0) {
+								rotatedMatrix[j][N - 1 - k] = originalMatrix[j][N - 2 - k];
+							}
+							if (j + 1 < M) {
+								rotatedMatrix[j + 1][N - 1 - k] = right;
+							}
+						}
+
+					} else {
+						
+						if (j <= M / 2) {
+							
+							int right = originalMatrix[j][N - 1 - k];
+							if (rotatedMatrix[j][N - 1 - k] == 0) {
+								rotatedMatrix[j][N - 1 - k] = originalMatrix[j][N - 2 - k];
+							}
+							if (j + 1 < M) {
+								rotatedMatrix[j + 1][N - 1 - k] = right;
+							}
+						}
+					}
+
+					int bottom = originalMatrix[M - 1 - k][N - 1 - j];
+					if (rotatedMatrix[M - 1 - k][N - 1 - j] == 0) {
+						rotatedMatrix[M - 1 - k][N - 1 - j] = originalMatrix[M - 2 - k][N - 1 - j];
+					}
+					if (rotatedMatrix[M - 1 - k][N - 2 - j] == 0) {
+						rotatedMatrix[M - 1 - k][N - 2 - j] = bottom;
+					}
+
+					if (M % 2 == 0) {
+
+						if (j < M / 2) {
+							
+							int left = originalMatrix[M - 1 - j][k];
+							if (rotatedMatrix[M - 1 - j][k] == 0) {
+								rotatedMatrix[M - 1 - j][k] = originalMatrix[M - 1 - k][j + 1];
+							}
+							if (j < M) {
+								rotatedMatrix[M - 2 - j][k] = left;
+							}
+						}
+					} else {
+						
+						if (j <= M / 2) {
+							int left = originalMatrix[M - 1 - j][k];
+							if (rotatedMatrix[M - 1 - j][k] == 0) {
+								rotatedMatrix[M - 1 - j][k] = originalMatrix[M - 1 - k][j + 1];
+							}
+							if (j < M) {
+								rotatedMatrix[M - 2 - j][k] = left;
+							}
+						}	
+					}					
 				}
 			}
 
-			if(counterYears % 2 == 0) {
-				
-				for (var i = 0; i < treeDescription.length; i++) {
-					for (var j = 1; j < treeDescription[i].length; j++) {
-										
-						if(treeDescription[i][j] > treeDescription[i][j - 1]) {
-							valueLine = i;
-							valueColumn = j;
-						}else if (treeDescription[i][j] < treeDescription[i][j - 1]){
-							valueLine = i;
-							valueColumn = j - 1;
-							}
-						
-						}
-
-					coordinatesMaxValut.addLast(valueLine);
-					coordinatesMaxValut.addLast(valueColumn);
+			for (var i = 0; i < originalMatrix.length; i++) {
+				for (var j = 0; j < originalMatrix[i].length; j++) {
 					
-					}
+					if (M / 2 == 1) {
 
-				for (var i = 0; i < treeDescription.length; i++) {
-					for (var j = 0; j < treeDescription[i].length; j++) {
-
-						if (j == 0) {
-							valueLine = coordinatesMaxValut.pollFirst();
-							valueColumn = coordinatesMaxValut.pollFirst();
-							
-							maxVal = treeDescription[valueLine][valueColumn];
+						if (rotatedMatrix[i][j] != 0) {
+							originalMatrix[i][j] = rotatedMatrix[i][j];
+							rotatedMatrix[i][j] = 0;
 						}
-
-						if (treeDescription[i][j] != 0) {
-
-							if (maxVal == treeDescription[i][j] && maxVal >= 3) {
-
-								treeDescription[i][j] = 0;
-								
-								if (i - 1 >= 0) {
-									if(maxVal != treeDescription[i - 1][j]) {
-									treeDescription[i - 1][j] = 0;
-									}									
-								}
-								if (i + 1 <= treeDescription.length - 1) {
-									if (maxVal != treeDescription[i + 1][j]) {										
-									treeDescription[i + 1][j] = 0;
-									}									
-								}
-								if (j + 1 <= treeDescription[i].length - 1) {
-									
-									if(maxVal != treeDescription[i][j + 1]) {										
-									treeDescription[i][j + 1] = 0;
-									}
-								}
-								if (j - 1 >= 0) {
-
-									if (maxVal != treeDescription[i][j - 1]) {
-										treeDescription[i][j - 1] = 0;
-									}								
-								}
-							}
-						}
-					}			
-				}	
+						
+					} else {
+						originalMatrix[i][j] = rotatedMatrix[i][j];
+						rotatedMatrix[i][j] = 0;
+					}					
+				}
 			}
-			
-			counterYears++;
-			
-		}while(counterYears <= N);
 
-		String str = "";
-		for (var i = 0; i < treeDescription.length; i++) {
-			for (var j = 0; j < treeDescription[i].length; j++) {
-				
-				if (treeDescription[i][j] != 0) {
-					str += "+";
-				}else {
-					str += ".";
-				}				
-			}
-			
-			result[i] = str;
-			str = "";
-		}		
+			T--;
+
+		} while (T > 0);
 		
-		return result;	
 	}
 
 }

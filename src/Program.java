@@ -7,8 +7,6 @@ import java.util.stream.IntStream;
 
 
 
-
-
 public class Program {
 	
 	static boolean undoComm = false;
@@ -21,7 +19,11 @@ public class Program {
 		/*
 		 * Вызов функций.
 		 */
-		String arr[] = new String[] {".+..","..+.",".+.."};
+//		String arr[] = new String[] {"123456", "234567", "345678", "456789"};
+		String arr[] = new String[] {"1234", "2345", "3456", "4567"};
+		var M = 4;
+		var N = 4;
+		var T = 2;
 //		String str = "**";
 //		var a = 5;
 //		int[][] arr = new int[][] { { 3, 6, 2 }, { 6, 2, 2 } };
@@ -60,7 +62,8 @@ public class Program {
 //		System.out.println(BastShoe(sc.nextLine()));
 //		System.out.println(BiggerGreater(sc.nextLine()));
 //		System.out.println(SherlockValidString(sc.nextLine()));
-		System.out.println(Arrays.toString(TreeOfLife(3,4, 4, arr)));
+//		System.out.println(Arrays.toString(TreeOfLife(3,4, 4, arr)));
+		MatrixTurn(arr,M,N,T);
 
 //		Scanner sc = new Scanner("xyz\n" + "xyzaa\n" + "xxyyz\n" + "xyzzz\n" + "xxyyza\n" + "xxyyzabc\n"+ "xx\n"); 
 //		//"xyzzz\n" + "xxyyza \n" + "xxyyzabc\n"+ "xx\n" + 
@@ -3039,8 +3042,210 @@ public class Program {
 		}
 		
 		
-		return result;
+		return result;		
+	}
+	
+	public static void MatrixTurn(String Matrix[], int M, int N, int T) {
+		
+		/*
+		 * 
+		 * Матрица: Вращение
+		 * 
+		 * К сожалению, никто не может объяснить, что такое Матрица. Ты должен сам
+		 * увидеть это.
+		 * 
+		 * На вход поступает Матрица размером MxN:
+		 * 
+		 * 1 2 3 4 5 6 
+		 * 2 3 4 5 6 7 
+		 * 3 4 5 6 7 8 
+		 * 4 5 6 7 8 9
+		 * 
+		 * Ты должен научиться вращать Матрицу относительно её центра по часовой
+		 * стрелке.
+		 * 
+		 * Например, вращение на один шаг:
+		 * 
+		 * 2 1 2 3 4 5 
+		 * 3 4 3 4 5 6 
+		 * 4 5 6 7 6 7 
+		 * 5 6 7 8 9 8
+		 * 
+		 * Функция
+		 * 
+		 * void MatrixTurn(string Matrix[], int M, int N, int T)
+		 * 
+		 * получает на вход (по ссылке) массив строк (M строк, каждая длиной N; M >= 2,
+		 * N >= 2), и вращает его относительно центра по часовой стрелке на T шагов (T
+		 * >= 1), как описано выше. То есть результат поворота (повёрнутая матрица)
+		 * оказывается в исходном массиве Matrix, переданном в функцию по ссылке как
+		 * аргумент.
+		 * 
+		 * Минимальное значение из чисел M,N обязательно чётно.
+		 * 
+		 * Пример вызова:
+		 * 
+		 * MatrixTurn(["123456", "234567", "345678", "456789"], 4,6, 3)
+		 * 
+		 */
+		
+		
+		//Двумерный массив по пришедшим данным
+		int [][] originalMatrix = new int[M][N];
+		//Вспомогательный массив для результата сдвига
+		int[][] rotatedMatrix = new int[M][N];
+		
+		//Заполним двумерный массив данными из массива matrix
+		for (var i = 0; i < originalMatrix.length; i++) {
+			for (var j = 0; j < originalMatrix[i].length; j++) {
+
+				originalMatrix[i][j] = Character.getNumericValue(Matrix[i].charAt(j));
+				
+			}
+		}
+		
+		System.out.println("исходный " + Arrays.deepToString(originalMatrix));
+		//Выполним сдвиг на нужное количество шагов
+		turnArray(originalMatrix, rotatedMatrix, M, N, T);
+		
+		System.out.println("результат " + Arrays.deepToString(originalMatrix));
+		
+		//Заполним одномерный массив matrix результатом сдвига из originalMatrix
+		String str = "";
+		
+		for (var i = 0; i < originalMatrix.length; i++) {
+			for (var j = 0; j < originalMatrix[i].length; j++) {
+				
+				str += Integer.toString(originalMatrix[i][j]);
+  
+			}
+			Matrix[i] = str;
+			str = "";
+		}
+		
+		System.out.println("в одномерном массиве " + Arrays.toString(Matrix));
+	}
+	
+	private static void turnArray(int[][] originalMatrix, int[][] rotatedMatrix, int M, int N, int T) {
+
+		/*
+		 * Функция вращает прямоугольную  матрицу по часовой стрелки на
+		 * заданное Т шагов. Результат вращения записывается в вспомогательную матрицу
+		 * rotatedMatrix. После окончания цикла, результат сдвига переписывается в
+		 * originalMatrix для последующего сдвига.
+		 */
+
+		do {
+
+			for (int k = 0; k < M / 2; k++) { // border -> center
+				for (int j = k; j < N - 1 - k; j++) { // left -> right
+
+					// Строка верх
+					int top = originalMatrix[k][j];
+					if (rotatedMatrix[k][j] == 0) {
+						rotatedMatrix[k][j] = originalMatrix[k + 1][j];
+					}
+					if (rotatedMatrix[k][j + 1] == 0) {
+						rotatedMatrix[k][j + 1] = top;
+					}
+
+					// Правая сторона
+					if (M % 2 == 0) {
+
+						if (j < M / 2) {
+							
+							int right = originalMatrix[j][N - 1 - k];
+							if (rotatedMatrix[j][N - 1 - k] == 0) {
+								rotatedMatrix[j][N - 1 - k] = originalMatrix[j][N - 2 - k];
+							}
+							if (j + 1 < M) {
+								rotatedMatrix[j + 1][N - 1 - k] = right;
+							}
+						}
+
+					} else {
+						if (j <= M / 2) {
+							
+							int right = originalMatrix[j][N - 1 - k];
+							if (rotatedMatrix[j][N - 1 - k] == 0) {
+								rotatedMatrix[j][N - 1 - k] = originalMatrix[j][N - 2 - k];
+							}
+							if (j + 1 < M) {
+								rotatedMatrix[j + 1][N - 1 - k] = right;
+							}
+						}
+					}
+	
+					// Строка низ
+					int bottom = originalMatrix[M - 1 - k][N - 1 - j];
+					if (rotatedMatrix[M - 1 - k][N - 1 - j] == 0) {
+						rotatedMatrix[M - 1 - k][N - 1 - j] = originalMatrix[M - 2 - k][N - 1 - j];
+					}
+					if (rotatedMatrix[M - 1 - k][N - 2 - j] == 0) {
+						rotatedMatrix[M - 1 - k][N - 2 - j] = bottom;
+					}
+
+					// Левая сторона
+					if (M % 2 == 0) {
+
+						if (j < M / 2) {
+							
+							int left = originalMatrix[M - 1 - j][k];
+							if (rotatedMatrix[M - 1 - j][k] == 0) {
+								// сдвинутый элемент в крайний левый угол нового массива
+								rotatedMatrix[M - 1 - j][k] = originalMatrix[M - 1 - k][j + 1];
+							}
+							if (j < M) {
+								// крайний левый элемент оригинальной матрицы записывается со сдвигом на 1
+								rotatedMatrix[M - 2 - j][k] = left;
+							}
+						}
+					} else {
+						
+						if (j <= M / 2) {
+							int left = originalMatrix[M - 1 - j][k];
+							if (rotatedMatrix[M - 1 - j][k] == 0) {
+								rotatedMatrix[M - 1 - j][k] = originalMatrix[M - 1 - k][j + 1];
+							}
+							if (j < M) {
+								rotatedMatrix[M - 2 - j][k] = left;
+							}
+						}	
+					}
+					
+
+				}
+			}
+
+			System.out.println("результат сдвига " + Arrays.deepToString(rotatedMatrix));
+
+			// перепишем массив originalMatrix
+			for (var i = 0; i < originalMatrix.length; i++) {
+				for (var j = 0; j < originalMatrix[i].length; j++) {
+					
+					if (M / 2 == 1) {
+						// значит нет внутреннего слоя. сдвиг был выполнен только по внешнему
+						// необходимо записать число которое в середине.
+						// Например матрица 3х4 - цикла по внутреннему слою не будет.
+						if (rotatedMatrix[i][j] != 0) {
+							originalMatrix[i][j] = rotatedMatrix[i][j];
+							rotatedMatrix[i][j] = 0;
+						}
+					} else {
+						originalMatrix[i][j] = rotatedMatrix[i][j];
+						rotatedMatrix[i][j] = 0;
+					}
+					
+				}
+			}
+			System.out.println("запись в исходную " + Arrays.deepToString(originalMatrix));
+			T--;
+
+		} while (T > 0);
 		
 	}
+	
+	
+	
 }
 
