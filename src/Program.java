@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 
 
+
 public class Program {
 	
 	static boolean undoComm = false;
@@ -20,10 +21,10 @@ public class Program {
 		 * Вызов функций.
 		 */
 //		String arr[] = new String[] {"123456", "234567", "345678", "456789"};
-		String arr[] = new String[] {"1234", "2345", "3456", "4567"};
-		var M = 4;
+		int arr[] = new int[] {1,2,3,4};
+//		var M = 4;
 		var N = 4;
-		var T = 2;
+//		var T = 2;
 //		String str = "**";
 //		var a = 5;
 //		int[][] arr = new int[][] { { 3, 6, 2 }, { 6, 2, 2 } };
@@ -63,8 +64,8 @@ public class Program {
 //		System.out.println(BiggerGreater(sc.nextLine()));
 //		System.out.println(SherlockValidString(sc.nextLine()));
 //		System.out.println(Arrays.toString(TreeOfLife(3,4, 4, arr)));
-		MatrixTurn(arr,M,N,T);
-
+//		MatrixTurn(arr,M,N,T);
+		System.out.println(TransformTransform(arr, N));
 //		Scanner sc = new Scanner("xyz\n" + "xyzaa\n" + "xxyyz\n" + "xyzzz\n" + "xxyyza\n" + "xxyyzabc\n"+ "xx\n"); 
 //		//"xyzzz\n" + "xxyyza \n" + "xxyyzabc\n"+ "xx\n" + 
 //
@@ -74,22 +75,6 @@ public class Program {
 //		}
 //		sc.close();
 		
-	}
-	public static boolean startsWith(String text, String substr)
-
-	{
-
-		var lengthtSubstr = substr.length() - 1;
-		var resText = "";
-		var resSubstr = "";
-
-		for (var i = 0; i <= lengthtSubstr; i++) {
-
-			resText += text.charAt(i);
-			resSubstr += substr.charAt(i);
-
-		}
-		return resText.equals(resSubstr);
 	}
 
 	public static int squirrel(int N) {
@@ -3245,7 +3230,152 @@ public class Program {
 		
 	}
 	
-	
-	
+	public static boolean TransformTransform(int A[], int N) {
+		
+		/* 
+		 * Чубакка и гравитационные колодцы
+		 * 
+		 * "Тысячелетний сокол" капитана Соло преодолевает 35 тысяч парсеков за
+		 * считанные дни. Однако гранд-адмирал Империи Траун активизировал
+		 * "звездные разрушители", оснащенные генераторами гравитационных колодцев,
+		 * которые формируют в гиперпространстве гравитационные тени-помехи.
+		 * 
+		 * Чтобы оперативно выявлять подобные космические аномалии, Чубакке требуется
+		 * срочно пропатчить бортовой софт "Сокола" -- реализовать специальную
+		 * трансформирующую трансформацию, которая должна за разумное время
+		 * преобразовывать входной массив карты гиперпрыжка и выявлять её ключевой ключ
+		 * -- секретное значение, четность которого свидетельствует о наличии на
+		 * маршруте имперских помех.
+		 * 
+		 * На входе одномерный массив A (индексация начинается с нуля) случайных
+		 * положительных целых чисел (возможно, повторяющихся).
+		 * 
+		 * Трансформирующая трансформация S массива A происходит так:
+		 * 
+		 * 0. Выходной массив/список B исходно пуст.
+		 * 
+		 * 1. Организуем первый цикл для i, начиная с 0 и до длины массива A минус 1.
+		 * 
+		 * 2. Организуем внутри первого цикла второй цикл для j, начиная с 0 и до длины
+		 * массива A минус i минус 1.
+		 * 
+		 * 3. Рассчитываем значение k = i + j.
+		 * 
+		 * 4. Из поддиапазона A[ j..k ] выбираем максимальное значение и записываем в
+		 * конец списка B.
+		 * 
+		 * По завершении всех циклов список B считаем трансформирующей трансформацией,
+		 * которую назовём S(A). Говоря программистским языком, есть функция S(A),
+		 * которая возвращает список B.
+		 * 
+		 * 5. Ключевой ключ находится суммированием всех элементов списка, получаемого
+		 * двойной трансформацией S(S(A)) (результат первой трансформации подаётся на
+		 * вход второй трансформации).
+		 * 
+		 * Реализуйте алгоритм поиска ключевого ключа и выводите true, если он чётный.
+		 * 
+		 * Функция
+		 * 
+		 * boolean TransformTransform(int A[], int N)
+		 * 
+		 * получает на вход массив из N (N >= 1) целых положительных чисел и возвращает
+		 * true, если сумма всех значений результата двойной трансформации A чётная. 
+		 */
+
+		boolean result = true;
+		// преобразуем массив А в LinkedList
+		LinkedList<Integer> C = new LinkedList<Integer>();
+		for (int i = 0; i < A.length; i++) {
+			C.add(A[i]);
+		}
+
+		// подадим на вход нашей рекурсивной функции LinkedList
+		C = transformR(transformR(C));
+
+		// Результат двойной трансформации
+		for (Integer s : C) {
+			System.out.println(s);
+		}
+
+		// Подсчитаем сумму всех элементов в коллекции
+		return result = checkForParity(C);
+
+		//return result;
+		
+	}
+
+	private static boolean checkForParity(LinkedList<Integer> list) {
+
+		/*
+		 * Функция выполняет суммирование всех элементов в коллекции. Результат работы -
+		 * Истина если сумма всех элементов четная, Ложь в проивном случае.
+		 */
+
+		int num = 0;
+		for (Integer value : list) {
+			num += value;
+
+		}
+		System.out.println(num);
+
+		if (num % 2 == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private static LinkedList<Integer> transformR(LinkedList<Integer> listA) {
+
+		/*
+		 * Функция выполняет обход коллекции listA двумя циклами, с последующей записью
+		 * результата сложения индексов внешнего и внутреннего цикла в коллекцию B.
+		 */
+
+		LinkedList<Integer> B = new LinkedList<Integer>();
+
+		// 1. цикл по i с 0 до a.lenght - 1.
+		for (int i = 0; i <= listA.size() - 1; i++) {
+
+			// 2.цикл для j с 0 до A.length - 1 - i.
+			for (int j = 0; j <= listA.size() - 1 - i; j++) {
+
+				// 3. рассчитываем значение k = i+j.
+				int k = i + j;
+				// System.out.println(k);
+
+				// 4. определим наибольшее значение в массиве а в диапазоне
+				// от j до k и запишем в конец масива.
+				if (j == k) {
+					B.addLast(listA.get(j));
+				} else {
+					findMaxValue(j, k, listA, B);
+				}
+			}
+		}
+
+		return B;
+	}
+
+	private static void findMaxValue(int j, int k, LinkedList<Integer> A, LinkedList<Integer> b) {
+
+		/*
+		 * Функция выполняет поиск и запись наибольшего значения из коллекции А, в
+		 * коллекцию В.
+		 */
+
+		int maxVal = 0;
+		for (int i = j; i <= k; i++) {
+
+			int value = A.get(i);
+			if (maxVal < value) {
+				maxVal = value;
+			}
+		}
+
+		b.addLast(maxVal);
+
+	}
+
 }
 
