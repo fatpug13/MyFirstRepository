@@ -23,10 +23,8 @@ public class Level1 {
 		int num = 0;
 		for (Integer value : list) {
 			num += value;
-
 		}
-		System.out.println(num);
-
+		
 		if (num % 2 == 0) {
 			return true;
 		} else {
