@@ -23,7 +23,7 @@ public class Program {
 //		String arr[] = new String[] {"123456", "234567", "345678", "456789"};
 //		int arr[] = new int[] {1,2,3,4};
 //		var M = 4;
-		var N = 3;
+		var N = 2;
 //		var T = 2;
 //		String str = "**";
 //		var a = 5;
@@ -3379,7 +3379,7 @@ public class Program {
 
 	}
 	
-	private static String BalancedParentheses(int N) {
+	public static String BalancedParentheses(int N) {
 		
 		/*
 		 * 

@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Level1 {
 
-	private static String BalancedParentheses(int N) {
+	public static String BalancedParentheses(int N) {
 
 		String result = "";
 		char[] str = new char[N * 2];
