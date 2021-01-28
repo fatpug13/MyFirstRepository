@@ -21,9 +21,9 @@ public class Program {
 		 * Вызов функций.
 		 */
 //		String arr[] = new String[] {"123456", "234567", "345678", "456789"};
-		int arr[] = new int[] {1,2,3,4};
+//		int arr[] = new int[] {1,2,3,4};
 //		var M = 4;
-		var N = 4;
+		var N = 3;
 //		var T = 2;
 //		String str = "**";
 //		var a = 5;
@@ -65,7 +65,9 @@ public class Program {
 //		System.out.println(SherlockValidString(sc.nextLine()));
 //		System.out.println(Arrays.toString(TreeOfLife(3,4, 4, arr)));
 //		MatrixTurn(arr,M,N,T);
-		System.out.println(TransformTransform(arr, N));
+//		System.out.println(TransformTransform(arr, N));
+		System.out.println(BalancedParentheses(N));
+
 //		Scanner sc = new Scanner("xyz\n" + "xyzaa\n" + "xxyyz\n" + "xyzzz\n" + "xxyyza\n" + "xxyyzabc\n"+ "xx\n"); 
 //		//"xyzzz\n" + "xxyyza \n" + "xxyyzabc\n"+ "xx\n" + 
 //
@@ -3289,7 +3291,7 @@ public class Program {
 			C.add(A[i]);
 		}
 
-		// подадим на вход нашей рекурсивной функции LinkedList
+		// подадим на вход нашей функции LinkedList
 		C = transformR(transformR(C));
 
 		// Результат двойной трансформации
@@ -3376,6 +3378,126 @@ public class Program {
 		b.addLast(maxVal);
 
 	}
-
+	
+	private static String BalancedParentheses(int N) {
+		
+		/*
+		 * 
+		 * Саурон и многомерное Кольцо Всевластья
+		 * 
+		 * Оказывается, Саурон, некогда правивший всем Мордором, развоплотился не
+		 * навсегда.
+		 * 
+		 * Он вновь готовит легионы орков, а Ородруин непрерывно засыпает все
+		 * окрестности чёрным пеплом. Единственный способ противостоять растущей власти
+		 * Саурона -- изобрести заклинание генерации многомерного Кольца Всевластья,
+		 * дабы полностью и окончательно развоплотить Саурона по всему Иномирью.
+		 * 
+		 * Напишите рекурсивную функцию, которая выдаёт все корректные сбалансированные
+		 * комбинации круглых скобок.
+		 * 
+		 * На вход функции поступает количество открывающих скобок.
+		 * 
+		 * Например,
+		 * 
+		 * 1 = "()" 2 = "(())" "()()"
+		 * 
+		 * Внешне и внутренне несбалансированные комбинации считаются ошибочными:
+		 * 
+		 * "()))" ")(()" "(()" -- неверно
+		 * 
+		 * Функция
+		 * 
+		 * string BalancedParentheses(int N)
+		 * 
+		 * получает на вход количество открывающих скобок N (N >= 1) и возвращает
+		 * строку, в которой через пробел записаны все сгенерированные комбинации скобок
+		 * (в произвольном порядке).
+		 * 
+		 * Например,
+		 * 
+		 * BalancedParentheses(1) = "()" BalancedParentheses(2) = "(()) ()()"
+		 * 
+		 */
+	
+		String result = "";
+		//в массиве будем собирать возможные комбинации
+		//N*2 т.к. нам нужные корректные пары скобок
+		char[] str = new char[N * 2];
+		//комбинацию из массива будем переписывать в коллекцию
+		ArrayList list = new ArrayList();
+		addParenthesis(list, N, N, str, 0);
+		
+		//перепишем лист в строку добавляя проблеы
+		for (int i = 0; i < list.size(); i++) {
+			
+			if(i + 1 == list.size()) {
+				result += list.get(i);
+			}else {
+				result += list.get(i) + " ";
+			}
+		}
+		
+		return result;
+		
+//		//еще один варант решения
+		
+//		public static ArrayList<String> generateParenthesis(int n) {
+//		
+//				    ArrayList<String> result = new ArrayList<String>();
+//				    StringBuilder sb = new StringBuilder();
+//		
+//				    generate(n, 0, 0, result, sb);
+//				    return result;
+//				}
+//		
+//			public static void generate(int n, int left, int right, ArrayList<String> result,
+//				        StringBuilder sb) {
+//		
+//				    if (left < right) {
+//				        return;
+//				    }
+//				    if (left == n && right == n) {
+//				        result.add(sb.toString());
+//				        //sb.delete(0,sb.length());
+//				        return;
+//				    }
+//				    if (left == n) {
+//				        generate(n, left, right + 1, result, sb.append(')'));
+//				        //delete current ')'.
+//				        sb.delete(sb.length() - 1, sb.length());
+//				        return;
+//				    }
+//		
+//				    generate(n, left + 1, right, result, sb.append('('));
+//				    //delete current '(' after you finish using it for next recursion.
+//				    sb.delete(sb.length() - 1, sb.length());
+//				    generate(n, left, right + 1, result, sb.append(')'));
+//				    //same as above here.
+//				    sb.delete(sb.length() - 1, sb.length());
+//				}
+	
+	}
+	
+	public static void addParenthesis(ArrayList list, int leftRem, int rightRem, char[] str, int index) {
+		
+		if (leftRem < 0 || rightRem < leftRem) {
+			// Неверное состояние
+			return; 
+		}
+		
+		if (leftRem == 0 && rightRem == 0) { 
+			//Скобок не осталось
+			list.add(String.copyValueOf(str));
+		} else {
+			str[index] = '('; /* Добавить левую скобку в массив, если они еще остались . */
+			addParenthesis(list, leftRem - 1, rightRem, str, index + 1);
+			
+			str[index] = ')'; /* Добавить правую скобку, если выражение корректно */
+			addParenthesis(list, leftRem, rightRem - 1, str, index + 1);
+		}
+	}
+	
+	
 }
 

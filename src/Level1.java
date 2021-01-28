@@ -3,68 +3,41 @@ import java.util.*;
 
 public class Level1 {
 
-	public static boolean TransformTransform(int A[], int N) {
+	private static String BalancedParentheses(int N) {
 
-		boolean result = true;
-		LinkedList<Integer> C = new LinkedList<Integer>();
-		
-		for (int i = 0; i < A.length; i++) {
-			C.add(A[i]);
+		String result = "";
+		char[] str = new char[N * 2];
+		ArrayList list = new ArrayList();
+		addParenthesis(list, N, N, str, 0);
+
+		for (int i = 0; i < list.size(); i++) {
+
+			if (i + 1 == list.size()) {
+				result += list.get(i);
+			} else {
+				result += list.get(i) + " ";
+			}
 		}
 
-		C = transformR(transformR(C));
-
-		return result = checkForParity(C);
+		return result;
 
 	}
 
-	private static boolean checkForParity(LinkedList<Integer> list) {
+	public static void addParenthesis(ArrayList list, int leftRem, int rightRem, char[] str, int index) {
 
-		int num = 0;
-		for (Integer value : list) {
-			num += value;
+		if (leftRem < 0 || rightRem < leftRem) {
+			return;
 		}
-		
-		if (num % 2 == 0) {
-			return true;
+
+		if (leftRem == 0 && rightRem == 0) {
+			list.add(String.copyValueOf(str));
 		} else {
-			return false;
+			str[index] = '(';
+			addParenthesis(list, leftRem - 1, rightRem, str, index + 1);
+
+			str[index] = ')';
+			addParenthesis(list, leftRem, rightRem - 1, str, index + 1);
 		}
-	}
-
-	private static LinkedList<Integer> transformR(LinkedList<Integer> listA) {
-
-		LinkedList<Integer> B = new LinkedList<Integer>();
-
-		for (int i = 0; i <= listA.size() - 1; i++) {
-			for (int j = 0; j <= listA.size() - 1 - i; j++) {
-
-				int k = i + j;
-				
-				if (j == k) {
-					B.addLast(listA.get(j));
-				} else {
-					findMaxValue(j, k, listA, B);
-				}
-			}
-		}
-
-		return B;
-	}
-
-	private static void findMaxValue(int j, int k, LinkedList<Integer> A, LinkedList<Integer> b) {
-
-		int maxVal = 0;
-		for (int i = j; i <= k; i++) {
-
-			int value = A.get(i);
-			if (maxVal < value) {
-				maxVal = value;
-			}
-		}
-
-		b.addLast(maxVal);
-
 	}
 
 }
