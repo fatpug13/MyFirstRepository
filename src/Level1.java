@@ -121,6 +121,8 @@ public class Level1 {
 						}
 					}
 				}
+			} else {
+				result = false;
 			}
 		}
 

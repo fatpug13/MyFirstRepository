@@ -22,9 +22,9 @@ public class Program {
 		 */
 //		String arr[] = new String[] {"123456", "234567", "345678", "456789"};
 //		int arr[] = new int[] {3, 2, 1};
-		int arr[] = new int[] {5,4,3,2,1};
+		int arr[] = new int[] {1,2,3};
 //		var M = 4;
-		var N = 5;
+		var N = 3;
 //		var T = 2;
 //		String str = "**";
 //		var a = 5;
@@ -3548,15 +3548,14 @@ public class Program {
 		boolean result = false;
 		System.out.println("Исходный " + Arrays.toString(F));
 
-		
 		if (N == 1) {
 			result = true;
 		} else {
-			//массив уже упорядочен?
+			// массив уже упорядочен?
 			result = checkSortArray(F, result);
-			
+
 			if (result == false) {
-				// значит не упорядочен.
+
 				// проанализируем возможность использования, 1 или 2 метода
 				int countWrongSequence = 0;
 				LinkedList<Integer> invalidIndexes = new LinkedList<Integer>();
@@ -3657,7 +3656,7 @@ public class Program {
 						if (counterInd == 0) {
 							// найдем некоректный диапазон массива
 							int a = invalidIndexes.getFirst();
-							//int b = invalidIndexes.getLast();
+							// int b = invalidIndexes.getLast();
 
 							// перепишем его в новый массив
 							int[] leftNoSort = new int[invalidIndexes.size()];
@@ -3696,9 +3695,13 @@ public class Program {
 						}
 					}
 				}
+			} else {
+				// Если массив упорядочен значит, использования методов 1 или 2
+				// не дадут желаемого результата
+				result = false;
 			}
 		}
-		
+
 		return result;
 
 	}
