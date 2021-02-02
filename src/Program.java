@@ -9,21 +9,22 @@ import java.util.stream.IntStream;
 
 
 public class Program {
-	
+	//Для функции BastShoe
 	static boolean undoComm = false;
 	static int counterIter = 1;
 	static LinkedList<String> historyCommand1And2 = new LinkedList<String>();
 	static LinkedList<String> historyAllCommand = new LinkedList<String>();
-
+	//
 	public static void main(String[] args) throws IOException {
 
 		/*
 		 * Вызов функций.
 		 */
 //		String arr[] = new String[] {"123456", "234567", "345678", "456789"};
-//		int arr[] = new int[] {1,2,3,4};
+//		int arr[] = new int[] {3, 2, 1};
+		int arr[] = new int[] {5,4,3,2,1};
 //		var M = 4;
-		var N = 2;
+		var N = 5;
 //		var T = 2;
 //		String str = "**";
 //		var a = 5;
@@ -66,7 +67,8 @@ public class Program {
 //		System.out.println(Arrays.toString(TreeOfLife(3,4, 4, arr)));
 //		MatrixTurn(arr,M,N,T);
 //		System.out.println(TransformTransform(arr, N));
-		System.out.println(BalancedParentheses(N));
+//		System.out.println(BalancedParentheses(N));
+		System.out.println(Football(arr, N));
 
 //		Scanner sc = new Scanner("xyz\n" + "xyzaa\n" + "xxyyz\n" + "xyzzz\n" + "xxyyza\n" + "xxyyzabc\n"+ "xx\n"); 
 //		//"xyzzz\n" + "xxyyza \n" + "xxyyzabc\n"+ "xx\n" + 
@@ -3428,7 +3430,8 @@ public class Program {
 		ArrayList list = new ArrayList();
 		addParenthesis(list, N, N, str, 0);
 		
-		//перепишем лист в строку добавляя проблеы
+		//Вернем результат.
+		//Перепишем лист в строку добавляя проблеы
 		for (int i = 0; i < list.size(); i++) {
 			
 			if(i + 1 == list.size()) {
@@ -3498,6 +3501,226 @@ public class Program {
 		}
 	}
 	
+	public static boolean Football(int F[], int N) {
+		
+		/* 
+		 * Тренируем сборную России по футболу
+		 * 
+		 * Вы, тренер сборной России по футболу, ухитрились вывести её в финал
+		 * чемпионата мира. Ваша задача -- определить, можно ли улучшить расстановку
+		 * игроков на поле перед решающей встречей, или всё бесполезно и придётся
+		 * использовать текущий вариант. Но у вас в распоряжении остались только два
+		 * тренерских приёма, времени уже нету, и использовать можно только один из них.
+		 * 
+		 * На входе -- массив произвольных целых чисел (значения не повторяются).
+		 * 
+		 * Ваша задача -- попробовать упорядочить его по возрастанию с помощью
+		 * однократного применения одного из двух приёмов: 1. Поменять местами два
+		 * произвольных элемента массива. 2. Изменить на обратный порядок произвольной
+		 * последовательной цепочки элементов в массиве.
+		 * 
+		 * Например, на входе
+		 * 
+		 * 1) 1 3 2 Упорядочиваем правилом 1, меняем местами 3 и 2: 1 2 3
+		 * 
+		 * 2) 3 2 1
+		 * 
+		 * Упорядочиваем правилом 2, меняем порядок с первого элемента до последнего: 1
+		 * 2 3
+		 * 
+		 * 3) 1 7 5 3 9 Упорядочиваем правилом 1, меняем местами 7 и 3: 1 3 5 7 9
+		 * 
+		 * 4) 9 5 3 7 1 Нельзя упорядочить.
+		 * 
+		 * 5) 1 4 3 2 5 Упорядочиваем правилом 2, меняем порядок с второго элемента до
+		 * четвёртого: 1 2 3 4 5
+		 * 
+		 * Функция
+		 * 
+		 * boolean Football(int F[], int N)
+		 * 
+		 * получает на вход массив F из N (N >= 1) целых неповторяющихся чисел и
+		 * возвращает true, если массив можно упорядочить однократным применением одного
+		 * из двух правил.
+		 */
+		
+		
+		boolean result = false;
+		System.out.println("Исходный " + Arrays.toString(F));
+
+		
+		if (N == 1) {
+			result = true;
+		} else {
+			//массив уже упорядочен?
+			result = checkSortArray(F, result);
+			
+			if (result == false) {
+				// значит не упорядочен.
+				// проанализируем возможность использования, 1 или 2 метода
+				int countWrongSequence = 0;
+				LinkedList<Integer> invalidIndexes = new LinkedList<Integer>();
+				LinkedList<Integer> validIndexes = new LinkedList<Integer>();
+
+				for (int i = 1; i < N; i++) {
+
+					if (F[i] > F[i - 1]) {
+						// значит последовательность верная
+
+						// конец массива?
+						if (i + 1 == N) {
+							// тогда текущий элемент в правильной последовательности
+							validIndexes.add(i);
+							invalidIndexes.add(i - 1);
+						} else {
+							// предыдущий элеменет в правильной последовательности
+							validIndexes.add(i - 1);
+						}
+
+					} else if (F[i] < F[i - 1]) {
+						// последовательность не верная
+						countWrongSequence++;
+						invalidIndexes.add(i - 1);
+
+						// конец массива?
+						if (i + 1 == N) {
+							// не потерять последний элемент
+							invalidIndexes.add(i);
+						}
+					}
+				}
+
+				for (Integer value : invalidIndexes) {
+					System.out.println(value);
+				}
+				System.out.println("------");
+				for (Integer value : validIndexes) {
+					System.out.println(value);
+
+				}
+
+				if (countWrongSequence == 1 || countWrongSequence == 2) {
+					// значит можно упорядочить, используя метод 1
+
+					outerloop: for (int i = 0; i < N; i++) {
+						for (int j = N - 1; j >= 0; j--) {
+
+							if (F[i] > F[j]) {
+								int tmp = F[i];
+								F[i] = F[j];
+								F[i] = F[j];
+								F[j] = tmp;
+								break outerloop;
+							}
+						}
+					}
+					// отсортирован корректно?
+					result = checkSortArray(F, result);
+					System.out.println("После метода 1 " + Arrays.toString(F));
+
+				} else if (countWrongSequence > 2) {
+					System.out.println("используем метод 2");
+					// попробуем упорядочить методом 2
+					// нужно повернуть массив целиком или определенный диапазон?
+
+					// определим диапазон разворота массива.
+					int len = invalidIndexes.size();
+
+					if (len == N) {
+						// если длина диапазона равна длине массива, значит разворачиваем весь массив
+						for (int i = 0; i < N / 2; i++) {
+							int temp = F[i];
+							F[i] = F[N - 1 - i];
+							F[N - 1 - i] = temp;
+						}
+
+						System.out.println("После метода 2 " + Arrays.toString(F));
+						result = checkSortArray(F, result);
+
+					} else {
+						System.out.println("пробуем перевернуть диапазон");
+						// найдем такой диапазон, в котором идекс увеличивается на 1 шаг.
+						// если например диапазон 0,1,3 знчаит 2 элемент на своем месте.
+						// Нужно взять от 0 до 2.
+						// Если диапазонов будет НЕ один тогда возвращать ЛОЖЬ.
+						int counterInd = 0;
+						// обойдем коллекцию неверных индексов и узнаем сколько диапазонов
+						for (int i = 1; i < invalidIndexes.size(); i++) {
+							int curr = invalidIndexes.get(i);
+							int prev = invalidIndexes.get(i - 1);
+
+							if (prev + 1 != curr) {
+								counterInd++;
+							}
+						}
+
+						if (counterInd == 0) {
+							// найдем некоректный диапазон массива
+							int a = invalidIndexes.getFirst();
+							//int b = invalidIndexes.getLast();
+
+							// перепишем его в новый массив
+							int[] leftNoSort = new int[invalidIndexes.size()];
+							int cntr = 0;
+							for (int i = a; i < N; i++) {
+								leftNoSort[cntr] = F[i];
+								cntr++;
+							}
+
+							// развернем новый массив
+							for (int i = 0; i < leftNoSort.length / 2; i++) {
+								int temp = leftNoSort[i];
+								leftNoSort[i] = leftNoSort[leftNoSort.length - 1 - i];
+								leftNoSort[leftNoSort.length - 1 - i] = temp;
+							}
+
+							// добавим в новый массив данные по верным индексам
+							int[] rSort = new int[N];
+							for (int i = 0; i < validIndexes.size(); i++) {
+								rSort[validIndexes.get(i)] = F[validIndexes.get(i)];
+							}
+
+							// допишем перевернутую часть
+							int k = 0;
+							for (int i = 0; i < rSort.length; i++) {
+								if (rSort[i] == 0) {
+									rSort[i] = leftNoSort[k];
+									k++;
+								}
+							}
+
+							System.out.println("После метода 2 " + Arrays.toString(rSort));
+							result = checkSortArray(rSort, result);
+						} else {
+							result = false;
+						}
+					}
+				}
+			}
+		}
+		
+		return result;
+
+	}
+
+	private static boolean checkSortArray(int[] F, boolean result) {
+
+		/*
+		 * Функция проверяет расположение элементов в массиве. Если следующий элемент
+		 * меньше чем текущий значит массив не упорядочен по возрастанию. Цикл
+		 * прерывается и возвращается ЛОЖЬ.
+		 */
+
+		for (int i = 0; i < F.length - 1; i++) {
+			if (F[i + 1] < F[i]) {
+				result = false;
+				break;
+			}
+			result = true;
+		}
+		return result;
+
+	}
 	
 }
 
